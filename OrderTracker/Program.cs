@@ -16,7 +16,7 @@ namespace OrderTracker
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new OrderUpload());
+            Application.Run(new Login());
         }
     }
 }

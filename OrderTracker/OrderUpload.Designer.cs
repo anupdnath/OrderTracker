@@ -563,6 +563,7 @@
             this.Controls.Add(this.tabControl1);
             this.Name = "OrderUpload";
             this.Text = "Order Process";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OrderUpload_FormClosed);
             this.Load += new System.EventHandler(this.OrderUpload_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

@@ -13,7 +13,7 @@ using iTextSharp.text.pdf.parser;
 using OrderTracker.Entity;
 using OrderTracker.OrderDBTableAdapters;
 using ClosedXML.Excel;
-
+using System.Globalization;
 
 namespace OrderTracker
 {
@@ -70,6 +70,10 @@ namespace OrderTracker
                         }
                     }
                     gridProduct.DataSource = listOrderMainfest;
+                    if(listOrderMainfest.Count()>0)
+                    {
+                        MessageBox.Show("Total Record Updated- " + listOrderMainfest.Count().ToString());
+                    }
                 }
                 else
                 {
@@ -95,30 +99,70 @@ namespace OrderTracker
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
                     OrderMainfest oOrderMainfest = new OrderMainfest();
-                    oOrderMainfest.Category = dt.Rows[i]["Category"].ToString();
-                    oOrderMainfest.Courier = dt.Rows[i]["Courier"].ToString();
-                    oOrderMainfest.Product = dt.Rows[i]["Product"].ToString();
-                    oOrderMainfest.Reference_Code = dt.Rows[i]["Reference Code"].ToString();
+
+                    oOrderMainfest.Category = DataTableValidation("Category", dt, i);
+                    oOrderMainfest.Courier = DataTableValidation("Courier", dt, i);
+                    oOrderMainfest.Product = DataTableValidation("Product", dt, i);
+                    oOrderMainfest.Reference_Code = DataTableValidation("Reference Code", dt, i);
                     oOrderMainfest.Suborder_Id = dt.Rows[i]["Suborder Id"].ToString();
-                    oOrderMainfest.SKU_Code = dt.Rows[i]["SKU Code"].ToString();
-                    oOrderMainfest.AWB_Number = dt.Rows[i]["AWB Number"].ToString();
-                    oOrderMainfest.Order_Verified_Date =DateTime.Parse(dt.Rows[i]["Order Verified Date"].ToString());
-                    oOrderMainfest.Order_Created_Date =DateTime.Parse(dt.Rows[i]["Order Created Date"].ToString());
-                    oOrderMainfest.Customer_Name = dt.Rows[i]["Customer Name"].ToString();
-                    oOrderMainfest.Shipping_Name = dt.Rows[i]["Shipping Name"].ToString();
-                    oOrderMainfest.City = dt.Rows[i]["City"].ToString();
-                    oOrderMainfest.State = dt.Rows[i]["State"].ToString();
-                    oOrderMainfest.PINCode = dt.Rows[i]["PIN Code"].ToString();
-                    oOrderMainfest.Selling_Price = decimal.Parse(dt.Rows[i]["Selling Price Per Item"].ToString());
-                    oOrderMainfest.IMEI_SERIAL = dt.Rows[i]["IMEI/SERIAL"].ToString();
-                    oOrderMainfest.PromisedShipDate = DateTime.Parse(dt.Rows[i]["PromisedShipDate"].ToString());
-                    oOrderMainfest.MRP =  decimal.Parse(dt.Rows[i]["MRP"].ToString());
-                    oOrderMainfest.InvoiceCode = dt.Rows[i]["InvoiceCode"].ToString();
+                    oOrderMainfest.SKU_Code = DataTableValidation("SKU Code", dt, i);
+                    oOrderMainfest.AWB_Number = DataTableValidation("AWB Number", dt, i);
+                    oOrderMainfest.Order_Verified_Date = DataTableValidationDate("Order Verified Date", dt, i);
+                    oOrderMainfest.Order_Created_Date = DataTableValidationDate("Order Created Date", dt, i);
+                    oOrderMainfest.Customer_Name = DataTableValidation("Customer Name", dt, i);
+                    oOrderMainfest.Shipping_Name = DataTableValidation("Shipping Name", dt, i);
+                    oOrderMainfest.City = DataTableValidation("City", dt, i);
+                    oOrderMainfest.State = DataTableValidation("State", dt, i);
+                    oOrderMainfest.PINCode = DataTableValidation("PIN Code", dt, i);
+                    oOrderMainfest.Selling_Price = DataTableValidationDecimal("Selling Price Per Item", dt, i);
+                    oOrderMainfest.IMEI_SERIAL = DataTableValidation("IMEI/SERIAL", dt, i);
+                    oOrderMainfest.PromisedShipDate = DataTableValidationDate("PromisedShipDate", dt, i);
+                    oOrderMainfest.MRP = DataTableValidationDecimal("MRP", dt, i);
+                    oOrderMainfest.InvoiceCode = DataTableValidation("InvoiceCode", dt, i);
                     oOrderMainfest.CreationDate = System.DateTime.Now;
                     listOrderMainfest.Add(oOrderMainfest);
                 }
             }
             return listOrderMainfest;
+        }
+
+        private string DataTableValidation(string col, DataTable dt, int i)
+        {
+            if (dt.Columns.Contains(col))
+            {
+                return dt.Rows[i][col].ToString();
+            }
+            else
+            {
+                return "NA";
+            }
+        }
+
+        private DateTime DataTableValidationDate(string col, DataTable dt, int i)
+        {
+            if (dt.Columns.Contains(col))
+            {
+                if(dt.Rows[i][col].ToString().Length>10)
+                return DateTime.ParseExact(dt.Rows[i][col].ToString(), "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
+                else
+                    return DateTime.ParseExact(dt.Rows[i][col].ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                return DateTime.ParseExact("01-01-1900", "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            }
+        }
+
+        private decimal DataTableValidationDecimal(string col, DataTable dt, int i)
+        {
+            if (dt.Columns.Contains(col))
+            {
+                return decimal.Parse(dt.Rows[i][col].ToString());
+            }
+            else
+            {
+                return decimal.Parse("0.00");
+            }
         }
         #endregion
 
@@ -130,17 +174,21 @@ namespace OrderTracker
                 MessageBox.Show("Input file missing","Alert");                
                 return;
             }
+           
+           
+            String destDir, tempFile=string.Empty;
+
             FileInfo srcFinfo = new FileInfo(oOpenFileDialog.FileName);
             int numberOfPages = new PdfReader(srcFinfo.FullName).NumberOfPages;
+                try
+                {
+                    destDir = String.Format("{0}\\Output", Application.StartupPath);
+                    tempFile = String.Format("{0}\\_temp.pdf", destDir);
 
-            String destDir = String.Format("{0}\\Output", Application.StartupPath);
-            String tempFile = String.Format("{0}\\_temp.pdf", destDir);
-            try
-            {
-                foreach (FileInfo destFinfo in new DirectoryInfo(destDir).GetFiles())
-                    destFinfo.Delete();
-            }
-            catch { }
+                    foreach (FileInfo destFinfo in new DirectoryInfo(destDir).GetFiles())
+                        destFinfo.Delete();
+                }
+                catch { }
 
             int index;           
              for (int page = 1; page <= numberOfPages; page++)
@@ -216,7 +264,8 @@ namespace OrderTracker
                     gridProduct.DataSource = listHOS;
                     if (listHOS.Count() > 0)
                     {
-                        MessageBox.Show("HOS Details Saved Successfully", "Success");
+                        MessageBox.Show("Total Record Updated- " + listHOS.Count().ToString());
+                     
                     }
                     else
                     {
@@ -669,15 +718,15 @@ namespace OrderTracker
                     Payment oOrderPayment = new Payment();
                     //oOrderPayment.Category = dt.Rows[i]["Category"].ToString();
                     //oOrderPayment.Courier = dt.Rows[i]["Courier"].ToString();
-                    oOrderPayment.CustomerName = dt.Rows[i]["CustomerName (End Customer)"].ToString();
+                    oOrderPayment.CustomerName =DataTableValidation("CustomerName (End Customer)",dt,i);
                     oOrderPayment.Shipped_Return_Date = dt.Rows[i]["Shipped –Return Date"].ToString();
                     oOrderPayment.SuborderID = dt.Rows[i]["SuborderID"].ToString();
                     //oOrderPayment.SKU_Code = dt.Rows[i]["SKU Code"].ToString();
-                    oOrderPayment.AWB_Number = dt.Rows[i]["AWB Number"].ToString();
-                    oOrderPayment.Delivered_Date = dt.Rows[i]["Delivered Date"].ToString();
-                    oOrderPayment.Shipping_method_code = dt.Rows[i]["Shipping_method_code"].ToString();
-                    oOrderPayment.Other_Applications = dt.Rows[i]["Other Applications"].ToString();
-                    oOrderPayment.Amount = decimal.Parse(dt.Rows[i]["Amount"].ToString());
+                    oOrderPayment.AWB_Number = DataTableValidation("AWB Number",dt,i);
+                    oOrderPayment.Delivered_Date =DataTableValidation("Delivered Date",dt,i);
+                    oOrderPayment.Shipping_method_code = DataTableValidation("Shipping_method_code",dt,i);
+                    oOrderPayment.Other_Applications = DataTableValidation("Other Applications", dt, i);
+                    oOrderPayment.Amount =DataTableValidationDecimal("Amount",dt,i);
                     listOrderPayment.Add(oOrderPayment);
                 }
             }
@@ -870,5 +919,10 @@ namespace OrderTracker
             catch { }
         }
         #endregion
+
+        private void OrderUpload_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
