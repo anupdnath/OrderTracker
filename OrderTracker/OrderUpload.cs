@@ -555,8 +555,16 @@ namespace OrderTracker
                     r = (from o in listOrderPayment where (o.Shipping_method_code.Trim().Contains("Frgt Post Ship")) select o).ToList();
                     if (r.Count() > 0)
                     {
-                        //Sales return –  Penalty charged                    
-                        oorderdetailsTableAdapter.UpdateBySubOrderId("Sales return", "Penalty charged", DateTime.Now, totalAmount, r[0].SuborderID);
+                        if (listOrderPayment.Count() == r.Count())
+                        {
+                            //Sales return –  Penalty charged (Remarks Missing Credit)                    
+                            oorderdetailsTableAdapter.UpdateBySubOrderId("Sales return", "Penalty charged (Remarks Missing Credit)", DateTime.Now, totalAmount, r[0].SuborderID);
+                        }
+                        else
+                        {
+                            //Sales return –  Penalty charged                    
+                            oorderdetailsTableAdapter.UpdateBySubOrderId("Sales return", "Penalty charged", DateTime.Now, totalAmount, r[0].SuborderID);
+                        }
                         foreach (Payment p in listOrderPayment)
                         {
                             oordertransectionTableAdapter.InsertQuery(p.SuborderID, p.Shipping_method_code + "// " + p.Amount, DateTime.Now);
@@ -924,5 +932,102 @@ namespace OrderTracker
         {
             Application.Exit();
         }
+
+        #region [Hos 1 Import]
+        
+        private void btnHos1_Click(object sender, EventArgs e)
+        {
+            
+            if (!File.Exists(oOpenFileDialog.FileName))
+            {
+                MessageBox.Show("Input file missing","Alert");                
+                return;
+            }
+           
+           
+            String destDir, tempFile=string.Empty;
+
+            FileInfo srcFinfo = new FileInfo(oOpenFileDialog.FileName);
+            int numberOfPages = new PdfReader(srcFinfo.FullName).NumberOfPages;
+                try
+                {
+                    destDir = String.Format("{0}\\Output", Application.StartupPath);
+                    tempFile = String.Format("{0}\\_temp.pdf", destDir);
+
+                    foreach (FileInfo destFinfo in new DirectoryInfo(destDir).GetFiles())
+                        destFinfo.Delete();
+                }
+                catch { }
+
+                    
+             for (int page = 1; page <= numberOfPages; page++)
+            {
+                try
+                {
+                   
+                    ExtractPage(srcFinfo.FullName, tempFile, page);
+                    // Read Text from temp file
+                    String fileText = ExtractPageText(tempFile);
+                    String fileText1 = ImportExport.PDFText(tempFile);
+
+                    // Read Employee Code from temp file                   
+                    string[] sentences = fileText.Split('\n');
+                    List<HOS> listHOS = new List<HOS>();
+                    foreach (string s in sentences)
+                    {
+                        System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(s, "SLP\\w{9}");
+                        if (match.Success)
+                        {
+                            HOS ohos = new HOS();
+                            ohos.Ref = match.Captures[0].Value;
+                            listHOS.Add(ohos);
+                        }                        
+                    }
+
+
+                    try
+                    {
+
+                        //if (oorderhosTableAdapter.GetSuborderCount(orderdetails[1]) > 0)
+                        //{
+                        //    //update
+                        //    // oorderhosTableAdapter.UpdateQuery(oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.SubOrderID);
+                        //}
+                        //else
+                        //{
+                        //    //Insert                               
+                        //    oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate);
+                        //    oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
+                        //    OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
+                        //    oOrderDetailsEntity.Amount = 0;
+                        //    oOrderDetailsEntity.Status = "Shipped";
+                        //    oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
+                        //    OrderDetailsAU(oOrderDetailsEntity);
+                        //}
+                        
+
+                    }
+                    catch
+                    {
+                    }
+                    
+                    gridProduct.DataSource = listHOS;
+                    if (listHOS.Count() > 0)
+                    {
+                        MessageBox.Show("Total Record Updated- " + listHOS.Count().ToString());
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("No record found", "Alert");
+                    }
+                }
+                catch
+                {
+                    //MessageBox.Show("Something going wrong","Error");
+                }
+            }
+        }
+         #endregion
     }
 }

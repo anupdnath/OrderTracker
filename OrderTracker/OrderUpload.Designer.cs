@@ -73,6 +73,7 @@
             this.lblTime = new System.Windows.Forms.Label();
             this.lblDate = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnHos1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -87,6 +88,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnHos1);
             this.groupBox1.Controls.Add(this.txtLocation);
             this.groupBox1.Controls.Add(this.btnbrowse);
             this.groupBox1.Controls.Add(this.button5);
@@ -127,7 +129,7 @@
             this.button5.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button5.Image = global::OrderTracker.Properties.Resources.excel;
             this.button5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button5.Location = new System.Drawing.Point(721, 15);
+            this.button5.Location = new System.Drawing.Point(829, 15);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(108, 30);
             this.button5.TabIndex = 4;
@@ -141,7 +143,7 @@
             this.button4.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button4.Image = global::OrderTracker.Properties.Resources.excel;
             this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button4.Location = new System.Drawing.Point(601, 15);
+            this.button4.Location = new System.Drawing.Point(711, 15);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(105, 30);
             this.button4.TabIndex = 3;
@@ -155,7 +157,7 @@
             this.btnPayment.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPayment.Image = global::OrderTracker.Properties.Resources.excel;
             this.btnPayment.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPayment.Location = new System.Drawing.Point(454, 15);
+            this.btnPayment.Location = new System.Drawing.Point(569, 15);
             this.btnPayment.Name = "btnPayment";
             this.btnPayment.Size = new System.Drawing.Size(129, 30);
             this.btnPayment.TabIndex = 2;
@@ -550,6 +552,20 @@
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
             // 
+            // btnHos1
+            // 
+            this.btnHos1.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnHos1.Image = global::OrderTracker.Properties.Resources.pdf_icon;
+            this.btnHos1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnHos1.Location = new System.Drawing.Point(447, 15);
+            this.btnHos1.Name = "btnHos1";
+            this.btnHos1.Size = new System.Drawing.Size(113, 30);
+            this.btnHos1.TabIndex = 5;
+            this.btnHos1.Text = "Import HOS 1";
+            this.btnHos1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnHos1.UseVisualStyleBackColor = true;
+            this.btnHos1.Click += new System.EventHandler(this.btnHos1_Click);
+            // 
             // OrderUpload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -618,6 +634,7 @@
         private System.Windows.Forms.Label lblDate;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox cmbAmount;
+        private System.Windows.Forms.Button btnHos1;
     }
 }
 
