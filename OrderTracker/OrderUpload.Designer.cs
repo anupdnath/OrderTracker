@@ -39,7 +39,13 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnHos1 = new System.Windows.Forms.Button();
             this.txtLocation = new System.Windows.Forms.TextBox();
             this.btnbrowse = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
@@ -67,13 +73,22 @@
             this.dtpFrom = new System.Windows.Forms.DateTimePicker();
             this.cmbStatus = new System.Windows.Forms.ComboBox();
             this.txtOrderID = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.timerdt = new System.Windows.Forms.Timer(this.components);
             this.lblTime = new System.Windows.Forms.Label();
             this.lblDate = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnHos1 = new System.Windows.Forms.Button();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.dgvResult1 = new System.Windows.Forms.DataGridView();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.txtLocation1 = new System.Windows.Forms.TextBox();
+            this.btnbrowse1 = new System.Windows.Forms.Button();
+            this.cmbOrderStatus = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cmbProcessBy = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.btnProcess = new System.Windows.Forms.Button();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -84,6 +99,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvResult)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.tabPage3.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvResult1)).BeginInit();
+            this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -101,6 +121,20 @@
             this.groupBox1.Size = new System.Drawing.Size(1005, 53);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
+            // 
+            // btnHos1
+            // 
+            this.btnHos1.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnHos1.Image = global::OrderTracker.Properties.Resources.pdf_icon;
+            this.btnHos1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnHos1.Location = new System.Drawing.Point(447, 15);
+            this.btnHos1.Name = "btnHos1";
+            this.btnHos1.Size = new System.Drawing.Size(113, 30);
+            this.btnHos1.TabIndex = 5;
+            this.btnHos1.Text = "Import HOS 1";
+            this.btnHos1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnHos1.UseVisualStyleBackColor = true;
+            this.btnHos1.Click += new System.EventHandler(this.btnHos1_Click);
             // 
             // txtLocation
             // 
@@ -198,6 +232,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(4, 58);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -495,26 +530,6 @@
             this.txtOrderID.Size = new System.Drawing.Size(100, 20);
             this.txtOrderID.TabIndex = 0;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(732, 13);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(42, 18);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Date: ";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(732, 36);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(36, 18);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Time";
-            // 
             // timerdt
             // 
             this.timerdt.Enabled = true;
@@ -526,7 +541,7 @@
             this.lblTime.AutoSize = true;
             this.lblTime.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblTime.Location = new System.Drawing.Point(774, 36);
+            this.lblTime.Location = new System.Drawing.Point(876, 36);
             this.lblTime.Name = "lblTime";
             this.lblTime.Size = new System.Drawing.Size(36, 18);
             this.lblTime.TabIndex = 7;
@@ -537,7 +552,7 @@
             this.lblDate.AutoSize = true;
             this.lblDate.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblDate.Location = new System.Drawing.Point(774, 13);
+            this.lblDate.Location = new System.Drawing.Point(876, 13);
             this.lblDate.Name = "lblDate";
             this.lblDate.Size = new System.Drawing.Size(34, 18);
             this.lblDate.TabIndex = 6;
@@ -552,29 +567,189 @@
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
             // 
-            // btnHos1
+            // tabPage3
             // 
-            this.btnHos1.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHos1.Image = global::OrderTracker.Properties.Resources.pdf_icon;
-            this.btnHos1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnHos1.Location = new System.Drawing.Point(447, 15);
-            this.btnHos1.Name = "btnHos1";
-            this.btnHos1.Size = new System.Drawing.Size(113, 30);
-            this.btnHos1.TabIndex = 5;
-            this.btnHos1.Text = "Import HOS 1";
-            this.btnHos1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnHos1.UseVisualStyleBackColor = true;
-            this.btnHos1.Click += new System.EventHandler(this.btnHos1_Click);
+            this.tabPage3.Controls.Add(this.groupBox5);
+            this.tabPage3.Controls.Add(this.groupBox6);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(1023, 355);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Status Change";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.dgvResult1);
+            this.groupBox5.Location = new System.Drawing.Point(7, 65);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(1008, 284);
+            this.groupBox5.TabIndex = 4;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Result";
+            // 
+            // dgvResult1
+            // 
+            this.dgvResult1.AllowUserToAddRows = false;
+            this.dgvResult1.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgvResult1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle11;
+            this.dgvResult1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvResult1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Times New Roman", 8F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle12.NullValue = null;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvResult1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle12;
+            this.dgvResult1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Times New Roman", 8F);
+            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvResult1.DefaultCellStyle = dataGridViewCellStyle13;
+            this.dgvResult1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dgvResult1.Location = new System.Drawing.Point(3, 16);
+            this.dgvResult1.MultiSelect = false;
+            this.dgvResult1.Name = "dgvResult1";
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Times New Roman", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvResult1.RowHeadersDefaultCellStyle = dataGridViewCellStyle14;
+            this.dgvResult1.RowHeadersVisible = false;
+            this.dgvResult1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Times New Roman", 8F);
+            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgvResult1.RowsDefaultCellStyle = dataGridViewCellStyle15;
+            this.dgvResult1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvResult1.Size = new System.Drawing.Size(1002, 262);
+            this.dgvResult1.TabIndex = 57;
+            this.dgvResult1.TabStop = false;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.btnProcess);
+            this.groupBox6.Controls.Add(this.cmbProcessBy);
+            this.groupBox6.Controls.Add(this.label9);
+            this.groupBox6.Controls.Add(this.cmbOrderStatus);
+            this.groupBox6.Controls.Add(this.label8);
+            this.groupBox6.Controls.Add(this.txtLocation1);
+            this.groupBox6.Controls.Add(this.btnbrowse1);
+            this.groupBox6.Location = new System.Drawing.Point(7, 6);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(1005, 53);
+            this.groupBox6.TabIndex = 3;
+            this.groupBox6.TabStop = false;
+            // 
+            // txtLocation1
+            // 
+            this.txtLocation1.Location = new System.Drawing.Point(6, 19);
+            this.txtLocation1.Name = "txtLocation1";
+            this.txtLocation1.ReadOnly = true;
+            this.txtLocation1.Size = new System.Drawing.Size(92, 20);
+            this.txtLocation1.TabIndex = 0;
+            // 
+            // btnbrowse1
+            // 
+            this.btnbrowse1.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnbrowse1.Image = global::OrderTracker.Properties.Resources.browse1;
+            this.btnbrowse1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnbrowse1.Location = new System.Drawing.Point(104, 15);
+            this.btnbrowse1.Name = "btnbrowse1";
+            this.btnbrowse1.Size = new System.Drawing.Size(75, 30);
+            this.btnbrowse1.TabIndex = 0;
+            this.btnbrowse1.Text = "Browse";
+            this.btnbrowse1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnbrowse1.UseVisualStyleBackColor = true;
+            this.btnbrowse1.Click += new System.EventHandler(this.btnbrowse1_Click);
+            // 
+            // cmbOrderStatus
+            // 
+            this.cmbOrderStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbOrderStatus.FormattingEnabled = true;
+            this.cmbOrderStatus.Location = new System.Drawing.Point(282, 20);
+            this.cmbOrderStatus.Name = "cmbOrderStatus";
+            this.cmbOrderStatus.Size = new System.Drawing.Size(143, 21);
+            this.cmbOrderStatus.TabIndex = 10;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(191, 21);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(86, 18);
+            this.label8.TabIndex = 9;
+            this.label8.Text = "Order Status: ";
+            // 
+            // cmbProcessBy
+            // 
+            this.cmbProcessBy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbProcessBy.FormattingEnabled = true;
+            this.cmbProcessBy.Items.AddRange(new object[] {
+            "Referance No.",
+            "Suborder ID"});
+            this.cmbProcessBy.Location = new System.Drawing.Point(530, 19);
+            this.cmbProcessBy.Name = "cmbProcessBy";
+            this.cmbProcessBy.Size = new System.Drawing.Size(143, 21);
+            this.cmbProcessBy.TabIndex = 12;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(439, 20);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(72, 18);
+            this.label9.TabIndex = 11;
+            this.label9.Text = "Process by:";
+            // 
+            // btnProcess
+            // 
+            this.btnProcess.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnProcess.Image = global::OrderTracker.Properties.Resources.gnome_session;
+            this.btnProcess.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnProcess.Location = new System.Drawing.Point(695, 13);
+            this.btnProcess.Name = "btnProcess";
+            this.btnProcess.Size = new System.Drawing.Size(98, 30);
+            this.btnProcess.TabIndex = 13;
+            this.btnProcess.Text = "Process";
+            this.btnProcess.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnProcess.UseVisualStyleBackColor = true;
+            this.btnProcess.Click += new System.EventHandler(this.btnProcess_Click);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackgroundImage = global::OrderTracker.Properties.Resources.CLOCK;
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pictureBox2.Location = new System.Drawing.Point(831, 15);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(39, 39);
+            this.pictureBox2.TabIndex = 8;
+            this.pictureBox2.TabStop = false;
             // 
             // OrderUpload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1034, 451);
+            this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.lblTime);
             this.Controls.Add(this.lblDate);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.tabControl1);
             this.Name = "OrderUpload";
@@ -593,6 +768,12 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvResult1)).EndInit();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -611,8 +792,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnbrowse;
         private System.Windows.Forms.TextBox txtLocation;
         internal System.Windows.Forms.DataGridView gridProduct;
@@ -635,6 +814,18 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox cmbAmount;
         private System.Windows.Forms.Button btnHos1;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.GroupBox groupBox5;
+        internal System.Windows.Forms.DataGridView dgvResult1;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.TextBox txtLocation1;
+        private System.Windows.Forms.Button btnbrowse1;
+        private System.Windows.Forms.Button btnProcess;
+        private System.Windows.Forms.ComboBox cmbProcessBy;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox cmbOrderStatus;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }
 

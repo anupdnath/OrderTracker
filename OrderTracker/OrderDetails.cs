@@ -14,7 +14,8 @@ namespace OrderTracker
     public partial class OrderDetails : Form
     {
         ordertransectionTableAdapter oordertransectionTableAdapter = new ordertransectionTableAdapter();
-        orderstatusTableAdapter oorderstatusTableAdapter = new orderstatusTableAdapter(); 
+        orderstatusTableAdapter oorderstatusTableAdapter = new orderstatusTableAdapter();
+        orderdetailsTableAdapter oorderdetailsTableAdapter = new orderdetailsTableAdapter();
         public OrderDetails()
         {
             InitializeComponent();
@@ -36,8 +37,14 @@ namespace OrderTracker
             {
                 DataTable dt = new DataTable();
                 dt =oorderstatusTableAdapter.GetAllOrderStatus();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    if (dr["StatusName"].ToString() == "All")
+                        dr.Delete();
+                }
                 cmbStatus.DisplayMember = "StatusName";
                 cmbStatus.DataSource = dt;
+                
             }
             catch { }
         }
@@ -45,10 +52,12 @@ namespace OrderTracker
  
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+            oorderdetailsTableAdapter.UpdateBySubOrderId(cmbStatus.Text, "", System.DateTime.Now, 0, lblOrderNo.Text);
+            oordertransectionTableAdapter.InsertQuery(lblOrderNo.Text, txtRemark.Text, DateTime.Now);
             //new OrdersTableAdapter().UpdateOrderStatus(cmbStatus.Text, lblOrderNo.Text);
             //new OrderTransectionTableAdapter().InsertQuery(lblOrderNo.Text,"Updated To "+cmbStatus.Text+" - "+ txtRemark.Text, DateTime.Now);
             //HistoryLoad(lblOrderNo.Text, cmbStatus.Text);
-            //MessageBox.Show("Order Details Updated");
+            MessageBox.Show("Order Details Updated");
             //txtRemark.Text = "";
         }
     }

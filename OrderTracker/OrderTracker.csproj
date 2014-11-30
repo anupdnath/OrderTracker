@@ -95,6 +95,7 @@
     <Compile Include="Entity\HOS.cs" />
     <Compile Include="Entity\OrderDetails.cs" />
     <Compile Include="Entity\OrderMainfest.cs" />
+    <Compile Include="Entity\OrderRef.cs" />
     <Compile Include="Entity\Payment.cs" />
     <Compile Include="ImportExport.cs" />
     <Compile Include="Login.cs">

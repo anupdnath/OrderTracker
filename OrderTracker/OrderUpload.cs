@@ -796,7 +796,15 @@ namespace OrderTracker
                 dt = oorderdetailsTableAdapter.GetOrderSearch(fromDT, toDT, status + "%", txtOrderID.Text + "%", amount);
             }
              //dgvResult.AutoGenerateColumns = false;
-             dgvResult.DataSource = dt;
+             
+             if (dt.Rows.Count > 0)
+             {
+                 dgvResult.DataSource = dt;
+             }
+             else
+             {
+                 MessageBox.Show("No record found", "Alert");
+             }
         }
         #endregion
 
@@ -809,6 +817,17 @@ namespace OrderTracker
                 dt = oorderstatusTableAdapter.GetAllOrderStatus();
                 cmbStatus.DisplayMember = "StatusName";
                 cmbStatus.DataSource = dt;
+                DataTable dt1 = new DataTable();
+                dt1 = oorderstatusTableAdapter.GetAllOrderStatus();
+                foreach (DataRow dr in dt1.Rows)
+                {
+                    if (dr["StatusName"].ToString() == "All")
+                        dr.Delete();
+                }
+                cmbOrderStatus.DisplayMember = "StatusName";
+                cmbOrderStatus.DataSource = dt1;
+                
+                
             }
             catch { }
         }
@@ -1029,5 +1048,120 @@ namespace OrderTracker
             }
         }
          #endregion
+
+        #region [Import 1]
+        private void btnbrowse1_Click(object sender, EventArgs e)
+        {
+            oOpenFileDialog.Title = "Open File Dialog";
+            oOpenFileDialog.InitialDirectory = "C:\\";
+            oOpenFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.csv";
+            oOpenFileDialog.FilterIndex = 2;
+            oOpenFileDialog.RestoreDirectory = true;
+
+            if (oOpenFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                txtLocation1.Text = oOpenFileDialog.FileName;
+                DataSet oDataSet = new DataSet();
+                oDataSet = ImportExport.ExcelToDataSet(txtLocation1.Text);
+                List<OrderRef> listOrderRef = new List<OrderRef>();
+
+                 if (oDataSet != null)
+                 {
+                     listOrderRef = ParseOrderRef(oDataSet.Tables[0]);
+                     if (listOrderRef.Count() > 0)
+                     {
+                         dgvResult1.DataSource = listOrderRef;
+                     }
+                     else
+                     {
+                         MessageBox.Show("No record found", "Alert");
+                     }
+                 }
+            }
+        }
+
+        private List<OrderRef> ParseOrderRef(DataTable dt)
+        {
+            List<OrderRef> listOrderRef = new List<OrderRef>();
+            try
+            {
+                if (dt.Rows.Count > 0)
+                {
+
+                    foreach (DataColumn dc in dt.Columns)
+                    {
+                        dc.ColumnName = dc.ColumnName.Trim();
+                    }
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        OrderRef oOrderRef = new OrderRef();
+
+                        oOrderRef.OrderIdentifier = dt.Rows[i][0].ToString();
+                        oOrderRef.Result = "";
+                        listOrderRef.Add(oOrderRef);
+                    }
+                }
+            }
+            catch { }
+            return listOrderRef;
+        }
+        #endregion
+
+        #region [Process]
+        private void btnProcess_Click(object sender, EventArgs e)
+        {
+            if (dgvResult1.RowCount > 0)
+            {
+                if (cmbOrderStatus.Text != "" && cmbProcessBy.Text != "")
+                {
+                    List<OrderRef> listOrderRef = new List<OrderRef>();
+                    for (int i = 0; i < dgvResult1.RowCount; i++)
+                    {
+                        OrderRef oOrderRef = new OrderRef();
+                        string orderID = string.Empty;
+                        if (cmbProcessBy.Text == "Referance No.")
+                        {
+                            DataTable ordt = new DataTable();
+                            ordt= oorderhosTableAdapter.GetDataByRef(dgvResult1.Rows[i].Cells[0].Value.ToString());
+                            if (ordt.Rows.Count > 0)
+                            {
+                                orderID = ordt.Rows[0][0].ToString();
+                               
+                            }
+                        }
+                        else if (cmbProcessBy.Text == "Suborder ID")
+                        {
+                            orderID = dgvResult1.Rows[i].Cells[0].Value.ToString();
+                        }
+                        if (orderID.Length > 1)
+                        {
+                            oorderdetailsTableAdapter.UpdateBySubOrderId(cmbOrderStatus.Text, "", System.DateTime.Now, 0, orderID);
+                            oordertransectionTableAdapter.InsertQuery(orderID, "Status change- " + cmbOrderStatus.Text, DateTime.Now);
+                            oOrderRef.OrderIdentifier = dgvResult1.Rows[i].Cells[0].Value.ToString();
+                            oOrderRef.Result = "Updated";
+                        }
+                        else
+                        {
+                            oOrderRef.OrderIdentifier = dgvResult1.Rows[i].Cells[0].Value.ToString();
+                            oOrderRef.Result = "Not Found";
+                        }
+                        listOrderRef.Add(oOrderRef);
+                    }
+                    dgvResult1.DataSource = listOrderRef;
+                    MessageBox.Show("Status Update Done","Done");
+                }
+                else
+                {
+                    MessageBox.Show("Please select Status and Process by");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please Upload file");
+            }
+        }
+        #endregion
+
+        
     }
 }
