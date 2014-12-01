@@ -467,12 +467,24 @@ namespace OrderTracker
                 decimal totalAmount = 0;
                 if (count > 0)
                 {
+                
+
                     if (oorderdetailsTableAdapter.GetSuborderCount(listOrderPayment[0].SuborderID) > 0)
                     { }
                     else
                     {
                         oorderdetailsTableAdapter.InsertQuery(listOrderPayment[0].SuborderID, "", "", DateTime.Now, 0, DateTime.Now);
                     }
+
+                    //Check order status for RTO Recieved and Customer Complaint Acknowledged/////////////
+                    DataTable dtstatus = new DataTable();
+                    dtstatus = oorderdetailsTableAdapter.GetOrderStatus(listOrderPayment[0].SuborderID);
+                    if (dtstatus.Rows.Count > 0)
+                    {
+                        if (dtstatus.Rows[0]["Status"].ToString() == "RTO Recieved" || dtstatus.Rows[0]["Status"].ToString() == "Customer Complaint Acknowledged")
+                            return;
+                    }
+                    //////////////////
 
                     if (oorderallamountTableAdapter.GetSubOrderCount(listOrderPayment[0].SuborderID) > 0)
                     { }
@@ -643,6 +655,50 @@ namespace OrderTracker
                         {
                             oordertransectionTableAdapter.InsertQuery(p.SuborderID, p.Shipping_method_code + " //" + p.Amount, DateTime.Now);
                             SubOrderAmount(p.Shipping_method_code, p.Amount, p.SuborderID);
+                        }
+                        //return "";
+                    }
+                    #endregion
+
+                    #region [RTO Recieved]
+                    r = (from o in listOrderPayment where (o.Shipping_method_code.Trim() == "RTO Recieved") select o).ToList();
+                    if (r.Count() > 0)
+                    {
+                        if (oorderallamountTableAdapter.TotalAmount(listOrderPayment[0].SuborderID).Value >= 0)
+                        {
+                            //RTO Recieved
+                            oorderdetailsTableAdapter.UpdateBySubOrderId("RTO Recieved", "", DateTime.Now, totalAmount, r[0].SuborderID);
+                        }
+                        else
+                        {
+                            //RTO Recieved
+                            oorderdetailsTableAdapter.UpdateBySubOrderId("RTO Recieved", "RTO penatly charged", DateTime.Now, totalAmount, r[0].SuborderID);
+                        }
+                        foreach (Payment p in listOrderPayment)
+                        {
+                            oordertransectionTableAdapter.InsertQuery(p.SuborderID, p.Shipping_method_code, DateTime.Now);                            
+                        }
+                        //return "";
+                    }
+                    #endregion
+
+                    #region [Customer Complaint Acknowledged]
+                    r = (from o in listOrderPayment where (o.Shipping_method_code.Trim() == "Customer Complaint Acknowledged") select o).ToList();
+                    if (r.Count() > 0)
+                    {
+                        if (oorderallamountTableAdapter.TotalAmount(listOrderPayment[0].SuborderID).Value >= 0)
+                        {
+                            //Customer Complaint Acknowledged
+                            oorderdetailsTableAdapter.UpdateBySubOrderId("Customer Complaint Acknowledged", "", DateTime.Now, totalAmount, r[0].SuborderID);
+                        }
+                        else
+                        {
+                            //Customer Complaint Acknowledged
+                            oorderdetailsTableAdapter.UpdateBySubOrderId("Customer Complaint Acknowledged", "CC penatly charged", DateTime.Now, totalAmount, r[0].SuborderID);
+                        }
+                        foreach (Payment p in listOrderPayment)
+                        {
+                            oordertransectionTableAdapter.InsertQuery(p.SuborderID, p.Shipping_method_code, DateTime.Now);
                         }
                         //return "";
                     }
@@ -1135,8 +1191,21 @@ namespace OrderTracker
                         }
                         if (orderID.Length > 1)
                         {
-                            oorderdetailsTableAdapter.UpdateBySubOrderId(cmbOrderStatus.Text, "", System.DateTime.Now, 0, orderID);
-                            oordertransectionTableAdapter.InsertQuery(orderID, "Status change- " + cmbOrderStatus.Text, DateTime.Now);
+                            if (cmbOrderStatus.Text == "Customer Complaint Acknowledged" || cmbOrderStatus.Text == "RTO Recieved")
+                            {
+                                List<Payment> listOrderPayment = new List<Payment>();
+                                Payment oPayment = new Payment();
+                                oPayment.SuborderID = orderID;
+                                oPayment.Shipping_method_code = cmbOrderStatus.Text;
+                                oPayment.Amount = 0;
+                                listOrderPayment.Add(oPayment);
+                                PaymentStatus(listOrderPayment);
+                            }
+                            else
+                            {
+                                oorderdetailsTableAdapter.UpdateBySubOrderId(cmbOrderStatus.Text, "", System.DateTime.Now, 0, orderID);
+                                oordertransectionTableAdapter.InsertQuery(orderID, "Status change- " + cmbOrderStatus.Text, DateTime.Now);
+                            }
                             oOrderRef.OrderIdentifier = dgvResult1.Rows[i].Cells[0].Value.ToString();
                             oOrderRef.Result = "Updated";
                         }
