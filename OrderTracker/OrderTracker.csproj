@@ -97,6 +97,7 @@
     <Compile Include="Entity\OrderMainfest.cs" />
     <Compile Include="Entity\OrderRef.cs" />
     <Compile Include="Entity\Payment.cs" />
+    <Compile Include="Entity\UserLogin.cs" />
     <Compile Include="ImportExport.cs" />
     <Compile Include="Login.cs">
       <SubType>Form</SubType>

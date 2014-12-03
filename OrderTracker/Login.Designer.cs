@@ -38,6 +38,7 @@
             this.Label4 = new System.Windows.Forms.Label();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.PictureBox1 = new System.Windows.Forms.PictureBox();
+            this.linklblguest = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -153,6 +154,20 @@
             this.PictureBox1.TabIndex = 30;
             this.PictureBox1.TabStop = false;
             // 
+            // linklblguest
+            // 
+            this.linklblguest.AutoSize = true;
+            this.linklblguest.BackColor = System.Drawing.Color.Transparent;
+            this.linklblguest.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linklblguest.LinkColor = System.Drawing.Color.Teal;
+            this.linklblguest.Location = new System.Drawing.Point(237, 163);
+            this.linklblguest.Name = "linklblguest";
+            this.linklblguest.Size = new System.Drawing.Size(70, 13);
+            this.linklblguest.TabIndex = 41;
+            this.linklblguest.TabStop = true;
+            this.linklblguest.Text = "Guest User";
+            this.linklblguest.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linklblguest_LinkClicked);
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -160,6 +175,7 @@
             this.BackgroundImage = global::OrderTracker.Properties.Resources.BackGround;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(417, 208);
+            this.Controls.Add(this.linklblguest);
             this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.PictureBox2);
@@ -196,5 +212,6 @@
         internal System.Windows.Forms.Label Label4;
         internal System.Windows.Forms.TextBox txtUsername;
         internal System.Windows.Forms.PictureBox PictureBox1;
+        private System.Windows.Forms.LinkLabel linklblguest;
     }
 }

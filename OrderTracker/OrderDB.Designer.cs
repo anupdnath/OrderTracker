@@ -7644,7 +7644,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::MySql.Data.MySqlClient.MySqlCommand[2];
+            this._commandCollection = new global::MySql.Data.MySqlClient.MySqlCommand[6];
             this._commandCollection[0] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT `username`, `Pass`, `UserType`, `CreatedOn`, `UpdatedOn`, `Active` FROM `u" +
@@ -7652,10 +7652,14 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "SELECT        username, Pass, UserType, CreatedOn, UpdatedOn, Active\r\nFROM       " +
-                "     usermaster\r\nWHERE        (username = @username) AND (Pass = @Pass) AND (Act" +
-                "ive = @Active)";
+            this._commandCollection[1].CommandText = "SELECT `username`, `Pass`, `UserType`, `CreatedOn`, `UpdatedOn`, `Active` FROM `u" +
+                "sermaster`";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[2] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = "SELECT        username, Pass, UserType, CreatedOn, UpdatedOn, Active\r\nFROM       " +
+                "     usermaster\r\nWHERE        (username = @username)";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             global::MySql.Data.MySqlClient.MySqlParameter param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@username";
             param.DbType = global::System.Data.DbType.String;
@@ -7663,7 +7667,21 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 50;
             param.IsNullable = true;
             param.SourceColumn = "username";
-            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[3] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[3].Connection = this.Connection;
+            this._commandCollection[3].CommandText = "SELECT        username, Pass, UserType, CreatedOn, UpdatedOn, Active\r\nFROM       " +
+                "     usermaster\r\nWHERE        (username = @username) AND (Pass = @Pass) AND (Act" +
+                "ive = @Active)";
+            this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@username";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 50;
+            param.IsNullable = true;
+            param.SourceColumn = "username";
+            this._commandCollection[3].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Pass";
             param.DbType = global::System.Data.DbType.String;
@@ -7671,7 +7689,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 45;
             param.IsNullable = true;
             param.SourceColumn = "Pass";
-            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[3].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Active";
             param.DbType = global::System.Data.DbType.Object;
@@ -7679,7 +7697,96 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 1024;
             param.IsNullable = true;
             param.SourceColumn = "Active";
-            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[4].Connection = this.Connection;
+            this._commandCollection[4].CommandText = "INSERT INTO usermaster\r\n                         (username, Pass, UserType, Creat" +
+                "edOn, UpdatedOn, Active)\r\nVALUES        (@username, @Pass, @UserType, @CreatedOn" +
+                ", @UpdatedOn, @Active)";
+            this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@username";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 50;
+            param.IsNullable = true;
+            param.SourceColumn = "username";
+            this._commandCollection[4].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@Pass";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "Pass";
+            this._commandCollection[4].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@UserType";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "UserType";
+            this._commandCollection[4].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@CreatedOn";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
+            param.IsNullable = true;
+            param.SourceColumn = "CreatedOn";
+            this._commandCollection[4].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@UpdatedOn";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
+            param.IsNullable = true;
+            param.SourceColumn = "UpdatedOn";
+            this._commandCollection[4].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@Active";
+            param.DbType = global::System.Data.DbType.Object;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Bit;
+            param.Size = 1024;
+            param.IsNullable = true;
+            param.SourceColumn = "Active";
+            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[5] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[5].Connection = this.Connection;
+            this._commandCollection[5].CommandText = "UPDATE       usermaster\r\nSET                Pass = @Pass, UpdatedOn = @UpdatedOn," +
+                " Active = @Active\r\nWHERE        (username = @username)";
+            this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@Pass";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "Pass";
+            this._commandCollection[5].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@UpdatedOn";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
+            param.IsNullable = true;
+            param.SourceColumn = "UpdatedOn";
+            this._commandCollection[5].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@Active";
+            param.DbType = global::System.Data.DbType.Object;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Bit;
+            param.Size = 1024;
+            param.IsNullable = true;
+            param.SourceColumn = "Active";
+            this._commandCollection[5].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@username";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 50;
+            param.IsNullable = true;
+            param.SourceColumn = "username";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._commandCollection[5].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7710,8 +7817,36 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
-        public virtual OrderDB.usermasterDataTable GetUserLogin(string username, string Pass, object Active) {
+        public virtual OrderDB.usermasterDataTable GetAllUser() {
             this.Adapter.SelectCommand = this.CommandCollection[1];
+            OrderDB.usermasterDataTable dataTable = new OrderDB.usermasterDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual OrderDB.usermasterDataTable GetDataUserName(string username) {
+            this.Adapter.SelectCommand = this.CommandCollection[2];
+            if ((username == null)) {
+                throw new global::System.ArgumentNullException("username");
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(username));
+            }
+            OrderDB.usermasterDataTable dataTable = new OrderDB.usermasterDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual OrderDB.usermasterDataTable GetUserLogin(string username, string Pass, object Active) {
+            this.Adapter.SelectCommand = this.CommandCollection[3];
             if ((username == null)) {
                 throw new global::System.ArgumentNullException("username");
             }
@@ -7997,6 +8132,112 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
         public virtual int Update(string p2, string p3, global::System.Nullable<global::System.DateTime> p4, global::System.Nullable<global::System.DateTime> p5, global::System.Nullable<ulong> p6, string p7, string p9, string p11, global::System.Nullable<global::System.DateTime> p13, global::System.Nullable<global::System.DateTime> p15, global::System.Nullable<ulong> p17) {
             return this.Update(p7, p2, p3, p4, p5, p6, p7, p9, p11, p13, p15, p17);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
+        public virtual int InsertQuery(string username, string Pass, string UserType, global::System.Nullable<global::System.DateTime> CreatedOn, global::System.Nullable<global::System.DateTime> UpdatedOn, object Active) {
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[4];
+            if ((username == null)) {
+                throw new global::System.ArgumentNullException("username");
+            }
+            else {
+                command.Parameters[0].Value = ((string)(username));
+            }
+            if ((Pass == null)) {
+                command.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[1].Value = ((string)(Pass));
+            }
+            if ((UserType == null)) {
+                command.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[2].Value = ((string)(UserType));
+            }
+            if ((CreatedOn.HasValue == true)) {
+                command.Parameters[3].Value = ((System.DateTime)(CreatedOn.Value));
+            }
+            else {
+                command.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            if ((UpdatedOn.HasValue == true)) {
+                command.Parameters[4].Value = ((System.DateTime)(UpdatedOn.Value));
+            }
+            else {
+                command.Parameters[4].Value = global::System.DBNull.Value;
+            }
+            if ((Active == null)) {
+                command.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[5].Value = ((object)(Active));
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
+        public virtual int UpdateUser(string Pass, global::System.Nullable<global::System.DateTime> UpdatedOn, object Active, string username) {
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[5];
+            if ((Pass == null)) {
+                command.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[0].Value = ((string)(Pass));
+            }
+            if ((UpdatedOn.HasValue == true)) {
+                command.Parameters[1].Value = ((System.DateTime)(UpdatedOn.Value));
+            }
+            else {
+                command.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            if ((Active == null)) {
+                command.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[2].Value = ((object)(Active));
+            }
+            if ((username == null)) {
+                throw new global::System.ArgumentNullException("username");
+            }
+            else {
+                command.Parameters[3].Value = ((string)(username));
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
         }
     }
     

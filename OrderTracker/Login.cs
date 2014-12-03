@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OrderTracker.OrderDBTableAdapters;
+using OrderTracker.Entity;
 
 namespace OrderTracker
 {
@@ -31,8 +32,10 @@ namespace OrderTracker
                         txtUsername.Text = "";
                         txtPassword.Text = "";
                         lblMessage.Text = "";
-                        Hide();
+                        Hide();                        
                         OrderUpload o = new OrderUpload();
+                        o.lblUserName.Text = dt.Rows[0]["username"].ToString();
+                        o.lblUserType.Text = dt.Rows[0]["usertype"].ToString();
                         o.Show();
                     }
                     else
@@ -70,6 +73,15 @@ namespace OrderTracker
             {
                 UserLogin();
             }
+        }
+
+        private void linklblguest_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Hide();
+            OrderUpload o = new OrderUpload();
+            o.lblUserName.Text = "Guest User";
+            o.lblUserType.Text = "USER";
+            o.Show();
         }
     }
 }

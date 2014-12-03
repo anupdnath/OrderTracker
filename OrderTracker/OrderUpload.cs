@@ -29,6 +29,7 @@ namespace OrderTracker
         ordertransectionTableAdapter oordertransectionTableAdapter = new ordertransectionTableAdapter();
         orderstatusTableAdapter oorderstatusTableAdapter = new orderstatusTableAdapter();
         orderallamountTableAdapter oorderallamountTableAdapter = new orderallamountTableAdapter();
+        usermasterTableAdapter ousermasterTableAdapter = new usermasterTableAdapter();
         public OrderUpload()
         {
             InitializeComponent();
@@ -893,6 +894,15 @@ namespace OrderTracker
         {
             StatusList();
             dtpTo.Value = DateTime.Now.AddDays(1);
+            if (lblUserType.Text.ToUpper() == "ADMIN")
+            {
+                loginuser();
+            }
+            else
+            {
+                tabControl1.TabPages.Remove(tabPage3);
+                tabControl1.TabPages.Remove(tabPage4);     
+            }
         }
 
         private void ToCsV(DataGridView dGV, string filename)
@@ -1231,6 +1241,68 @@ namespace OrderTracker
         }
         #endregion
 
-        
+        #region [Get All User]
+        private void loginuser()
+        {
+            DataTable dt = new DataTable();
+            dt = ousermasterTableAdapter.GetAllUser();
+            dgvUserList.AutoGenerateColumns = false;
+            dgvUserList.DataSource = dt;
+        }
+        #endregion
+
+        #region [User Create]
+       
+        private void btnusercreate_Click(object sender, EventArgs e)
+        {
+            if (txtPassword.Text != "" && txtUsername.Text != "" && cmbusertype.Text != "")
+            {
+                DataTable dtuser = new DataTable();
+                dtuser = ousermasterTableAdapter.GetDataUserName(txtUsername.Text);
+                if (dtuser.Rows.Count > 0)
+                {
+                    MessageBox.Show("This username already exists.");
+                }
+                else
+                {
+                    ousermasterTableAdapter.InsertQuery(txtUsername.Text, txtPassword.Text, cmbusertype.Text, DateTime.Now, DateTime.Now, 1);
+                    MessageBox.Show("User created sucessfully.");
+                    loginuser();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please enter all field.");
+            }
+        }
+
+        #endregion
+
+        private void dgvUserList_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                DataGridViewCell pass = null;
+                DataGridViewCell active = null;
+                DataGridViewCell user = null;
+                bool oactive = false;
+                if (e.RowIndex > -1 && e.ColumnIndex > -1)
+                {
+                     user = ((DataGridView)sender).Rows[e.RowIndex].Cells["username"];
+                     pass = ((DataGridView)sender).Rows[e.RowIndex].Cells["Password"];
+                     active = ((DataGridView)sender).Rows[e.RowIndex].Cells["active"];
+                     if (active.Value.ToString() =="1")
+                     {
+                         oactive = true;
+                     }
+                     ousermasterTableAdapter.UpdateUser(pass.Value.ToString(), DateTime.Now, oactive, user.Value.ToString());
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

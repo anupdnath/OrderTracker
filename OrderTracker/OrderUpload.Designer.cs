@@ -44,6 +44,11 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnHos1 = new System.Windows.Forms.Button();
             this.txtLocation = new System.Windows.Forms.TextBox();
@@ -73,22 +78,41 @@
             this.dtpFrom = new System.Windows.Forms.DateTimePicker();
             this.cmbStatus = new System.Windows.Forms.ComboBox();
             this.txtOrderID = new System.Windows.Forms.TextBox();
-            this.timerdt = new System.Windows.Forms.Timer(this.components);
-            this.lblTime = new System.Windows.Forms.Label();
-            this.lblDate = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.dgvResult1 = new System.Windows.Forms.DataGridView();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.txtLocation1 = new System.Windows.Forms.TextBox();
-            this.btnbrowse1 = new System.Windows.Forms.Button();
-            this.cmbOrderStatus = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
+            this.btnProcess = new System.Windows.Forms.Button();
             this.cmbProcessBy = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.btnProcess = new System.Windows.Forms.Button();
+            this.cmbOrderStatus = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtLocation1 = new System.Windows.Forms.TextBox();
+            this.btnbrowse1 = new System.Windows.Forms.Button();
+            this.timerdt = new System.Windows.Forms.Timer(this.components);
+            this.lblTime = new System.Windows.Forms.Label();
+            this.lblDate = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.lblUserName = new System.Windows.Forms.Label();
+            this.lblUserType = new System.Windows.Forms.Label();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.cmbusertype = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtUsername = new System.Windows.Forms.TextBox();
+            this.btnusercreate = new System.Windows.Forms.Button();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.dgvUserList = new System.Windows.Forms.DataGridView();
+            this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Password = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CreatedOn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Updatetiondate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Active = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -98,12 +122,16 @@
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResult)).BeginInit();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResult1)).BeginInit();
             this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvUserList)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -233,6 +261,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(4, 58);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -530,43 +559,6 @@
             this.txtOrderID.Size = new System.Drawing.Size(100, 20);
             this.txtOrderID.TabIndex = 0;
             // 
-            // timerdt
-            // 
-            this.timerdt.Enabled = true;
-            this.timerdt.Interval = 1000;
-            this.timerdt.Tick += new System.EventHandler(this.timerdt_Tick);
-            // 
-            // lblTime
-            // 
-            this.lblTime.AutoSize = true;
-            this.lblTime.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblTime.Location = new System.Drawing.Point(876, 36);
-            this.lblTime.Name = "lblTime";
-            this.lblTime.Size = new System.Drawing.Size(36, 18);
-            this.lblTime.TabIndex = 7;
-            this.lblTime.Text = "Time";
-            // 
-            // lblDate
-            // 
-            this.lblDate.AutoSize = true;
-            this.lblDate.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblDate.Location = new System.Drawing.Point(876, 13);
-            this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(34, 18);
-            this.lblDate.TabIndex = 6;
-            this.lblDate.Text = "Date";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::OrderTracker.Properties.Resources.snapdeal_logo;
-            this.pictureBox1.Location = new System.Drawing.Point(7, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(176, 51);
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
-            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.groupBox5);
@@ -655,46 +647,19 @@
             this.groupBox6.TabIndex = 3;
             this.groupBox6.TabStop = false;
             // 
-            // txtLocation1
+            // btnProcess
             // 
-            this.txtLocation1.Location = new System.Drawing.Point(6, 19);
-            this.txtLocation1.Name = "txtLocation1";
-            this.txtLocation1.ReadOnly = true;
-            this.txtLocation1.Size = new System.Drawing.Size(92, 20);
-            this.txtLocation1.TabIndex = 0;
-            // 
-            // btnbrowse1
-            // 
-            this.btnbrowse1.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnbrowse1.Image = global::OrderTracker.Properties.Resources.browse1;
-            this.btnbrowse1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnbrowse1.Location = new System.Drawing.Point(104, 15);
-            this.btnbrowse1.Name = "btnbrowse1";
-            this.btnbrowse1.Size = new System.Drawing.Size(75, 30);
-            this.btnbrowse1.TabIndex = 0;
-            this.btnbrowse1.Text = "Browse";
-            this.btnbrowse1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnbrowse1.UseVisualStyleBackColor = true;
-            this.btnbrowse1.Click += new System.EventHandler(this.btnbrowse1_Click);
-            // 
-            // cmbOrderStatus
-            // 
-            this.cmbOrderStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbOrderStatus.FormattingEnabled = true;
-            this.cmbOrderStatus.Location = new System.Drawing.Point(282, 20);
-            this.cmbOrderStatus.Name = "cmbOrderStatus";
-            this.cmbOrderStatus.Size = new System.Drawing.Size(143, 21);
-            this.cmbOrderStatus.TabIndex = 10;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(191, 21);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(86, 18);
-            this.label8.TabIndex = 9;
-            this.label8.Text = "Order Status: ";
+            this.btnProcess.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnProcess.Image = global::OrderTracker.Properties.Resources.gnome_session;
+            this.btnProcess.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnProcess.Location = new System.Drawing.Point(695, 13);
+            this.btnProcess.Name = "btnProcess";
+            this.btnProcess.Size = new System.Drawing.Size(98, 30);
+            this.btnProcess.TabIndex = 13;
+            this.btnProcess.Text = "Process";
+            this.btnProcess.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnProcess.UseVisualStyleBackColor = true;
+            this.btnProcess.Click += new System.EventHandler(this.btnProcess_Click);
             // 
             // cmbProcessBy
             // 
@@ -718,35 +683,344 @@
             this.label9.TabIndex = 11;
             this.label9.Text = "Process by:";
             // 
-            // btnProcess
+            // cmbOrderStatus
             // 
-            this.btnProcess.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnProcess.Image = global::OrderTracker.Properties.Resources.gnome_session;
-            this.btnProcess.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnProcess.Location = new System.Drawing.Point(695, 13);
-            this.btnProcess.Name = "btnProcess";
-            this.btnProcess.Size = new System.Drawing.Size(98, 30);
-            this.btnProcess.TabIndex = 13;
-            this.btnProcess.Text = "Process";
-            this.btnProcess.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnProcess.UseVisualStyleBackColor = true;
-            this.btnProcess.Click += new System.EventHandler(this.btnProcess_Click);
+            this.cmbOrderStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbOrderStatus.FormattingEnabled = true;
+            this.cmbOrderStatus.Location = new System.Drawing.Point(282, 20);
+            this.cmbOrderStatus.Name = "cmbOrderStatus";
+            this.cmbOrderStatus.Size = new System.Drawing.Size(143, 21);
+            this.cmbOrderStatus.TabIndex = 10;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(191, 21);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(86, 18);
+            this.label8.TabIndex = 9;
+            this.label8.Text = "Order Status: ";
+            // 
+            // txtLocation1
+            // 
+            this.txtLocation1.Location = new System.Drawing.Point(6, 19);
+            this.txtLocation1.Name = "txtLocation1";
+            this.txtLocation1.ReadOnly = true;
+            this.txtLocation1.Size = new System.Drawing.Size(92, 20);
+            this.txtLocation1.TabIndex = 0;
+            // 
+            // btnbrowse1
+            // 
+            this.btnbrowse1.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnbrowse1.Image = global::OrderTracker.Properties.Resources.browse1;
+            this.btnbrowse1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnbrowse1.Location = new System.Drawing.Point(104, 15);
+            this.btnbrowse1.Name = "btnbrowse1";
+            this.btnbrowse1.Size = new System.Drawing.Size(75, 30);
+            this.btnbrowse1.TabIndex = 0;
+            this.btnbrowse1.Text = "Browse";
+            this.btnbrowse1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnbrowse1.UseVisualStyleBackColor = true;
+            this.btnbrowse1.Click += new System.EventHandler(this.btnbrowse1_Click);
+            // 
+            // timerdt
+            // 
+            this.timerdt.Enabled = true;
+            this.timerdt.Interval = 1000;
+            this.timerdt.Tick += new System.EventHandler(this.timerdt_Tick);
+            // 
+            // lblTime
+            // 
+            this.lblTime.AutoSize = true;
+            this.lblTime.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblTime.Location = new System.Drawing.Point(876, 53);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(36, 18);
+            this.lblTime.TabIndex = 7;
+            this.lblTime.Text = "Time";
+            // 
+            // lblDate
+            // 
+            this.lblDate.AutoSize = true;
+            this.lblDate.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblDate.Location = new System.Drawing.Point(876, 30);
+            this.lblDate.Name = "lblDate";
+            this.lblDate.Size = new System.Drawing.Size(34, 18);
+            this.lblDate.TabIndex = 6;
+            this.lblDate.Text = "Date";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::OrderTracker.Properties.Resources.snapdeal_logo;
+            this.pictureBox1.Location = new System.Drawing.Point(7, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(176, 51);
+            this.pictureBox1.TabIndex = 3;
+            this.pictureBox1.TabStop = false;
             // 
             // pictureBox2
             // 
             this.pictureBox2.BackgroundImage = global::OrderTracker.Properties.Resources.CLOCK;
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.pictureBox2.Location = new System.Drawing.Point(831, 15);
+            this.pictureBox2.Location = new System.Drawing.Point(831, 32);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(39, 39);
             this.pictureBox2.TabIndex = 8;
             this.pictureBox2.TabStop = false;
+            // 
+            // lblUserName
+            // 
+            this.lblUserName.AutoSize = true;
+            this.lblUserName.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUserName.ForeColor = System.Drawing.Color.Teal;
+            this.lblUserName.Location = new System.Drawing.Point(876, 3);
+            this.lblUserName.Name = "lblUserName";
+            this.lblUserName.Size = new System.Drawing.Size(69, 18);
+            this.lblUserName.TabIndex = 9;
+            this.lblUserName.Text = "Guest User";
+            // 
+            // lblUserType
+            // 
+            this.lblUserType.AutoSize = true;
+            this.lblUserType.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUserType.ForeColor = System.Drawing.Color.Teal;
+            this.lblUserType.Location = new System.Drawing.Point(791, 3);
+            this.lblUserType.Name = "lblUserType";
+            this.lblUserType.Size = new System.Drawing.Size(61, 18);
+            this.lblUserType.TabIndex = 10;
+            this.lblUserType.Text = "UserType";
+            this.lblUserType.Visible = false;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.groupBox8);
+            this.tabPage4.Controls.Add(this.groupBox7);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(1023, 355);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Login Access";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.btnusercreate);
+            this.groupBox7.Controls.Add(this.cmbusertype);
+            this.groupBox7.Controls.Add(this.label1);
+            this.groupBox7.Controls.Add(this.label2);
+            this.groupBox7.Controls.Add(this.txtPassword);
+            this.groupBox7.Controls.Add(this.label10);
+            this.groupBox7.Controls.Add(this.txtUsername);
+            this.groupBox7.Location = new System.Drawing.Point(6, 3);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(1008, 55);
+            this.groupBox7.TabIndex = 1;
+            this.groupBox7.TabStop = false;
+            // 
+            // cmbusertype
+            // 
+            this.cmbusertype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbusertype.FormattingEnabled = true;
+            this.cmbusertype.Items.AddRange(new object[] {
+            "ADMIN",
+            "USER"});
+            this.cmbusertype.Location = new System.Drawing.Point(570, 19);
+            this.cmbusertype.Name = "cmbusertype";
+            this.cmbusertype.Size = new System.Drawing.Size(88, 21);
+            this.cmbusertype.TabIndex = 40;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(461, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(88, 17);
+            this.label1.TabIndex = 39;
+            this.label1.Text = "User Type:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(7, 21);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(86, 17);
+            this.label2.TabIndex = 37;
+            this.label2.Text = "Username:";
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(317, 21);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.PasswordChar = '*';
+            this.txtPassword.Size = new System.Drawing.Size(138, 20);
+            this.txtPassword.TabIndex = 36;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Black;
+            this.label10.Location = new System.Drawing.Point(233, 22);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(82, 17);
+            this.label10.TabIndex = 38;
+            this.label10.Text = "Password:";
+            // 
+            // txtUsername
+            // 
+            this.txtUsername.Location = new System.Drawing.Point(92, 22);
+            this.txtUsername.Name = "txtUsername";
+            this.txtUsername.Size = new System.Drawing.Size(138, 20);
+            this.txtUsername.TabIndex = 35;
+            // 
+            // btnusercreate
+            // 
+            this.btnusercreate.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnusercreate.Image = global::OrderTracker.Properties.Resources.gnome_session;
+            this.btnusercreate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnusercreate.Location = new System.Drawing.Point(694, 15);
+            this.btnusercreate.Name = "btnusercreate";
+            this.btnusercreate.Size = new System.Drawing.Size(98, 30);
+            this.btnusercreate.TabIndex = 41;
+            this.btnusercreate.Text = "Create";
+            this.btnusercreate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnusercreate.UseVisualStyleBackColor = true;
+            this.btnusercreate.Click += new System.EventHandler(this.btnusercreate_Click);
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.dgvUserList);
+            this.groupBox8.Location = new System.Drawing.Point(7, 68);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(1008, 284);
+            this.groupBox8.TabIndex = 5;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "User List";
+            // 
+            // dgvUserList
+            // 
+            this.dgvUserList.AllowUserToAddRows = false;
+            this.dgvUserList.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgvUserList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
+            this.dgvUserList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvUserList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvUserList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Times New Roman", 8F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle17.NullValue = null;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvUserList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
+            this.dgvUserList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvUserList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.UserName,
+            this.Password,
+            this.Type,
+            this.CreatedOn,
+            this.Updatetiondate,
+            this.Active});
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Times New Roman", 8F);
+            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvUserList.DefaultCellStyle = dataGridViewCellStyle18;
+            this.dgvUserList.Location = new System.Drawing.Point(3, 16);
+            this.dgvUserList.MultiSelect = false;
+            this.dgvUserList.Name = "dgvUserList";
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Times New Roman", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvUserList.RowHeadersDefaultCellStyle = dataGridViewCellStyle19;
+            this.dgvUserList.RowHeadersVisible = false;
+            this.dgvUserList.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("Times New Roman", 8F);
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgvUserList.RowsDefaultCellStyle = dataGridViewCellStyle20;
+            this.dgvUserList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvUserList.Size = new System.Drawing.Size(1002, 262);
+            this.dgvUserList.TabIndex = 57;
+            this.dgvUserList.TabStop = false;
+            this.dgvUserList.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUserList_CellEndEdit);
+            // 
+            // UserName
+            // 
+            this.UserName.DataPropertyName = "username";
+            this.UserName.HeaderText = "User Name";
+            this.UserName.Name = "UserName";
+            this.UserName.ReadOnly = true;
+            this.UserName.Width = 89;
+            // 
+            // Password
+            // 
+            this.Password.DataPropertyName = "pass";
+            this.Password.HeaderText = "Password";
+            this.Password.Name = "Password";
+            this.Password.Width = 80;
+            // 
+            // Type
+            // 
+            this.Type.DataPropertyName = "usertype";
+            this.Type.HeaderText = "User Type";
+            this.Type.Name = "Type";
+            this.Type.ReadOnly = true;
+            this.Type.Width = 82;
+            // 
+            // CreatedOn
+            // 
+            this.CreatedOn.DataPropertyName = "createdon";
+            this.CreatedOn.HeaderText = "Creation Date";
+            this.CreatedOn.Name = "CreatedOn";
+            this.CreatedOn.ReadOnly = true;
+            this.CreatedOn.Width = 97;
+            // 
+            // Updatetiondate
+            // 
+            this.Updatetiondate.DataPropertyName = "updatedon";
+            this.Updatetiondate.HeaderText = "Update Date";
+            this.Updatetiondate.Name = "Updatetiondate";
+            this.Updatetiondate.ReadOnly = true;
+            this.Updatetiondate.Width = 87;
+            // 
+            // Active
+            // 
+            this.Active.DataPropertyName = "active";
+            this.Active.HeaderText = "Active";
+            this.Active.Name = "Active";
+            this.Active.Width = 45;
             // 
             // OrderUpload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1034, 451);
+            this.Controls.Add(this.lblUserType);
+            this.Controls.Add(this.lblUserName);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.lblTime);
             this.Controls.Add(this.lblDate);
@@ -767,13 +1041,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvResult)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvResult1)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvUserList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -826,6 +1105,25 @@
         private System.Windows.Forms.ComboBox cmbOrderStatus;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.PictureBox pictureBox2;
+        public System.Windows.Forms.Label lblUserName;
+        public System.Windows.Forms.Label lblUserType;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Button btnusercreate;
+        private System.Windows.Forms.ComboBox cmbusertype;
+        internal System.Windows.Forms.Label label1;
+        internal System.Windows.Forms.Label label2;
+        internal System.Windows.Forms.TextBox txtPassword;
+        internal System.Windows.Forms.Label label10;
+        internal System.Windows.Forms.TextBox txtUsername;
+        private System.Windows.Forms.GroupBox groupBox8;
+        internal System.Windows.Forms.DataGridView dgvUserList;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UserName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Password;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CreatedOn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Updatetiondate;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Active;
     }
 }
 
