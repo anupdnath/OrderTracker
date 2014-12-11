@@ -89,22 +89,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.txtLocation1 = new System.Windows.Forms.TextBox();
             this.btnbrowse1 = new System.Windows.Forms.Button();
-            this.timerdt = new System.Windows.Forms.Timer(this.components);
-            this.lblTime = new System.Windows.Forms.Label();
-            this.lblDate = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.lblUserName = new System.Windows.Forms.Label();
-            this.lblUserType = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.cmbusertype = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.txtUsername = new System.Windows.Forms.TextBox();
-            this.btnusercreate = new System.Windows.Forms.Button();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.dgvUserList = new System.Windows.Forms.DataGridView();
             this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -113,6 +98,21 @@
             this.CreatedOn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Updatetiondate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Active = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.btnusercreate = new System.Windows.Forms.Button();
+            this.cmbusertype = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtUsername = new System.Windows.Forms.TextBox();
+            this.timerdt = new System.Windows.Forms.Timer(this.components);
+            this.lblTime = new System.Windows.Forms.Label();
+            this.lblDate = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.lblUserName = new System.Windows.Forms.Label();
+            this.lblUserType = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -126,12 +126,12 @@
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResult1)).BeginInit();
             this.groupBox6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabPage4.SuspendLayout();
-            this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUserList)).BeginInit();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -320,7 +320,6 @@
             this.gridProduct.DefaultCellStyle = dataGridViewCellStyle3;
             this.gridProduct.Dock = System.Windows.Forms.DockStyle.Top;
             this.gridProduct.Location = new System.Drawing.Point(3, 16);
-            this.gridProduct.MultiSelect = false;
             this.gridProduct.Name = "gridProduct";
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
@@ -724,76 +723,6 @@
             this.btnbrowse1.UseVisualStyleBackColor = true;
             this.btnbrowse1.Click += new System.EventHandler(this.btnbrowse1_Click);
             // 
-            // timerdt
-            // 
-            this.timerdt.Enabled = true;
-            this.timerdt.Interval = 1000;
-            this.timerdt.Tick += new System.EventHandler(this.timerdt_Tick);
-            // 
-            // lblTime
-            // 
-            this.lblTime.AutoSize = true;
-            this.lblTime.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblTime.Location = new System.Drawing.Point(876, 53);
-            this.lblTime.Name = "lblTime";
-            this.lblTime.Size = new System.Drawing.Size(36, 18);
-            this.lblTime.TabIndex = 7;
-            this.lblTime.Text = "Time";
-            // 
-            // lblDate
-            // 
-            this.lblDate.AutoSize = true;
-            this.lblDate.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblDate.Location = new System.Drawing.Point(876, 30);
-            this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(34, 18);
-            this.lblDate.TabIndex = 6;
-            this.lblDate.Text = "Date";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::OrderTracker.Properties.Resources.snapdeal_logo;
-            this.pictureBox1.Location = new System.Drawing.Point(7, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(176, 51);
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackgroundImage = global::OrderTracker.Properties.Resources.CLOCK;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.pictureBox2.Location = new System.Drawing.Point(831, 32);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(39, 39);
-            this.pictureBox2.TabIndex = 8;
-            this.pictureBox2.TabStop = false;
-            // 
-            // lblUserName
-            // 
-            this.lblUserName.AutoSize = true;
-            this.lblUserName.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUserName.ForeColor = System.Drawing.Color.Teal;
-            this.lblUserName.Location = new System.Drawing.Point(876, 3);
-            this.lblUserName.Name = "lblUserName";
-            this.lblUserName.Size = new System.Drawing.Size(69, 18);
-            this.lblUserName.TabIndex = 9;
-            this.lblUserName.Text = "Guest User";
-            // 
-            // lblUserType
-            // 
-            this.lblUserType.AutoSize = true;
-            this.lblUserType.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUserType.ForeColor = System.Drawing.Color.Teal;
-            this.lblUserType.Location = new System.Drawing.Point(791, 3);
-            this.lblUserType.Name = "lblUserType";
-            this.lblUserType.Size = new System.Drawing.Size(61, 18);
-            this.lblUserType.TabIndex = 10;
-            this.lblUserType.Text = "UserType";
-            this.lblUserType.Visible = false;
-            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.groupBox8);
@@ -805,98 +734,6 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Login Access";
             this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // groupBox7
-            // 
-            this.groupBox7.Controls.Add(this.btnusercreate);
-            this.groupBox7.Controls.Add(this.cmbusertype);
-            this.groupBox7.Controls.Add(this.label1);
-            this.groupBox7.Controls.Add(this.label2);
-            this.groupBox7.Controls.Add(this.txtPassword);
-            this.groupBox7.Controls.Add(this.label10);
-            this.groupBox7.Controls.Add(this.txtUsername);
-            this.groupBox7.Location = new System.Drawing.Point(6, 3);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(1008, 55);
-            this.groupBox7.TabIndex = 1;
-            this.groupBox7.TabStop = false;
-            // 
-            // cmbusertype
-            // 
-            this.cmbusertype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbusertype.FormattingEnabled = true;
-            this.cmbusertype.Items.AddRange(new object[] {
-            "ADMIN",
-            "USER"});
-            this.cmbusertype.Location = new System.Drawing.Point(570, 19);
-            this.cmbusertype.Name = "cmbusertype";
-            this.cmbusertype.Size = new System.Drawing.Size(88, 21);
-            this.cmbusertype.TabIndex = 40;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(461, 22);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(88, 17);
-            this.label1.TabIndex = 39;
-            this.label1.Text = "User Type:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(7, 21);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(86, 17);
-            this.label2.TabIndex = 37;
-            this.label2.Text = "Username:";
-            // 
-            // txtPassword
-            // 
-            this.txtPassword.Location = new System.Drawing.Point(317, 21);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(138, 20);
-            this.txtPassword.TabIndex = 36;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.BackColor = System.Drawing.Color.Transparent;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(233, 22);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(82, 17);
-            this.label10.TabIndex = 38;
-            this.label10.Text = "Password:";
-            // 
-            // txtUsername
-            // 
-            this.txtUsername.Location = new System.Drawing.Point(92, 22);
-            this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(138, 20);
-            this.txtUsername.TabIndex = 35;
-            // 
-            // btnusercreate
-            // 
-            this.btnusercreate.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnusercreate.Image = global::OrderTracker.Properties.Resources.gnome_session;
-            this.btnusercreate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnusercreate.Location = new System.Drawing.Point(694, 15);
-            this.btnusercreate.Name = "btnusercreate";
-            this.btnusercreate.Size = new System.Drawing.Size(98, 30);
-            this.btnusercreate.TabIndex = 41;
-            this.btnusercreate.Text = "Create";
-            this.btnusercreate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnusercreate.UseVisualStyleBackColor = true;
-            this.btnusercreate.Click += new System.EventHandler(this.btnusercreate_Click);
             // 
             // groupBox8
             // 
@@ -974,7 +811,7 @@
             this.UserName.HeaderText = "User Name";
             this.UserName.Name = "UserName";
             this.UserName.ReadOnly = true;
-            this.UserName.Width = 89;
+            this.UserName.Width = 82;
             // 
             // Password
             // 
@@ -989,7 +826,7 @@
             this.Type.HeaderText = "User Type";
             this.Type.Name = "Type";
             this.Type.ReadOnly = true;
-            this.Type.Width = 82;
+            this.Type.Width = 76;
             // 
             // CreatedOn
             // 
@@ -1013,6 +850,168 @@
             this.Active.HeaderText = "Active";
             this.Active.Name = "Active";
             this.Active.Width = 45;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.btnusercreate);
+            this.groupBox7.Controls.Add(this.cmbusertype);
+            this.groupBox7.Controls.Add(this.label1);
+            this.groupBox7.Controls.Add(this.label2);
+            this.groupBox7.Controls.Add(this.txtPassword);
+            this.groupBox7.Controls.Add(this.label10);
+            this.groupBox7.Controls.Add(this.txtUsername);
+            this.groupBox7.Location = new System.Drawing.Point(6, 3);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(1008, 55);
+            this.groupBox7.TabIndex = 1;
+            this.groupBox7.TabStop = false;
+            // 
+            // btnusercreate
+            // 
+            this.btnusercreate.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnusercreate.Image = global::OrderTracker.Properties.Resources.gnome_session;
+            this.btnusercreate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnusercreate.Location = new System.Drawing.Point(694, 15);
+            this.btnusercreate.Name = "btnusercreate";
+            this.btnusercreate.Size = new System.Drawing.Size(98, 30);
+            this.btnusercreate.TabIndex = 41;
+            this.btnusercreate.Text = "Create";
+            this.btnusercreate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnusercreate.UseVisualStyleBackColor = true;
+            this.btnusercreate.Click += new System.EventHandler(this.btnusercreate_Click);
+            // 
+            // cmbusertype
+            // 
+            this.cmbusertype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbusertype.FormattingEnabled = true;
+            this.cmbusertype.Items.AddRange(new object[] {
+            "ADMIN",
+            "USER"});
+            this.cmbusertype.Location = new System.Drawing.Point(570, 19);
+            this.cmbusertype.Name = "cmbusertype";
+            this.cmbusertype.Size = new System.Drawing.Size(88, 21);
+            this.cmbusertype.TabIndex = 40;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(461, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(88, 17);
+            this.label1.TabIndex = 39;
+            this.label1.Text = "User Type:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(7, 21);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(86, 17);
+            this.label2.TabIndex = 37;
+            this.label2.Text = "Username:";
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(317, 21);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.PasswordChar = '*';
+            this.txtPassword.Size = new System.Drawing.Size(138, 20);
+            this.txtPassword.TabIndex = 36;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Black;
+            this.label10.Location = new System.Drawing.Point(233, 22);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(82, 17);
+            this.label10.TabIndex = 38;
+            this.label10.Text = "Password:";
+            // 
+            // txtUsername
+            // 
+            this.txtUsername.Location = new System.Drawing.Point(92, 22);
+            this.txtUsername.Name = "txtUsername";
+            this.txtUsername.Size = new System.Drawing.Size(138, 20);
+            this.txtUsername.TabIndex = 35;
+            // 
+            // timerdt
+            // 
+            this.timerdt.Enabled = true;
+            this.timerdt.Interval = 1000;
+            this.timerdt.Tick += new System.EventHandler(this.timerdt_Tick);
+            // 
+            // lblTime
+            // 
+            this.lblTime.AutoSize = true;
+            this.lblTime.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblTime.Location = new System.Drawing.Point(876, 53);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(36, 18);
+            this.lblTime.TabIndex = 7;
+            this.lblTime.Text = "Time";
+            // 
+            // lblDate
+            // 
+            this.lblDate.AutoSize = true;
+            this.lblDate.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblDate.Location = new System.Drawing.Point(876, 30);
+            this.lblDate.Name = "lblDate";
+            this.lblDate.Size = new System.Drawing.Size(34, 18);
+            this.lblDate.TabIndex = 6;
+            this.lblDate.Text = "Date";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::OrderTracker.Properties.Resources.snapdeal_logo;
+            this.pictureBox1.Location = new System.Drawing.Point(7, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(176, 51);
+            this.pictureBox1.TabIndex = 3;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackgroundImage = global::OrderTracker.Properties.Resources.CLOCK;
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pictureBox2.Location = new System.Drawing.Point(831, 32);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(39, 39);
+            this.pictureBox2.TabIndex = 8;
+            this.pictureBox2.TabStop = false;
+            // 
+            // lblUserName
+            // 
+            this.lblUserName.AutoSize = true;
+            this.lblUserName.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUserName.ForeColor = System.Drawing.Color.Teal;
+            this.lblUserName.Location = new System.Drawing.Point(876, 3);
+            this.lblUserName.Name = "lblUserName";
+            this.lblUserName.Size = new System.Drawing.Size(69, 18);
+            this.lblUserName.TabIndex = 9;
+            this.lblUserName.Text = "Guest User";
+            // 
+            // lblUserType
+            // 
+            this.lblUserType.AutoSize = true;
+            this.lblUserType.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUserType.ForeColor = System.Drawing.Color.Teal;
+            this.lblUserType.Location = new System.Drawing.Point(791, 3);
+            this.lblUserType.Name = "lblUserType";
+            this.lblUserType.Size = new System.Drawing.Size(61, 18);
+            this.lblUserType.TabIndex = 10;
+            this.lblUserType.Text = "UserType";
+            this.lblUserType.Visible = false;
             // 
             // OrderUpload
             // 
@@ -1046,13 +1045,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvResult1)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tabPage4.ResumeLayout(false);
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvUserList)).EndInit();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

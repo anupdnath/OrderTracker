@@ -424,7 +424,7 @@ namespace OrderTracker
         private void btnbrowse_Click(object sender, EventArgs e)
         {
             oOpenFileDialog.Title = "Open File Dialog";
-            oOpenFileDialog.InitialDirectory = "C:\\";
+            oOpenFileDialog.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath);
             oOpenFileDialog.Filter = "Excel/PDF Files|*.xls;*.xlsx;*.pdf;*.csv";
             oOpenFileDialog.FilterIndex = 2;
             oOpenFileDialog.RestoreDirectory = true;
