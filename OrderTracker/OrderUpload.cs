@@ -185,6 +185,8 @@ namespace OrderTracker
                 {
                     destDir = String.Format("{0}\\Output", Application.StartupPath);
                     tempFile = String.Format("{0}\\_temp.pdf", destDir);
+                    if (!Directory.Exists(destDir))
+                        Directory.CreateDirectory(destDir);
 
                     foreach (FileInfo destFinfo in new DirectoryInfo(destDir).GetFiles())
                         destFinfo.Delete();
