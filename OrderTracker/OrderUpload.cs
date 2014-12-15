@@ -141,18 +141,27 @@ namespace OrderTracker
 
         private DateTime DataTableValidationDate(string col, DataTable dt, int i)
         {
-            if (dt.Columns.Contains(col))
+            try
             {
-                if(dt.Rows[i][col].ToString().Length>10)
-                return DateTime.ParseExact(dt.Rows[i][col].ToString(), "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
+                if (dt.Columns.Contains(col))
+                {
+                    DateTime dateTime;
+                    if (DateTime.TryParse(dt.Rows[i][col].ToString(), out dateTime))
+                        return DateTime.ParseExact(dt.Rows[i][col].ToString(), "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
+                    else
+                        return DateTime.ParseExact(dt.Rows[i][col].ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                }
                 else
-                    return DateTime.ParseExact(dt.Rows[i][col].ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                {
+                    return DateTime.ParseExact("01-01-1900", "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                }
             }
-            else
+            catch
             {
                 return DateTime.ParseExact("01-01-1900", "dd-MM-yyyy", CultureInfo.InvariantCulture);
             }
         }
+       
 
         private decimal DataTableValidationDecimal(string col, DataTable dt, int i)
         {
