@@ -84,7 +84,7 @@ namespace OrderTracker
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show("Close your excel file or contact admin");
             }
         }
         private List<OrderMainfest> ParseMainfest(DataTable dt)
@@ -141,27 +141,24 @@ namespace OrderTracker
 
         private DateTime DataTableValidationDate(string col, DataTable dt, int i)
         {
-            try
+            DateTime validdate = DateTime.ParseExact("01-01-1900", "dd-MM-yyyy", CultureInfo.InvariantCulture); ;
+            if (dt.Columns.Contains(col))
             {
-                if (dt.Columns.Contains(col))
+                string format = "dd-MM-yyyy";
+                DateTime dateTime;
+                if (DateTime.TryParseExact(dt.Rows[i][col].ToString(), format, CultureInfo.InvariantCulture,
+                    DateTimeStyles.None, out dateTime))
                 {
-                    DateTime dateTime;
-                    if (DateTime.TryParse(dt.Rows[i][col].ToString(), out dateTime))
-                        return DateTime.ParseExact(dt.Rows[i][col].ToString(), "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
+                    if (dt.Rows[i][col].ToString().Length > 10)
+                        validdate = DateTime.ParseExact(dt.Rows[i][col].ToString(), "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
                     else
-                        return DateTime.ParseExact(dt.Rows[i][col].ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        validdate = DateTime.ParseExact(dt.Rows[i][col].ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                 }
-                else
-                {
-                    return DateTime.ParseExact("01-01-1900", "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                }
+
             }
-            catch
-            {
-                return DateTime.ParseExact("01-01-1900", "dd-MM-yyyy", CultureInfo.InvariantCulture);
-            }
+
+            return validdate;
         }
-       
 
         private decimal DataTableValidationDecimal(string col, DataTable dt, int i)
         {
@@ -181,59 +178,79 @@ namespace OrderTracker
         {
             if (!File.Exists(oOpenFileDialog.FileName))
             {
-                MessageBox.Show("Input file missing","Alert");                
+                MessageBox.Show("Input file missing", "Alert");
                 return;
             }
-           
-           
-            String destDir, tempFile=string.Empty;
+
+
+            String destDir, tempFile = string.Empty;
 
             FileInfo srcFinfo = new FileInfo(oOpenFileDialog.FileName);
             int numberOfPages = new PdfReader(srcFinfo.FullName).NumberOfPages;
-                try
-                {
-                    destDir = String.Format("{0}\\Output", Application.StartupPath);
-                    tempFile = String.Format("{0}\\_temp.pdf", destDir);
-                    if (!Directory.Exists(destDir))
-                        Directory.CreateDirectory(destDir);
+            try
+            {
+                destDir = String.Format("{0}\\Output", Application.StartupPath);
+                tempFile = String.Format("{0}\\_temp.pdf", destDir);
+                if (!Directory.Exists(destDir))
+                    Directory.CreateDirectory(destDir);
 
-                    foreach (FileInfo destFinfo in new DirectoryInfo(destDir).GetFiles())
-                        destFinfo.Delete();
-                }
-                catch { }
+                foreach (FileInfo destFinfo in new DirectoryInfo(destDir).GetFiles())
+                    destFinfo.Delete();
+            }
+            catch { }
 
-            int index;           
-             for (int page = 1; page <= numberOfPages; page++)
+            int index;
+            string hosCode = "", hosdate = "";
+            List<HOS> listHOS = new List<HOS>();
+            bool status = false;
+            for (int page = 1; page <= numberOfPages; page++)
             {
                 try
                 {
-                    string hosCode="", hosdate="";
-                    ExtractPage(srcFinfo.FullName, tempFile, page);
-                       // Read Text from temp file
-                    String fileText = ExtractPageText(tempFile);
-                    String fileText1 = ImportExport.PDFText(tempFile);
 
-                    // Read Employee Code from temp file                   
+                    ExtractPage(srcFinfo.FullName, tempFile, page);
+                    // Read Text from temp file
+                    // String fileText = ExtractPageText(tempFile);
+                    String fileText = ImportExport.PDFText(tempFile);
+
+                    fileText=fileText.Replace("FORMS NEEDED", "");
                     string[] sentences = fileText.Split('\n');
                     foreach (string s in sentences)
                     {
-                        System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(s, "HOS\\w{7}");
-                        if (match.Success)
+                        if (page == 1)
                         {
-                            hosCode=match.Captures[0].Value;                            
+                            System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(s, "HOS\\w{7}");
+                            if (match.Success)
+                            {
+                                hosCode = match.Captures[0].Value;
+                            }
+                            index = s.IndexOf("Handover Sheet Date:");
+                            if (index > -1)
+                            {
+                                hosdate = s.Substring(index + 21, s.Length - (index + 21));
+                            }
                         }
-                        index = s.IndexOf("Handover Sheet Date:");
-                        if (index >-1)
+                        else
                         {
-                            hosdate = s.Substring(index + 21, s.Length - (index + 21));
+                            //rider copy started
+                            System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(s, "HOS\\w{7}");
+                            if (match.Success)
+                            {
+                                status = true;
+                                break;
+                            }
+
                         }
                     }
 
+                    if (status == true)
+                        break;
+
                     index = fileText.IndexOf("Reference Code");
-                    int index1 = fileText.IndexOf("ABC PVT Ltd");
+                    int index1 = fileText.Length - 1;
                     string totalline = fileText.Substring(index + 15, index1 - index - 15);
-                    string[] line=totalline.Split('\n');
-                    List<HOS> listHOS = new List<HOS>();
+                    string[] line = totalline.Split('\n');
+
                     foreach (string str in line)
                     {
                         try
@@ -241,53 +258,65 @@ namespace OrderTracker
                             if (str.Length > 0)
                             {
                                 string[] orderdetails = str.Split(' ');
-                                HOS oHOS = new HOS();
-                                oHOS.SubOrderID = orderdetails[1];
-                                oHOS.Sku = orderdetails[2];
-                                oHOS.Supc = orderdetails[3];
-                                oHOS.AWB = orderdetails[4];
-                                oHOS.Ref = orderdetails[5];
-                                oHOS.CreationDate = System.DateTime.Now;
-                                oHOS.HosNo=hosCode;
-                                oHOS.HosDate=hosdate;
-                                if (oorderhosTableAdapter.GetSuborderCount(orderdetails[1]) > 0)
+                                int result;                                
+                                if (orderdetails.Count() == 6 && int.TryParse(orderdetails[0], out result))
                                 {
-                                    //update
-                                    // oorderhosTableAdapter.UpdateQuery(oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.SubOrderID);
+                                    HOS oHOS = new HOS();
+                                    oHOS.SubOrderID = orderdetails[1];
+                                    oHOS.Sku = orderdetails[2];
+                                    oHOS.Supc = orderdetails[3];
+                                    oHOS.AWB = orderdetails[4];
+                                    oHOS.Ref = orderdetails[5].Replace("\r","");
+                                    oHOS.CreationDate = System.DateTime.Now;
+                                    oHOS.HosNo = hosCode;
+                                    oHOS.HosDate = hosdate;
+                                    listHOS.Add(oHOS);
                                 }
-                                else
-                                {
-                                    //Insert                               
-                                    oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate);
-                                    oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
-                                    OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
-                                    oOrderDetailsEntity.Amount = 0;
-                                    oOrderDetailsEntity.Status = "Shipped";
-                                    oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
-                                    OrderDetailsAU(oOrderDetailsEntity);
-                                }
-                                listHOS.Add(oHOS);
                             }
                         }
                         catch
                         {
                         }
                     }
-                    gridProduct.DataSource = listHOS;
-                    if (listHOS.Count() > 0)
-                    {
-                        MessageBox.Show("Total Record Updated- " + listHOS.Count().ToString());
-                     
-                    }
-                    else
-                    {
-                        MessageBox.Show("No record found", "Alert");
-                    }
                 }
-                 catch{
-                     //MessageBox.Show("Something going wrong","Error");
-                 }
-             }
+                catch
+                {
+                    MessageBox.Show("Something going wrong", "Error");
+                }
+            }
+            ////
+            foreach (HOS oHOS in listHOS)
+            {
+                if (oorderhosTableAdapter.GetSuborderCount(oHOS.SubOrderID) > 0)
+                {
+                    //update
+                    // oorderhosTableAdapter.UpdateQuery(oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.SubOrderID);
+                }
+                else
+                {
+                    //Insert                               
+                    oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate);
+                    oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
+                    OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
+                    oOrderDetailsEntity.Amount = 0;
+                    oOrderDetailsEntity.Status = "Shipped";
+                    oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
+                    OrderDetailsAU(oOrderDetailsEntity);
+                   
+                }
+                               
+            }
+            gridProduct.DataSource = listHOS;
+            if (listHOS.Count() > 0)
+            {
+                MessageBox.Show("Total Record Updated- " + listHOS.Count().ToString());
+
+            }
+            else
+            {
+                MessageBox.Show("No record found", "Alert");
+            }
+
         }
 
         #region [Read Text]
@@ -435,7 +464,7 @@ namespace OrderTracker
         private void btnbrowse_Click(object sender, EventArgs e)
         {
             oOpenFileDialog.Title = "Open File Dialog";
-            oOpenFileDialog.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath);
+           // oOpenFileDialog.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath);
             oOpenFileDialog.Filter = "Excel/PDF Files|*.xls;*.xlsx;*.pdf;*.csv";
             oOpenFileDialog.FilterIndex = 2;
             oOpenFileDialog.RestoreDirectory = true;
@@ -861,7 +890,7 @@ namespace OrderTracker
             }
             else
             {
-                dt = oorderdetailsTableAdapter.GetOrderSearch(fromDT, toDT, status + "%", txtOrderID.Text + "%", amount);
+                dt = oorderdetailsTableAdapter.GetOrderSearch(status + "%", txtOrderID.Text + "%", amount,fromDT, toDT);
             }
              //dgvResult.AutoGenerateColumns = false;
              
@@ -1076,6 +1105,14 @@ namespace OrderTracker
                         {
                             HOS ohos = new HOS();
                             ohos.Ref = match.Captures[0].Value;
+                            //Get Suborder ID
+                            DataTable ordt = new DataTable();
+                            ordt = oorderpackedTableAdapter.GetDataRef(ohos.Ref);
+                            if (ordt.Rows.Count > 0)
+                            {
+                                ohos.SubOrderID = ordt.Rows[0]["suborderid"].ToString();
+
+                            }
                             listHOS.Add(ohos);
                         }                        
                     }
@@ -1084,23 +1121,27 @@ namespace OrderTracker
                     try
                     {
 
-                        //if (oorderhosTableAdapter.GetSuborderCount(orderdetails[1]) > 0)
-                        //{
-                        //    //update
-                        //    // oorderhosTableAdapter.UpdateQuery(oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.SubOrderID);
-                        //}
-                        //else
-                        //{
-                        //    //Insert                               
-                        //    oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate);
-                        //    oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
-                        //    OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
-                        //    oOrderDetailsEntity.Amount = 0;
-                        //    oOrderDetailsEntity.Status = "Shipped";
-                        //    oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
-                        //    OrderDetailsAU(oOrderDetailsEntity);
-                        //}
-                        
+                        foreach (HOS oHOS in listHOS)
+                        {
+                            if (oorderhosTableAdapter.GetSuborderCount(oHOS.SubOrderID) > 0)
+                            {
+                                //update
+                                // oorderhosTableAdapter.UpdateQuery(oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.SubOrderID);
+                            }
+                            else
+                            {
+                                //Insert                               
+                                oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate);
+                                oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
+                                OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
+                                oOrderDetailsEntity.Amount = 0;
+                                oOrderDetailsEntity.Status = "Shipped";
+                                oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
+                                OrderDetailsAU(oOrderDetailsEntity);
+
+                            }
+
+                        }
 
                     }
                     catch
