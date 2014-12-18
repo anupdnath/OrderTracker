@@ -6034,16 +6034,20 @@ namespace OrderTracker.OrderDBTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::MySql.Data.MySqlClient.MySqlCommand[4];
+            this._commandCollection = new global::MySql.Data.MySqlClient.MySqlCommand[5];
             this._commandCollection[0] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = @"SELECT `id`, `suborderid`, `Category`, `Courier`, `Product`, `Reference_Code`, `SKU_Code`, `AWB_Number`, `Order_Verified_Date`, `Order_Created_Date`, `Customer_Name`, `Shipping_Name`, `City`, `State`, `PIN_Code`, `Selling_Price_Per_Item`, `IMEI_SERIAL`, `PromisedShipDate`, `MRP`, `InvoiceCode`, `CreationDate` FROM `orderpacked`";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "SELECT        suborderid\r\nFROM            orderpacked\r\nWHERE        (Reference_Co" +
-                "de = @Reference)";
+            this._commandCollection[1].CommandText = "DELETE FROM orderpacked";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[2] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = "SELECT        suborderid\r\nFROM            orderpacked\r\nWHERE        (Reference_Co" +
+                "de = @Reference)";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             global::MySql.Data.MySqlClient.MySqlParameter param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Reference";
             param.DbType = global::System.Data.DbType.String;
@@ -6051,28 +6055,11 @@ namespace OrderTracker.OrderDBTableAdapters {
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "Reference_Code";
-            this._commandCollection[1].Parameters.Add(param);
-            this._commandCollection[2] = new global::MySql.Data.MySqlClient.MySqlCommand();
-            this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = "SELECT        COUNT(*) AS Expr1\r\nFROM            orderpacked\r\nGROUP BY suborderid" +
-                "\r\nHAVING        (suborderid = @suborderid)";
-            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@suborderid";
-            param.DbType = global::System.Data.DbType.String;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
-            param.Size = 45;
-            param.IsNullable = true;
-            param.SourceColumn = "suborderid";
             this._commandCollection[2].Parameters.Add(param);
             this._commandCollection[3] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[3].Connection = this.Connection;
-            this._commandCollection[3].CommandText = @"INSERT INTO orderpacked
-                         (suborderid, Category, Courier, Product, Reference_Code, SKU_Code, AWB_Number, Order_Verified_Date, Order_Created_Date, Customer_Name, Shipping_Name, 
-                         City, State, PIN_Code, Selling_Price_Per_Item, IMEI_SERIAL, PromisedShipDate, MRP, InvoiceCode, CreationDate)
-VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU_Code, @AWB_Number, @Order_Verified_Date, @Order_Created_Date, 
-                         @Customer_Name, @Shipping_Name, @City, @State, @PIN_Code, @Selling_Price_Per_Item, @IMEI_SERIAL, @PromisedShipDate, @MRP, @InvoiceCode, 
-                         @CreationDate)";
+            this._commandCollection[3].CommandText = "SELECT        COUNT(*) AS Expr1\r\nFROM            orderpacked\r\nGROUP BY suborderid" +
+                "\r\nHAVING        (suborderid = @suborderid)";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@suborderid";
@@ -6082,6 +6069,23 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.IsNullable = true;
             param.SourceColumn = "suborderid";
             this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[4].Connection = this.Connection;
+            this._commandCollection[4].CommandText = @"INSERT INTO orderpacked
+                         (suborderid, Category, Courier, Product, Reference_Code, SKU_Code, AWB_Number, Order_Verified_Date, Order_Created_Date, Customer_Name, Shipping_Name, 
+                         City, State, PIN_Code, Selling_Price_Per_Item, IMEI_SERIAL, PromisedShipDate, MRP, InvoiceCode, CreationDate)
+VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU_Code, @AWB_Number, @Order_Verified_Date, @Order_Created_Date, 
+                         @Customer_Name, @Shipping_Name, @City, @State, @PIN_Code, @Selling_Price_Per_Item, @IMEI_SERIAL, @PromisedShipDate, @MRP, @InvoiceCode, 
+                         @CreationDate)";
+            this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@suborderid";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "suborderid";
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Category";
             param.DbType = global::System.Data.DbType.String;
@@ -6089,7 +6093,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "Category";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Courier";
             param.DbType = global::System.Data.DbType.String;
@@ -6097,7 +6101,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "Courier";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Product";
             param.DbType = global::System.Data.DbType.String;
@@ -6105,7 +6109,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "Product";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Reference_Code";
             param.DbType = global::System.Data.DbType.String;
@@ -6113,7 +6117,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "Reference_Code";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@SKU_Code";
             param.DbType = global::System.Data.DbType.String;
@@ -6121,7 +6125,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "SKU_Code";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@AWB_Number";
             param.DbType = global::System.Data.DbType.String;
@@ -6129,21 +6133,21 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "AWB_Number";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Order_Verified_Date";
             param.DbType = global::System.Data.DbType.DateTime;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
             param.SourceColumn = "Order_Verified_Date";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Order_Created_Date";
             param.DbType = global::System.Data.DbType.DateTime;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
             param.SourceColumn = "Order_Created_Date";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Customer_Name";
             param.DbType = global::System.Data.DbType.String;
@@ -6151,7 +6155,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "Customer_Name";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Shipping_Name";
             param.DbType = global::System.Data.DbType.String;
@@ -6159,7 +6163,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "Shipping_Name";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@City";
             param.DbType = global::System.Data.DbType.String;
@@ -6167,7 +6171,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "City";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@State";
             param.DbType = global::System.Data.DbType.String;
@@ -6175,7 +6179,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "State";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@PIN_Code";
             param.DbType = global::System.Data.DbType.String;
@@ -6183,7 +6187,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "PIN_Code";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Selling_Price_Per_Item";
             param.DbType = global::System.Data.DbType.String;
@@ -6191,7 +6195,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "Selling_Price_Per_Item";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@IMEI_SERIAL";
             param.DbType = global::System.Data.DbType.String;
@@ -6199,14 +6203,14 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "IMEI_SERIAL";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@PromisedShipDate";
             param.DbType = global::System.Data.DbType.DateTime;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
             param.SourceColumn = "PromisedShipDate";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@MRP";
             param.DbType = global::System.Data.DbType.String;
@@ -6214,7 +6218,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "MRP";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@InvoiceCode";
             param.DbType = global::System.Data.DbType.String;
@@ -6222,14 +6226,14 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "InvoiceCode";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@CreationDate";
             param.DbType = global::System.Data.DbType.DateTime;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
             param.SourceColumn = "CreationDate";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6261,7 +6265,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual OrderDB.orderpackedDataTable GetDataRef(string Reference) {
-            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand = this.CommandCollection[2];
             if ((Reference == null)) {
                 this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
             }
@@ -7056,8 +7060,31 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, false)]
+        public virtual int DeleteQuery() {
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[1];
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual global::System.Nullable<long> GetSubOrderCount(string suborderid) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[2];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[3];
             if ((suborderid == null)) {
                 throw new global::System.ArgumentNullException("suborderid");
             }
@@ -7112,7 +7139,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
                     string MRP, 
                     string InvoiceCode, 
                     global::System.Nullable<global::System.DateTime> CreationDate) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[3];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[4];
             if ((suborderid == null)) {
                 throw new global::System.ArgumentNullException("suborderid");
             }
@@ -8792,7 +8819,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::MySql.Data.MySqlClient.MySqlCommand[5];
+            this._commandCollection = new global::MySql.Data.MySqlClient.MySqlCommand[6];
             this._commandCollection[0] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT        suborderid, Sku, Supc, AWB, Ref, CreationDate, hosno, hosdate\r\nFROM" +
@@ -8800,8 +8827,12 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "SELECT        suborderid\r\nFROM            orderhos\r\nWHERE        (Ref = @Ref)";
+            this._commandCollection[1].CommandText = "DELETE FROM orderhos";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[2] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = "SELECT        suborderid\r\nFROM            orderhos\r\nWHERE        (Ref = @Ref)";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             global::MySql.Data.MySqlClient.MySqlParameter param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Ref";
             param.DbType = global::System.Data.DbType.String;
@@ -8809,25 +8840,11 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "Ref";
-            this._commandCollection[1].Parameters.Add(param);
-            this._commandCollection[2] = new global::MySql.Data.MySqlClient.MySqlCommand();
-            this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = "SELECT        COUNT(*) AS Expr1\r\nFROM            orderhos\r\nGROUP BY suborderid\r\nH" +
-                "AVING        (suborderid = @suborderid)";
-            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@suborderid";
-            param.DbType = global::System.Data.DbType.String;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
-            param.Size = 45;
-            param.IsNullable = true;
-            param.SourceColumn = "suborderid";
             this._commandCollection[2].Parameters.Add(param);
             this._commandCollection[3] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[3].Connection = this.Connection;
-            this._commandCollection[3].CommandText = "INSERT INTO orderhos\r\n                         (suborderid, Sku, Supc, AWB, Ref, " +
-                "CreationDate, hosno, hosdate)\r\nVALUES        (@suborderid, @Sku, @Supc, @AWB, @R" +
-                "ef, @CreationDate, @hosno, @hosdate)";
+            this._commandCollection[3].CommandText = "SELECT        COUNT(*) AS Expr1\r\nFROM            orderhos\r\nGROUP BY suborderid\r\nH" +
+                "AVING        (suborderid = @suborderid)";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@suborderid";
@@ -8837,6 +8854,20 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.IsNullable = true;
             param.SourceColumn = "suborderid";
             this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[4].Connection = this.Connection;
+            this._commandCollection[4].CommandText = "INSERT INTO orderhos\r\n                         (suborderid, Sku, Supc, AWB, Ref, " +
+                "CreationDate, hosno, hosdate)\r\nVALUES        (@suborderid, @Sku, @Supc, @AWB, @R" +
+                "ef, @CreationDate, @hosno, @hosdate)";
+            this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@suborderid";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "suborderid";
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Sku";
             param.DbType = global::System.Data.DbType.String;
@@ -8844,7 +8875,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "Sku";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Supc";
             param.DbType = global::System.Data.DbType.String;
@@ -8852,7 +8883,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "Supc";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@AWB";
             param.DbType = global::System.Data.DbType.String;
@@ -8860,7 +8891,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "AWB";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Ref";
             param.DbType = global::System.Data.DbType.String;
@@ -8868,14 +8899,14 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "Ref";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@CreationDate";
             param.DbType = global::System.Data.DbType.DateTime;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
             param.SourceColumn = "CreationDate";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@hosno";
             param.DbType = global::System.Data.DbType.String;
@@ -8883,7 +8914,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 45;
             param.IsNullable = true;
             param.SourceColumn = "hosno";
-            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@hosdate";
             param.DbType = global::System.Data.DbType.String;
@@ -8891,12 +8922,12 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 45;
             param.IsNullable = true;
             param.SourceColumn = "hosdate";
-            this._commandCollection[3].Parameters.Add(param);
-            this._commandCollection[4] = new global::MySql.Data.MySqlClient.MySqlCommand();
-            this._commandCollection[4].Connection = this.Connection;
-            this._commandCollection[4].CommandText = "UPDATE       orderhos\r\nSET                Sku = @Sku, Supc = @Supc , AWB = @AWB ," +
+            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[5] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[5].Connection = this.Connection;
+            this._commandCollection[5].CommandText = "UPDATE       orderhos\r\nSET                Sku = @Sku, Supc = @Supc , AWB = @AWB ," +
                 " Ref = @Ref \r\nWHERE        (suborderid = @suborderid)";
-            this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Sku";
             param.DbType = global::System.Data.DbType.String;
@@ -8904,7 +8935,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "Sku";
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[5].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Supc";
             param.DbType = global::System.Data.DbType.String;
@@ -8912,7 +8943,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "Supc";
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[5].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@AWB";
             param.DbType = global::System.Data.DbType.String;
@@ -8920,7 +8951,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "AWB";
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[5].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Ref";
             param.DbType = global::System.Data.DbType.String;
@@ -8928,7 +8959,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "Ref";
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[5].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@suborderid";
             param.DbType = global::System.Data.DbType.String;
@@ -8937,7 +8968,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.IsNullable = true;
             param.SourceColumn = "suborderid";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[5].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -8969,7 +9000,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual OrderDB.orderhosDataTable GetDataByRef(string Ref) {
-            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand = this.CommandCollection[2];
             if ((Ref == null)) {
                 this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
             }
@@ -9320,8 +9351,31 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, false)]
+        public virtual int DeleteQuery() {
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[1];
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual global::System.Nullable<long> GetSuborderCount(string suborderid) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[2];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[3];
             if ((suborderid == null)) {
                 throw new global::System.ArgumentNullException("suborderid");
             }
@@ -9356,7 +9410,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
         public virtual int InsertQuery(string suborderid, string Sku, string Supc, string AWB, string Ref, global::System.Nullable<global::System.DateTime> CreationDate, string hosno, string hosdate) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[3];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[4];
             if ((suborderid == null)) {
                 throw new global::System.ArgumentNullException("suborderid");
             }
@@ -9427,7 +9481,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateQuery(string Sku, string Supc, string AWB, string Ref, string suborderid) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[4];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[5];
             if ((Sku == null)) {
                 command.Parameters[0].Value = global::System.DBNull.Value;
             }
@@ -9899,7 +9953,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::MySql.Data.MySqlClient.MySqlCommand[9];
+            this._commandCollection = new global::MySql.Data.MySqlClient.MySqlCommand[10];
             this._commandCollection[0] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT        SubOrderID, Status, Remark, UpdatedDate, Amount, CreationDate\r\nFROM" +
@@ -9907,7 +9961,11 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hosdate, IFNULL(o" +
+            this._commandCollection[1].CommandText = "DELETE FROM orderdetails";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[2] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = "SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hosdate, IFNULL(o" +
                 "rderallamount.COD_NON_COD_Credit, 0) AS COD_NON_COD_Credit, \r\n                  " +
                 "       IFNULL(orderallamount.COD_NON_COD_Debit, 0) AS COD_NON_COD_Debit, IFNULL(" +
                 "orderallamount.Incentive, 0) AS Incentive, IFNULL(orderallamount.Disincentive, \r" +
@@ -9928,7 +9986,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
                 "@pSuborderID) AND (orderdetails.Amount >= @pamount) AND \r\n                      " +
                 "   (orderpacked.Order_Created_Date >= @pOrderfrom) AND (orderpacked.Order_Create" +
                 "d_Date <= @pOrderto)";
-            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             global::MySql.Data.MySqlClient.MySqlParameter param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@pstatus";
             param.DbType = global::System.Data.DbType.String;
@@ -9936,7 +9994,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 45;
             param.IsNullable = true;
             param.SourceColumn = "Status";
-            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[2].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@pSuborderID";
             param.DbType = global::System.Data.DbType.String;
@@ -9944,31 +10002,31 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 45;
             param.IsNullable = true;
             param.SourceColumn = "SubOrderID";
-            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[2].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@pamount";
             param.DbType = global::System.Data.DbType.Decimal;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
             param.IsNullable = true;
             param.SourceColumn = "Amount";
-            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[2].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@pOrderfrom";
             param.DbType = global::System.Data.DbType.DateTime;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
             param.SourceColumn = "Order_Created_Date";
-            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[2].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@pOrderto";
             param.DbType = global::System.Data.DbType.DateTime;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
             param.SourceColumn = "Order_Created_Date";
-            this._commandCollection[1].Parameters.Add(param);
-            this._commandCollection[2] = new global::MySql.Data.MySqlClient.MySqlCommand();
-            this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = "SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hosdate, IFNULL(o" +
+            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[3] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[3].Connection = this.Connection;
+            this._commandCollection[3].CommandText = "SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hosdate, IFNULL(o" +
                 "rderallamount.COD_NON_COD_Credit, 0) AS COD_NON_COD_Credit, \r\n                  " +
                 "       IFNULL(orderallamount.COD_NON_COD_Debit, 0) AS COD_NON_COD_Debit, IFNULL(" +
                 "orderallamount.Incentive, 0) AS Incentive, IFNULL(orderallamount.Disincentive, \r" +
@@ -9989,21 +10047,21 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
                 "_Created_Date <= @pOrderto) AND (orderdetails.Status LIKE @pstatus) AND \r\n      " +
                 "                   (orderdetails.SubOrderID LIKE @pSuborderID) AND (orderdetails" +
                 ".Amount <= @pamount)";
-            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@pOrderfrom";
             param.DbType = global::System.Data.DbType.DateTime;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
             param.SourceColumn = "Order_Created_Date";
-            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[3].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@pOrderto";
             param.DbType = global::System.Data.DbType.DateTime;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
             param.SourceColumn = "Order_Created_Date";
-            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[3].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@pstatus";
             param.DbType = global::System.Data.DbType.String;
@@ -10011,7 +10069,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 45;
             param.IsNullable = true;
             param.SourceColumn = "Status";
-            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[3].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@pSuborderID";
             param.DbType = global::System.Data.DbType.String;
@@ -10019,31 +10077,18 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 45;
             param.IsNullable = true;
             param.SourceColumn = "SubOrderID";
-            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[3].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@pamount";
             param.DbType = global::System.Data.DbType.Decimal;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
             param.IsNullable = true;
             param.SourceColumn = "Amount";
-            this._commandCollection[2].Parameters.Add(param);
-            this._commandCollection[3] = new global::MySql.Data.MySqlClient.MySqlCommand();
-            this._commandCollection[3].Connection = this.Connection;
-            this._commandCollection[3].CommandText = "SELECT        Status, SubOrderID\r\nFROM            orderdetails\r\nWHERE        (Sub" +
-                "OrderID = @SubOrderID)";
-            this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@SubOrderID";
-            param.DbType = global::System.Data.DbType.String;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
-            param.Size = 45;
-            param.IsNullable = true;
-            param.SourceColumn = "SubOrderID";
             this._commandCollection[3].Parameters.Add(param);
             this._commandCollection[4] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[4].Connection = this.Connection;
-            this._commandCollection[4].CommandText = "SELECT        COUNT(*) AS Expr1\r\nFROM            orderdetails\r\nGROUP BY SubOrderI" +
-                "D\r\nHAVING        (SubOrderID = @SubOrderID)";
+            this._commandCollection[4].CommandText = "SELECT        Status, SubOrderID\r\nFROM            orderdetails\r\nWHERE        (Sub" +
+                "OrderID = @SubOrderID)";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@SubOrderID";
@@ -10055,9 +10100,8 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             this._commandCollection[4].Parameters.Add(param);
             this._commandCollection[5] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[5].Connection = this.Connection;
-            this._commandCollection[5].CommandText = "INSERT INTO orderdetails\r\n                         (SubOrderID, Status, Remark, U" +
-                "pdatedDate, Amount, CreationDate)\r\nVALUES        (@SubOrderID, @Status, @Remark," +
-                " @UpdatedDate, @Amount, @CreationDate)";
+            this._commandCollection[5].CommandText = "SELECT        COUNT(*) AS Expr1\r\nFROM            orderdetails\r\nGROUP BY SubOrderI" +
+                "D\r\nHAVING        (SubOrderID = @SubOrderID)";
             this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@SubOrderID";
@@ -10067,62 +10111,12 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.IsNullable = true;
             param.SourceColumn = "SubOrderID";
             this._commandCollection[5].Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@Status";
-            param.DbType = global::System.Data.DbType.String;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
-            param.Size = 45;
-            param.IsNullable = true;
-            param.SourceColumn = "Status";
-            this._commandCollection[5].Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@Remark";
-            param.DbType = global::System.Data.DbType.String;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
-            param.Size = 128;
-            param.IsNullable = true;
-            param.SourceColumn = "Remark";
-            this._commandCollection[5].Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@UpdatedDate";
-            param.DbType = global::System.Data.DbType.DateTime;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
-            param.IsNullable = true;
-            param.SourceColumn = "UpdatedDate";
-            this._commandCollection[5].Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@Amount";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
-            param.IsNullable = true;
-            param.SourceColumn = "Amount";
-            this._commandCollection[5].Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@CreationDate";
-            param.DbType = global::System.Data.DbType.DateTime;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
-            param.IsNullable = true;
-            param.SourceColumn = "CreationDate";
-            this._commandCollection[5].Parameters.Add(param);
             this._commandCollection[6] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[6].Connection = this.Connection;
-            this._commandCollection[6].CommandText = "UPDATE       orderdetails\r\nSET                UpdatedDate = @UpdatedDate, Amount " +
-                "= @Amount\r\nWHERE        (SubOrderID = @SubOrderID)";
+            this._commandCollection[6].CommandText = "INSERT INTO orderdetails\r\n                         (SubOrderID, Status, Remark, U" +
+                "pdatedDate, Amount, CreationDate)\r\nVALUES        (@SubOrderID, @Status, @Remark," +
+                " @UpdatedDate, @Amount, @CreationDate)";
             this._commandCollection[6].CommandType = global::System.Data.CommandType.Text;
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@UpdatedDate";
-            param.DbType = global::System.Data.DbType.DateTime;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
-            param.IsNullable = true;
-            param.SourceColumn = "UpdatedDate";
-            this._commandCollection[6].Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@Amount";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
-            param.IsNullable = true;
-            param.SourceColumn = "Amount";
-            this._commandCollection[6].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@SubOrderID";
             param.DbType = global::System.Data.DbType.String;
@@ -10130,14 +10124,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 45;
             param.IsNullable = true;
             param.SourceColumn = "SubOrderID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._commandCollection[6].Parameters.Add(param);
-            this._commandCollection[7] = new global::MySql.Data.MySqlClient.MySqlCommand();
-            this._commandCollection[7].Connection = this.Connection;
-            this._commandCollection[7].CommandText = "UPDATE       orderdetails\r\nSET                Status = @Status , Remark = @Remark" +
-                " , UpdatedDate = @UpdatedDate ,Amount = Amount + @Amount\r\nWHERE        (SubOrder" +
-                "ID = @SubOrderID)";
-            this._commandCollection[7].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Status";
             param.DbType = global::System.Data.DbType.String;
@@ -10145,7 +10132,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 45;
             param.IsNullable = true;
             param.SourceColumn = "Status";
-            this._commandCollection[7].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Remark";
             param.DbType = global::System.Data.DbType.String;
@@ -10153,7 +10140,33 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 128;
             param.IsNullable = true;
             param.SourceColumn = "Remark";
-            this._commandCollection[7].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@UpdatedDate";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
+            param.IsNullable = true;
+            param.SourceColumn = "UpdatedDate";
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@Amount";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
+            param.IsNullable = true;
+            param.SourceColumn = "Amount";
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@CreationDate";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
+            param.IsNullable = true;
+            param.SourceColumn = "CreationDate";
+            this._commandCollection[6].Parameters.Add(param);
+            this._commandCollection[7] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[7].Connection = this.Connection;
+            this._commandCollection[7].CommandText = "UPDATE       orderdetails\r\nSET                UpdatedDate = @UpdatedDate, Amount " +
+                "= @Amount\r\nWHERE        (SubOrderID = @SubOrderID)";
+            this._commandCollection[7].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@UpdatedDate";
             param.DbType = global::System.Data.DbType.DateTime;
@@ -10179,15 +10192,25 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             this._commandCollection[7].Parameters.Add(param);
             this._commandCollection[8] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[8].Connection = this.Connection;
-            this._commandCollection[8].CommandText = "UPDATE       orderdetails\r\nSET                Amount = Amount + @Amount, UpdatedD" +
-                "ate = @UpdatedDate\r\nWHERE        (SubOrderID = @SubOrderID)";
+            this._commandCollection[8].CommandText = "UPDATE       orderdetails\r\nSET                Status = @Status , Remark = @Remark" +
+                " , UpdatedDate = @UpdatedDate ,Amount = Amount + @Amount\r\nWHERE        (SubOrder" +
+                "ID = @SubOrderID)";
             this._commandCollection[8].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@Amount";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
+            param.ParameterName = "@Status";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
             param.IsNullable = true;
-            param.SourceColumn = "Amount";
+            param.SourceColumn = "Status";
+            this._commandCollection[8].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@Remark";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 128;
+            param.IsNullable = true;
+            param.SourceColumn = "Remark";
             this._commandCollection[8].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@UpdatedDate";
@@ -10195,6 +10218,13 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
             param.SourceColumn = "UpdatedDate";
+            this._commandCollection[8].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@Amount";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
+            param.IsNullable = true;
+            param.SourceColumn = "Amount";
             this._commandCollection[8].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@SubOrderID";
@@ -10205,6 +10235,34 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.SourceColumn = "SubOrderID";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._commandCollection[8].Parameters.Add(param);
+            this._commandCollection[9] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[9].Connection = this.Connection;
+            this._commandCollection[9].CommandText = "UPDATE       orderdetails\r\nSET                Amount = Amount + @Amount, UpdatedD" +
+                "ate = @UpdatedDate\r\nWHERE        (SubOrderID = @SubOrderID)";
+            this._commandCollection[9].CommandType = global::System.Data.CommandType.Text;
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@Amount";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
+            param.IsNullable = true;
+            param.SourceColumn = "Amount";
+            this._commandCollection[9].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@UpdatedDate";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
+            param.IsNullable = true;
+            param.SourceColumn = "UpdatedDate";
+            this._commandCollection[9].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@SubOrderID";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "SubOrderID";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._commandCollection[9].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -10236,7 +10294,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual OrderDB.orderdetailsDataTable GetOrderSearch(string pstatus, string pSuborderID, global::System.Nullable<decimal> pamount, global::System.Nullable<global::System.DateTime> pOrderfrom, global::System.Nullable<global::System.DateTime> pOrderto) {
-            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand = this.CommandCollection[2];
             if ((pstatus == null)) {
                 this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
             }
@@ -10277,7 +10335,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual OrderDB.orderdetailsDataTable GetOrderSearchLessAmount(global::System.Nullable<global::System.DateTime> pOrderfrom, global::System.Nullable<global::System.DateTime> pOrderto, string pstatus, string pSuborderID, global::System.Nullable<decimal> pamount) {
-            this.Adapter.SelectCommand = this.CommandCollection[2];
+            this.Adapter.SelectCommand = this.CommandCollection[3];
             if ((pOrderfrom.HasValue == true)) {
                 this.Adapter.SelectCommand.Parameters[0].Value = ((System.DateTime)(pOrderfrom.Value));
             }
@@ -10318,7 +10376,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual OrderDB.orderdetailsDataTable GetOrderStatus(string SubOrderID) {
-            this.Adapter.SelectCommand = this.CommandCollection[3];
+            this.Adapter.SelectCommand = this.CommandCollection[4];
             if ((SubOrderID == null)) {
                 throw new global::System.ArgumentNullException("SubOrderID");
             }
@@ -10597,8 +10655,31 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, false)]
+        public virtual int DeleteQuery() {
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[1];
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual global::System.Nullable<long> GetSuborderCount(string SubOrderID) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[4];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[5];
             if ((SubOrderID == null)) {
                 throw new global::System.ArgumentNullException("SubOrderID");
             }
@@ -10633,7 +10714,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
         public virtual int InsertQuery(string SubOrderID, string Status, string Remark, global::System.Nullable<global::System.DateTime> UpdatedDate, global::System.Nullable<decimal> Amount, global::System.Nullable<global::System.DateTime> CreationDate) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[5];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[6];
             if ((SubOrderID == null)) {
                 throw new global::System.ArgumentNullException("SubOrderID");
             }
@@ -10692,7 +10773,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateAmount(global::System.Nullable<global::System.DateTime> UpdatedDate, global::System.Nullable<decimal> Amount, string SubOrderID) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[6];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[7];
             if ((UpdatedDate.HasValue == true)) {
                 command.Parameters[0].Value = ((System.DateTime)(UpdatedDate.Value));
             }
@@ -10733,7 +10814,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateBySubOrderId(string Status, string Remark, global::System.Nullable<global::System.DateTime> UpdatedDate, global::System.Nullable<decimal> Amount, string SubOrderID) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[7];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[8];
             if ((Status == null)) {
                 command.Parameters[0].Value = global::System.DBNull.Value;
             }
@@ -10786,7 +10867,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateOrderAmount(global::System.Nullable<decimal> Amount, global::System.Nullable<global::System.DateTime> UpdatedDate, string SubOrderID) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[8];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[9];
             if ((Amount.HasValue == true)) {
                 command.Parameters[0].Value = ((decimal)(Amount.Value));
             }
@@ -11118,16 +11199,20 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::MySql.Data.MySqlClient.MySqlCommand[3];
+            this._commandCollection = new global::MySql.Data.MySqlClient.MySqlCommand[4];
             this._commandCollection[0] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT `id`, `suborderid`, `remark`, `creationDate` FROM `ordertransection`";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "SELECT        id, suborderid, remark, creationDate\r\nFROM            ordertransect" +
-                "ion\r\nWHERE        (suborderid = @suborderid)\r\nORDER BY creationDate DESC";
+            this._commandCollection[1].CommandText = "DELETE FROM ordertransection";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[2] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = "SELECT        id, suborderid, remark, creationDate\r\nFROM            ordertransect" +
+                "ion\r\nWHERE        (suborderid = @suborderid)\r\nORDER BY creationDate DESC";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             global::MySql.Data.MySqlClient.MySqlParameter param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@suborderid";
             param.DbType = global::System.Data.DbType.String;
@@ -11135,12 +11220,12 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 45;
             param.IsNullable = true;
             param.SourceColumn = "suborderid";
-            this._commandCollection[1].Parameters.Add(param);
-            this._commandCollection[2] = new global::MySql.Data.MySqlClient.MySqlCommand();
-            this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = "INSERT INTO `ordertransection` (`suborderid`, `remark`, `creationDate`) VALUES (@" +
+            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[3] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[3].Connection = this.Connection;
+            this._commandCollection[3].CommandText = "INSERT INTO `ordertransection` (`suborderid`, `remark`, `creationDate`) VALUES (@" +
                 "suborderid, @remark, @creationDate)";
-            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@suborderid";
             param.DbType = global::System.Data.DbType.String;
@@ -11148,7 +11233,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 45;
             param.IsNullable = true;
             param.SourceColumn = "suborderid";
-            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[3].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@remark";
             param.DbType = global::System.Data.DbType.String;
@@ -11156,14 +11241,14 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.Size = 128;
             param.IsNullable = true;
             param.SourceColumn = "remark";
-            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[3].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@creationDate";
             param.DbType = global::System.Data.DbType.DateTime;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
             param.SourceColumn = "creationDate";
-            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[3].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11195,7 +11280,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual OrderDB.ordertransectionDataTable GetTransBySuborderId(string suborderid) {
-            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand = this.CommandCollection[2];
             if ((suborderid == null)) {
                 throw new global::System.ArgumentNullException("suborderid");
             }
@@ -11384,9 +11469,32 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, false)]
+        public virtual int DeleteQuery() {
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[1];
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
         public virtual int InsertQuery(string suborderid, string remark, global::System.Nullable<global::System.DateTime> creationDate) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[2];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[3];
             if ((suborderid == null)) {
                 throw new global::System.ArgumentNullException("suborderid");
             }
@@ -12041,7 +12149,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::MySql.Data.MySqlClient.MySqlCommand[14];
+            this._commandCollection = new global::MySql.Data.MySqlClient.MySqlCommand[15];
             this._commandCollection[0] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT `Suborderid`, `COD_NON_COD_Credit`, `COD_NON_COD_Debit`, `Incentive`, `Dis" +
@@ -12050,26 +12158,14 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "SELECT        COUNT(*) AS Expr1\r\nFROM            orderallamount\r\nWHERE        (Su" +
-                "borderid = @suborderid)";
+            this._commandCollection[1].CommandText = "DELETE FROM orderallamount";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
-            global::MySql.Data.MySqlClient.MySqlParameter param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@suborderid";
-            param.DbType = global::System.Data.DbType.String;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
-            param.Size = 45;
-            param.IsNullable = true;
-            param.SourceColumn = "Suborderid";
-            this._commandCollection[1].Parameters.Add(param);
             this._commandCollection[2] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = @"SELECT        SUM(COD_NON_COD_Credit) + SUM(COD_NON_COD_Debit) + SUM(COD_NCOD_Wrong_faulty_Debit) + SUM(Stock_Out_Commission) + SUM(Courier_lost_vendor) 
-                         + SUM(COD_Non_COD_Frgt_post_ship) + SUM(RTO_Conflict) AS Total
-FROM            orderallamount
-WHERE        (Suborderid = @suborderid)
-GROUP BY Suborderid";
+            this._commandCollection[2].CommandText = "SELECT        COUNT(*) AS Expr1\r\nFROM            orderallamount\r\nWHERE        (Su" +
+                "borderid = @suborderid)";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            global::MySql.Data.MySqlClient.MySqlParameter param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@suborderid";
             param.DbType = global::System.Data.DbType.String;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
@@ -12079,11 +12175,14 @@ GROUP BY Suborderid";
             this._commandCollection[2].Parameters.Add(param);
             this._commandCollection[3] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[3].Connection = this.Connection;
-            this._commandCollection[3].CommandText = "INSERT INTO orderallamount\r\n                         (Suborderid)\r\nVALUES        " +
-                "(@Suborderid)";
+            this._commandCollection[3].CommandText = @"SELECT        SUM(COD_NON_COD_Credit) + SUM(COD_NON_COD_Debit) + SUM(COD_NCOD_Wrong_faulty_Debit) + SUM(Stock_Out_Commission) + SUM(Courier_lost_vendor) 
+                         + SUM(COD_Non_COD_Frgt_post_ship) + SUM(RTO_Conflict) AS Total
+FROM            orderallamount
+WHERE        (Suborderid = @suborderid)
+GROUP BY Suborderid";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@Suborderid";
+            param.ParameterName = "@suborderid";
             param.DbType = global::System.Data.DbType.String;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
             param.Size = 45;
@@ -12092,14 +12191,11 @@ GROUP BY Suborderid";
             this._commandCollection[3].Parameters.Add(param);
             this._commandCollection[4] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[4].Connection = this.Connection;
-            this._commandCollection[4].CommandText = @"SELECT        SUM(COD_NON_COD_Credit) + SUM(COD_NON_COD_Debit) + SUM(COD_NCOD_Wrong_faulty_Debit) + SUM(Stock_Out_Commission) + SUM(Courier_lost_vendor) 
-                         + SUM(COD_Non_COD_Frgt_post_ship) + SUM(RTO_Conflict) AS Total
-FROM            orderallamount
-WHERE        (Suborderid = @suborderid)
-GROUP BY Suborderid";
+            this._commandCollection[4].CommandText = "INSERT INTO orderallamount\r\n                         (Suborderid)\r\nVALUES        " +
+                "(@Suborderid)";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@suborderid";
+            param.ParameterName = "@Suborderid";
             param.DbType = global::System.Data.DbType.String;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
             param.Size = 45;
@@ -12108,36 +12204,31 @@ GROUP BY Suborderid";
             this._commandCollection[4].Parameters.Add(param);
             this._commandCollection[5] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[5].Connection = this.Connection;
-            this._commandCollection[5].CommandText = "UPDATE       orderallamount\r\nSET                COD_NON_COD_Credit = @COD_NON_COD" +
-                "_Credit \r\nWHERE        (Suborderid = @Suborderid)";
+            this._commandCollection[5].CommandText = @"SELECT        SUM(COD_NON_COD_Credit) + SUM(COD_NON_COD_Debit) + SUM(COD_NCOD_Wrong_faulty_Debit) + SUM(Stock_Out_Commission) + SUM(Courier_lost_vendor) 
+                         + SUM(COD_Non_COD_Frgt_post_ship) + SUM(RTO_Conflict) AS Total
+FROM            orderallamount
+WHERE        (Suborderid = @suborderid)
+GROUP BY Suborderid";
             this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@suborderid";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "Suborderid";
+            this._commandCollection[5].Parameters.Add(param);
+            this._commandCollection[6] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[6].Connection = this.Connection;
+            this._commandCollection[6].CommandText = "UPDATE       orderallamount\r\nSET                COD_NON_COD_Credit = @COD_NON_COD" +
+                "_Credit \r\nWHERE        (Suborderid = @Suborderid)";
+            this._commandCollection[6].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@COD_NON_COD_Credit";
             param.DbType = global::System.Data.DbType.Decimal;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
             param.IsNullable = true;
             param.SourceColumn = "COD_NON_COD_Credit";
-            this._commandCollection[5].Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@Suborderid";
-            param.DbType = global::System.Data.DbType.String;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
-            param.Size = 45;
-            param.IsNullable = true;
-            param.SourceColumn = "Suborderid";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._commandCollection[5].Parameters.Add(param);
-            this._commandCollection[6] = new global::MySql.Data.MySqlClient.MySqlCommand();
-            this._commandCollection[6].Connection = this.Connection;
-            this._commandCollection[6].CommandText = "UPDATE       orderallamount\r\nSET                COD_NON_COD_Debit = @COD_NON_COD_" +
-                "Debit\r\nWHERE        (Suborderid = @Suborderid)";
-            this._commandCollection[6].CommandType = global::System.Data.CommandType.Text;
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@COD_NON_COD_Debit";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
-            param.IsNullable = true;
-            param.SourceColumn = "COD_NON_COD_Debit";
             this._commandCollection[6].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Suborderid";
@@ -12150,15 +12241,15 @@ GROUP BY Suborderid";
             this._commandCollection[6].Parameters.Add(param);
             this._commandCollection[7] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[7].Connection = this.Connection;
-            this._commandCollection[7].CommandText = "UPDATE       orderallamount\r\nSET                COD_Non_COD_Frgt_post_ship = @COD" +
-                "_Non_COD_Frgt_post_ship\r\nWHERE        (Suborderid = @Suborderid)";
+            this._commandCollection[7].CommandText = "UPDATE       orderallamount\r\nSET                COD_NON_COD_Debit = @COD_NON_COD_" +
+                "Debit\r\nWHERE        (Suborderid = @Suborderid)";
             this._commandCollection[7].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@COD_Non_COD_Frgt_post_ship";
+            param.ParameterName = "@COD_NON_COD_Debit";
             param.DbType = global::System.Data.DbType.Decimal;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
             param.IsNullable = true;
-            param.SourceColumn = "COD_Non_COD_Frgt_post_ship";
+            param.SourceColumn = "COD_NON_COD_Debit";
             this._commandCollection[7].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Suborderid";
@@ -12171,15 +12262,15 @@ GROUP BY Suborderid";
             this._commandCollection[7].Parameters.Add(param);
             this._commandCollection[8] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[8].Connection = this.Connection;
-            this._commandCollection[8].CommandText = "UPDATE       orderallamount\r\nSET                Courier_lost_vendor = @Courier_lo" +
-                "st_vendor\r\nWHERE        (Suborderid = @Suborderid)";
+            this._commandCollection[8].CommandText = "UPDATE       orderallamount\r\nSET                COD_Non_COD_Frgt_post_ship = @COD" +
+                "_Non_COD_Frgt_post_ship\r\nWHERE        (Suborderid = @Suborderid)";
             this._commandCollection[8].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@Courier_lost_vendor";
+            param.ParameterName = "@COD_Non_COD_Frgt_post_ship";
             param.DbType = global::System.Data.DbType.Decimal;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
             param.IsNullable = true;
-            param.SourceColumn = "Courier_lost_vendor";
+            param.SourceColumn = "COD_Non_COD_Frgt_post_ship";
             this._commandCollection[8].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Suborderid";
@@ -12192,15 +12283,15 @@ GROUP BY Suborderid";
             this._commandCollection[8].Parameters.Add(param);
             this._commandCollection[9] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[9].Connection = this.Connection;
-            this._commandCollection[9].CommandText = "UPDATE       orderallamount\r\nSET                Disincentive = @Disincentive\r\nWHE" +
-                "RE        (Suborderid = @Suborderid)";
+            this._commandCollection[9].CommandText = "UPDATE       orderallamount\r\nSET                Courier_lost_vendor = @Courier_lo" +
+                "st_vendor\r\nWHERE        (Suborderid = @Suborderid)";
             this._commandCollection[9].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@Disincentive";
+            param.ParameterName = "@Courier_lost_vendor";
             param.DbType = global::System.Data.DbType.Decimal;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
             param.IsNullable = true;
-            param.SourceColumn = "Disincentive";
+            param.SourceColumn = "Courier_lost_vendor";
             this._commandCollection[9].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Suborderid";
@@ -12213,15 +12304,15 @@ GROUP BY Suborderid";
             this._commandCollection[9].Parameters.Add(param);
             this._commandCollection[10] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[10].Connection = this.Connection;
-            this._commandCollection[10].CommandText = "UPDATE       orderallamount\r\nSET                Incentive = @Incentive\r\nWHERE    " +
-                "    (Suborderid = @Suborderid)";
+            this._commandCollection[10].CommandText = "UPDATE       orderallamount\r\nSET                Disincentive = @Disincentive\r\nWHE" +
+                "RE        (Suborderid = @Suborderid)";
             this._commandCollection[10].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@Incentive";
+            param.ParameterName = "@Disincentive";
             param.DbType = global::System.Data.DbType.Decimal;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
             param.IsNullable = true;
-            param.SourceColumn = "Incentive";
+            param.SourceColumn = "Disincentive";
             this._commandCollection[10].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Suborderid";
@@ -12234,15 +12325,15 @@ GROUP BY Suborderid";
             this._commandCollection[10].Parameters.Add(param);
             this._commandCollection[11] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[11].Connection = this.Connection;
-            this._commandCollection[11].CommandText = "UPDATE       orderallamount\r\nSET                RTO_Conflict = @RTO_Conflict\r\nWHE" +
-                "RE        (Suborderid = @Suborderid)";
+            this._commandCollection[11].CommandText = "UPDATE       orderallamount\r\nSET                Incentive = @Incentive\r\nWHERE    " +
+                "    (Suborderid = @Suborderid)";
             this._commandCollection[11].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@RTO_Conflict";
+            param.ParameterName = "@Incentive";
             param.DbType = global::System.Data.DbType.Decimal;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
             param.IsNullable = true;
-            param.SourceColumn = "RTO_Conflict";
+            param.SourceColumn = "Incentive";
             this._commandCollection[11].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Suborderid";
@@ -12255,15 +12346,15 @@ GROUP BY Suborderid";
             this._commandCollection[11].Parameters.Add(param);
             this._commandCollection[12] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[12].Connection = this.Connection;
-            this._commandCollection[12].CommandText = "UPDATE       orderallamount\r\nSET                Stock_Out_Commission = @Stock_Out" +
-                "_Commission\r\nWHERE        (Suborderid = @Suborderid)";
+            this._commandCollection[12].CommandText = "UPDATE       orderallamount\r\nSET                RTO_Conflict = @RTO_Conflict\r\nWHE" +
+                "RE        (Suborderid = @Suborderid)";
             this._commandCollection[12].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@Stock_Out_Commission";
+            param.ParameterName = "@RTO_Conflict";
             param.DbType = global::System.Data.DbType.Decimal;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
             param.IsNullable = true;
-            param.SourceColumn = "Stock_Out_Commission";
+            param.SourceColumn = "RTO_Conflict";
             this._commandCollection[12].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Suborderid";
@@ -12276,15 +12367,15 @@ GROUP BY Suborderid";
             this._commandCollection[12].Parameters.Add(param);
             this._commandCollection[13] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[13].Connection = this.Connection;
-            this._commandCollection[13].CommandText = "UPDATE       orderallamount\r\nSET                COD_NCOD_Wrong_faulty_Debit = @CO" +
-                "D_NCOD_Wrong_faulty_Debit\r\nWHERE        (Suborderid = @Suborderid)";
+            this._commandCollection[13].CommandText = "UPDATE       orderallamount\r\nSET                Stock_Out_Commission = @Stock_Out" +
+                "_Commission\r\nWHERE        (Suborderid = @Suborderid)";
             this._commandCollection[13].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@COD_NCOD_Wrong_faulty_Debit";
+            param.ParameterName = "@Stock_Out_Commission";
             param.DbType = global::System.Data.DbType.Decimal;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
             param.IsNullable = true;
-            param.SourceColumn = "COD_NCOD_Wrong_faulty_Debit";
+            param.SourceColumn = "Stock_Out_Commission";
             this._commandCollection[13].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Suborderid";
@@ -12295,6 +12386,27 @@ GROUP BY Suborderid";
             param.SourceColumn = "Suborderid";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._commandCollection[13].Parameters.Add(param);
+            this._commandCollection[14] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[14].Connection = this.Connection;
+            this._commandCollection[14].CommandText = "UPDATE       orderallamount\r\nSET                COD_NCOD_Wrong_faulty_Debit = @CO" +
+                "D_NCOD_Wrong_faulty_Debit\r\nWHERE        (Suborderid = @Suborderid)";
+            this._commandCollection[14].CommandType = global::System.Data.CommandType.Text;
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@COD_NCOD_Wrong_faulty_Debit";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
+            param.IsNullable = true;
+            param.SourceColumn = "COD_NCOD_Wrong_faulty_Debit";
+            this._commandCollection[14].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@Suborderid";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "Suborderid";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._commandCollection[14].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -12326,7 +12438,7 @@ GROUP BY Suborderid";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual OrderDB.orderallamountDataTable GetTotalAmount(string suborderid) {
-            this.Adapter.SelectCommand = this.CommandCollection[2];
+            this.Adapter.SelectCommand = this.CommandCollection[3];
             if ((suborderid == null)) {
                 throw new global::System.ArgumentNullException("suborderid");
             }
@@ -12756,8 +12868,31 @@ GROUP BY Suborderid";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual global::System.Nullable<long> GetSubOrderCount(string suborderid) {
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, false)]
+        public virtual int DeleteQuery() {
             global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[1];
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual global::System.Nullable<long> GetSubOrderCount(string suborderid) {
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[2];
             if ((suborderid == null)) {
                 throw new global::System.ArgumentNullException("suborderid");
             }
@@ -12792,7 +12927,7 @@ GROUP BY Suborderid";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
         public virtual int InsertSuborderid(string Suborderid) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[3];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[4];
             if ((Suborderid == null)) {
                 throw new global::System.ArgumentNullException("Suborderid");
             }
@@ -12820,7 +12955,7 @@ GROUP BY Suborderid";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual global::System.Nullable<decimal> TotalAmount(string suborderid) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[4];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[5];
             if ((suborderid == null)) {
                 throw new global::System.ArgumentNullException("suborderid");
             }
@@ -12855,7 +12990,7 @@ GROUP BY Suborderid";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateCOD_NON_COD_Credit(global::System.Nullable<decimal> COD_NON_COD_Credit, string Suborderid) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[5];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[6];
             if ((COD_NON_COD_Credit.HasValue == true)) {
                 command.Parameters[0].Value = ((decimal)(COD_NON_COD_Credit.Value));
             }
@@ -12890,7 +13025,7 @@ GROUP BY Suborderid";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateCOD_NON_COD_Debit(global::System.Nullable<decimal> COD_NON_COD_Debit, string Suborderid) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[6];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[7];
             if ((COD_NON_COD_Debit.HasValue == true)) {
                 command.Parameters[0].Value = ((decimal)(COD_NON_COD_Debit.Value));
             }
@@ -12925,7 +13060,7 @@ GROUP BY Suborderid";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateCOD_Non_COD_Frgt_post_ship(global::System.Nullable<decimal> COD_Non_COD_Frgt_post_ship, string Suborderid) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[7];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[8];
             if ((COD_Non_COD_Frgt_post_ship.HasValue == true)) {
                 command.Parameters[0].Value = ((decimal)(COD_Non_COD_Frgt_post_ship.Value));
             }
@@ -12960,7 +13095,7 @@ GROUP BY Suborderid";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateCourier_lost_vendor(global::System.Nullable<decimal> Courier_lost_vendor, string Suborderid) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[8];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[9];
             if ((Courier_lost_vendor.HasValue == true)) {
                 command.Parameters[0].Value = ((decimal)(Courier_lost_vendor.Value));
             }
@@ -12995,7 +13130,7 @@ GROUP BY Suborderid";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateDisincentive(global::System.Nullable<decimal> Disincentive, string Suborderid) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[9];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[10];
             if ((Disincentive.HasValue == true)) {
                 command.Parameters[0].Value = ((decimal)(Disincentive.Value));
             }
@@ -13030,7 +13165,7 @@ GROUP BY Suborderid";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateIncentive(global::System.Nullable<decimal> Incentive, string Suborderid) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[10];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[11];
             if ((Incentive.HasValue == true)) {
                 command.Parameters[0].Value = ((decimal)(Incentive.Value));
             }
@@ -13065,7 +13200,7 @@ GROUP BY Suborderid";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateRTO_Conflict(global::System.Nullable<decimal> RTO_Conflict, string Suborderid) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[11];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[12];
             if ((RTO_Conflict.HasValue == true)) {
                 command.Parameters[0].Value = ((decimal)(RTO_Conflict.Value));
             }
@@ -13100,7 +13235,7 @@ GROUP BY Suborderid";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateStock_Out_Commission(global::System.Nullable<decimal> Stock_Out_Commission, string Suborderid) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[12];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[13];
             if ((Stock_Out_Commission.HasValue == true)) {
                 command.Parameters[0].Value = ((decimal)(Stock_Out_Commission.Value));
             }
@@ -13135,7 +13270,7 @@ GROUP BY Suborderid";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateWrong_faulty_Debit(global::System.Nullable<decimal> COD_NCOD_Wrong_faulty_Debit, string Suborderid) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[13];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[14];
             if ((COD_NCOD_Wrong_faulty_Debit.HasValue == true)) {
                 command.Parameters[0].Value = ((decimal)(COD_NCOD_Wrong_faulty_Debit.Value));
             }

@@ -19,6 +19,7 @@ namespace OrderTracker
 {
     public partial class OrderUpload : Form
     {
+      
         #region [Global Variable]
          OpenFileDialog oOpenFileDialog = new OpenFileDialog();
         #endregion
@@ -36,16 +37,24 @@ namespace OrderTracker
         }
 
         #region [Mainfest]
-        
-       
         private void btnMainfest_Click(object sender, EventArgs e)
         {
+            BackgroundWorker startWorker = new BackgroundWorker();
+            startWorker.DoWork += btnMainfestClick;
+            startWorker.RunWorkerAsync();
+        }       
+        private void btnMainfestClick(object sender, EventArgs e)
+        {
+
             try
             {
+                DisableAllUpload();
                 oDataTable = new DataTable();
+                //gridProduct.DataSource = oDataTable;
+                ChangeGridViewdt(gridProduct, oDataTable);
                 oDataTable = ImportExport.CSVToDataTable(txtLocation.Text, true);
                 List<OrderMainfest> listOrderMainfest = new List<OrderMainfest>();
-                listOrderMainfest=ParseMainfest(oDataTable);
+                listOrderMainfest = ParseMainfest(oDataTable);
                 if (listOrderMainfest.Count() > 0)
                 {
                     foreach (OrderMainfest or in listOrderMainfest)
@@ -70,8 +79,9 @@ namespace OrderTracker
                         {
                         }
                     }
-                    gridProduct.DataSource = listOrderMainfest;
-                    if(listOrderMainfest.Count()>0)
+                    ChangeGridView(gridProduct, listOrderMainfest.ToList<dynamic>());
+                    //gridProduct.DataSource = listOrderMainfest;
+                    if (listOrderMainfest.Count() > 0)
                     {
                         MessageBox.Show("Total Record Updated- " + listOrderMainfest.Count().ToString());
                     }
@@ -80,12 +90,17 @@ namespace OrderTracker
                 {
                     MessageBox.Show("No Record Found");
                 }
-                             
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Close your excel file or contact admin");
             }
+            finally
+            {
+                EnableAllUpload();
+            }
+            //EnableAllUpload();
         }
         private List<OrderMainfest> ParseMainfest(DataTable dt)
         {
@@ -144,7 +159,7 @@ namespace OrderTracker
             DateTime validdate = DateTime.ParseExact("01-01-1900", "dd-MM-yyyy", CultureInfo.InvariantCulture); ;
             if (dt.Columns.Contains(col))
             {
-                string format = "dd-MM-yyyy";
+                string format = "dd-MM-yyyy HH:mm";
                 DateTime dateTime;
                 if (DateTime.TryParseExact(dt.Rows[i][col].ToString(), format, CultureInfo.InvariantCulture,
                     DateTimeStyles.None, out dateTime))
@@ -173,12 +188,85 @@ namespace OrderTracker
         }
         #endregion
 
+        #region [Delegated & Events]
+        private delegate void ChangeButtonTextDelegate(Button button, String Text);
+        private void ChangeButtonText(Button button, String Text)
+        {
+            if (this.InvokeRequired)
+            {
+                ChangeButtonTextDelegate d = new ChangeButtonTextDelegate(ChangeButtonText);
+                this.Invoke(d, button, Text);
+            }
+            else
+                button.Text = Text;
+        }
+
+        private delegate void ChangeControlStateDelegate(Control control, Boolean Enabled);
+        private void ChangeControlState(Control control, Boolean Enabled)
+        {
+            if (this.InvokeRequired)
+            {
+                ChangeControlStateDelegate d = new ChangeControlStateDelegate(ChangeControlState);
+                this.Invoke(d, control, Enabled);
+            }
+            else
+                control.Enabled = Enabled;
+        }
+
+        private delegate void ChangeGridViewDelegate(DataGridView lvItem, List<dynamic> listHos);
+        private void ChangeGridView(DataGridView lvItem, List<dynamic> listHos)
+        {
+            if (this.InvokeRequired)
+            {
+                ChangeGridViewDelegate d = new ChangeGridViewDelegate(ChangeGridView);
+                this.Invoke(d, lvItem, listHos);
+            }
+            else
+                lvItem.DataSource = listHos;
+        }
+
+        private delegate void ChangeGridViewDelegatedt(DataGridView lvItem, DataTable dt);
+        private void ChangeGridViewdt(DataGridView lvItem, DataTable dt)
+        {
+            if (this.InvokeRequired)
+            {
+                ChangeGridViewDelegatedt d = new ChangeGridViewDelegatedt(ChangeGridViewdt);
+                this.Invoke(d, lvItem, dt);
+            }
+            else
+                lvItem.DataSource = dt;
+        }
+        #endregion
+        
+
         #region [HOS]
         private void btnHOS_Click(object sender, EventArgs e)
         {
+            BackgroundWorker startWorker = new BackgroundWorker();           
+            startWorker.DoWork += btnHOSClick;           
+            startWorker.RunWorkerAsync();
+        }
+        private void startWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                //btnStart.Text = "Please wait...";
+                //btnStart.Enabled = false;
+                //rbtnCrawl.Enabled = rbtnUpdate.Enabled = false;
+                //treeCatagory.Enabled = false;
+                //ChangeButtonText(btnHOS, "Please wait...");
+                //ChangeControlState(btnHOS, false);
+            }
+            catch { }
+        }
+        private void btnHOSClick(object sender, EventArgs e)
+        {
+            DisableAllUpload();
+            
             if (!File.Exists(oOpenFileDialog.FileName))
             {
                 MessageBox.Show("Input file missing", "Alert");
+                EnableAllUpload();
                 return;
             }
 
@@ -202,6 +290,7 @@ namespace OrderTracker
             int index;
             string hosCode = "", hosdate = "";
             List<HOS> listHOS = new List<HOS>();
+            ChangeGridView(gridProduct, listHOS.ToList<dynamic>());
             bool status = false;
             for (int page = 1; page <= numberOfPages; page++)
             {
@@ -285,6 +374,7 @@ namespace OrderTracker
                 }
             }
             ////
+            listHOS = listHOS.GroupBy(x => x.SubOrderID).Select(x => x.First()).ToList();
             foreach (HOS oHOS in listHOS)
             {
                 if (oorderhosTableAdapter.GetSuborderCount(oHOS.SubOrderID) > 0)
@@ -306,7 +396,7 @@ namespace OrderTracker
                 }
                                
             }
-            gridProduct.DataSource = listHOS;
+            ChangeGridView(gridProduct, listHOS.ToList<dynamic>());
             if (listHOS.Count() > 0)
             {
                 MessageBox.Show("Total Record Updated- " + listHOS.Count().ToString());
@@ -316,7 +406,7 @@ namespace OrderTracker
             {
                 MessageBox.Show("No record found", "Alert");
             }
-
+            EnableAllUpload();
         }
 
         #region [Read Text]
@@ -478,24 +568,43 @@ namespace OrderTracker
         #region [Import Payment]
         private void btnPayment_Click(object sender, EventArgs e)
         {
-            DataSet oDataSet = new DataSet();
-            oDataSet = ImportExport.ExcelToDataSet(txtLocation.Text);
-            List<Payment> listOrderPayment = new List<Payment>();
-            if (oDataSet != null)
+            BackgroundWorker startWorker = new BackgroundWorker();
+            startWorker.DoWork += btnPaymentClick;
+            startWorker.RunWorkerAsync();
+        }
+        private void btnPaymentClick(object sender, EventArgs e)
+        {
+            DisableAllUpload();
+            try
             {
-                listOrderPayment = ParsePayment(oDataSet.Tables[0]);
-                var distinctTypeIDs = listOrderPayment.Select(x => x.SuborderID).Distinct();
-                foreach (string p in distinctTypeIDs)
+                DataSet oDataSet = new DataSet();
+                oDataSet = ImportExport.ExcelToDataSet(txtLocation.Text);
+                List<Payment> listOrderPayment = new List<Payment>();
+                ChangeGridView(gridProduct, listOrderPayment.ToList<dynamic>());
+                if (oDataSet != null)
                 {
-                    var paymentlist = (from o in listOrderPayment where o.SuborderID == p select o).ToList();
-                    PaymentStatus(paymentlist);
+                    listOrderPayment = ParsePayment(oDataSet.Tables[0]);
+                    var distinctTypeIDs = listOrderPayment.Select(x => x.SuborderID).Distinct();
+                    foreach (string p in distinctTypeIDs)
+                    {
+                        var paymentlist = (from o in listOrderPayment where o.SuborderID == p select o).ToList();
+                        PaymentStatus(paymentlist);
+                    }
+                    ChangeGridView(gridProduct, listOrderPayment.ToList<dynamic>());
+                    MessageBox.Show("Total Record Updated- " + listOrderPayment.Count().ToString());
                 }
-                gridProduct.DataSource = listOrderPayment;
-                MessageBox.Show("Total Record Updated- " + listOrderPayment.Count().ToString());
+                else
+                {
+                    MessageBox.Show("No Record Found");
+                }
             }
-            else
+            catch {
+                MessageBox.Show("Please contact Admin");
+            }
+            finally
             {
-                MessageBox.Show("No Record Found");
+              
+                EnableAllUpload();
             }
         }
 
@@ -841,67 +950,98 @@ namespace OrderTracker
 
         #region [Search Order]
         private void btnSearch_Click(object sender, EventArgs e)
-        {           
+        {
+            BackgroundWorker startWorker = new BackgroundWorker();
+            startWorker.DoWork += btnSearchClick;
+            startWorker.RunWorkerAsync();
+        }
+        private void btnSearchClick(object sender, EventArgs e)
+        {
+            DisableAllUpload();
             DataTable dt = new DataTable();
+           ChangeGridViewdt(dgvResult,dt);
             DateTime fromDT,toDT;
             decimal amount=0;
             string status;
-            if(dtpFrom.Value.ToString()!="")
+
+            string txtOrderIDtext = string.Empty;
+            this.Invoke(new MethodInvoker(delegate() { txtOrderIDtext = txtOrderID.Text; }));
+
+            string dtpFromtext = string.Empty;
+            this.Invoke(new MethodInvoker(delegate() { dtpFromtext = dtpFrom.Value.ToString(); }));
+            if (dtpFromtext != "")
             {
-                fromDT=dtpFrom.Value.Date;
+                if (txtOrderIDtext != "")
+                    fromDT = DateTime.Parse("01-01-2000");
+                else
+                    fromDT = DateTime.Parse(dtpFromtext);
             }
             else
             {
                fromDT=DateTime.Parse("01-01-2000"); 
             }
 
-             if(dtpTo.Value.ToString()!="")
+            string dtpTotext = string.Empty;
+            this.Invoke(new MethodInvoker(delegate() { dtpTotext = dtpFrom.Value.ToString(); }));
+            if (dtpTotext != "")
             {
-                toDT=dtpTo.Value.Date;
+                if (txtOrderIDtext != "")
+                    toDT = DateTime.Parse(dtpTotext);
+                else
+                    toDT = DateTime.Parse("01-01-2099"); 
             }
             else
             {
                toDT=DateTime.Parse("01-01-2099"); 
             }
-            if(cmbAmount.Text=="" || cmbAmount.Text=="ALL")
+
+            string cmbAmounttext = string.Empty;
+            this.Invoke(new MethodInvoker(delegate() { cmbAmounttext = cmbAmount.Text; }));
+            if (cmbAmounttext == "" || cmbAmounttext == "ALL")
             {
                 amount=-1000000;
             }
-            else if(cmbAmount.Text=="+VE" )
+            else if (cmbAmounttext == "+VE")
             {
                 amount = 1;
             }
-            else if (cmbAmount.Text == "-VE")
+            else if (cmbAmounttext == "-VE")
             {
                 amount = 1;
             }
-            if (cmbStatus.SelectedText == "All" || cmbStatus.SelectedText == "")
+
+            string cmbStatustext = string.Empty;
+            this.Invoke(new MethodInvoker(delegate() { cmbStatustext = cmbStatus.Text; }));
+            if (cmbStatustext == "All" || cmbStatustext == "")
             {
                 status = "";
             }
             else
             {
-                status = cmbStatus.SelectedText;
+                status = cmbStatustext;
             }
 
-            if (cmbAmount.Text == "-VE")
+
+            if (cmbAmounttext == "-VE")
             {
-                dt = oorderdetailsTableAdapter.GetOrderSearchLessAmount(fromDT, toDT, status + "%", txtOrderID.Text + "%", amount);
+                dt = oorderdetailsTableAdapter.GetOrderSearchLessAmount(fromDT, toDT, status + "%", txtOrderIDtext + "%", amount);
             }
             else
             {
-                dt = oorderdetailsTableAdapter.GetOrderSearch(status + "%", txtOrderID.Text + "%", amount,fromDT, toDT);
+                dt = oorderdetailsTableAdapter.GetOrderSearch(status + "%", txtOrderIDtext + "%", amount, fromDT, toDT);
             }
              //dgvResult.AutoGenerateColumns = false;
              
              if (dt.Rows.Count > 0)
              {
-                 dgvResult.DataSource = dt;
+                 ChangeGridViewdt(dgvResult,dt);
+                // dgvResult.DataSource = dt;
              }
              else
              {
                  MessageBox.Show("No record found", "Alert");
              }
+             EnableAllUpload();
         }
         #endregion
 
@@ -1059,37 +1199,44 @@ namespace OrderTracker
         }
 
         #region [Hos 1 Import]
-        
         private void btnHos1_Click(object sender, EventArgs e)
         {
-            
+            BackgroundWorker startWorker = new BackgroundWorker();
+            startWorker.DoWork += btnHos1Click;
+            startWorker.RunWorkerAsync();
+        }
+
+        private void btnHos1Click(object sender, EventArgs e)
+        {
+            DisableAllUpload();
             if (!File.Exists(oOpenFileDialog.FileName))
             {
-                MessageBox.Show("Input file missing","Alert");                
+                MessageBox.Show("Input file missing", "Alert");
                 return;
             }
-           
-           
-            String destDir, tempFile=string.Empty;
+
+
+            String destDir, tempFile = string.Empty;
 
             FileInfo srcFinfo = new FileInfo(oOpenFileDialog.FileName);
             int numberOfPages = new PdfReader(srcFinfo.FullName).NumberOfPages;
-                try
-                {
-                    destDir = String.Format("{0}\\Output", Application.StartupPath);
-                    tempFile = String.Format("{0}\\_temp.pdf", destDir);
+            try
+            {
+                destDir = String.Format("{0}\\Output", Application.StartupPath);
+                tempFile = String.Format("{0}\\_temp.pdf", destDir);
 
-                    foreach (FileInfo destFinfo in new DirectoryInfo(destDir).GetFiles())
-                        destFinfo.Delete();
-                }
-                catch { }
+                foreach (FileInfo destFinfo in new DirectoryInfo(destDir).GetFiles())
+                    destFinfo.Delete();
+            }
+            catch { }
+            List<HOS> listHOS = new List<HOS>();
+            ChangeGridView(gridProduct, listHOS.ToList<dynamic>());
 
-                    
-             for (int page = 1; page <= numberOfPages; page++)
+            for (int page = 1; page <= numberOfPages; page++)
             {
                 try
                 {
-                   
+
                     ExtractPage(srcFinfo.FullName, tempFile, page);
                     // Read Text from temp file
                     String fileText = ExtractPageText(tempFile);
@@ -1097,7 +1244,7 @@ namespace OrderTracker
 
                     // Read Employee Code from temp file                   
                     string[] sentences = fileText.Split('\n');
-                    List<HOS> listHOS = new List<HOS>();
+                  
                     foreach (string s in sentences)
                     {
                         System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(s, "SLP\\w{9}");
@@ -1114,88 +1261,114 @@ namespace OrderTracker
 
                             }
                             listHOS.Add(ohos);
-                        }                        
-                    }
-
-
-                    try
-                    {
-
-                        foreach (HOS oHOS in listHOS)
-                        {
-                            if (oorderhosTableAdapter.GetSuborderCount(oHOS.SubOrderID) > 0)
-                            {
-                                //update
-                                // oorderhosTableAdapter.UpdateQuery(oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.SubOrderID);
-                            }
-                            else
-                            {
-                                //Insert                               
-                                oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate);
-                                oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
-                                OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
-                                oOrderDetailsEntity.Amount = 0;
-                                oOrderDetailsEntity.Status = "Shipped";
-                                oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
-                                OrderDetailsAU(oOrderDetailsEntity);
-
-                            }
-
                         }
+                    }
 
-                    }
-                    catch
-                    {
-                    }
-                    
-                    gridProduct.DataSource = listHOS;
-                    if (listHOS.Count() > 0)
-                    {
-                        MessageBox.Show("Total Record Updated- " + listHOS.Count().ToString());
 
-                    }
-                    else
-                    {
-                        MessageBox.Show("No record found", "Alert");
-                    }
+                
                 }
                 catch
                 {
-                    //MessageBox.Show("Something going wrong","Error");
+                    MessageBox.Show("Something going wrong","Error");                   
                 }
             }
+            try
+            {
+                listHOS = listHOS.GroupBy(x => x.SubOrderID).Select(x => x.First()).ToList();
+               // var v = listHOS.SelectMany(mo => mo.SubOrderID).Distinct();
+
+                foreach (HOS oHOS in listHOS)
+                {
+                    if (oorderhosTableAdapter.GetSuborderCount(oHOS.SubOrderID) > 0)
+                    {
+                        //update
+                        // oorderhosTableAdapter.UpdateQuery(oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.SubOrderID);
+                    }
+                    else
+                    {
+                        //Insert                               
+                        oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate);
+                        oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
+                        OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
+                        oOrderDetailsEntity.Amount = 0;
+                        oOrderDetailsEntity.Status = "Shipped";
+                        oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
+                        OrderDetailsAU(oOrderDetailsEntity);
+
+                    }
+
+                }
+
+            }
+            catch
+            {
+                
+            }
+            ChangeGridView(gridProduct, listHOS.ToList<dynamic>());
+            if (listHOS.Count() > 0)
+            {
+                MessageBox.Show("Total Record Updated- " + listHOS.Count().ToString());
+
+            }
+            else
+            {
+                MessageBox.Show("No record found", "Alert");
+            }
+            EnableAllUpload();
         }
          #endregion
 
-        #region [Import 1]
+        #region [Import 1]  
         private void btnbrowse1_Click(object sender, EventArgs e)
         {
-            oOpenFileDialog.Title = "Open File Dialog";
-            oOpenFileDialog.InitialDirectory = "C:\\";
+             oOpenFileDialog.Title = "Open File Dialog";
+            //oOpenFileDialog.InitialDirectory = "C:\\";
             oOpenFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.csv";
             oOpenFileDialog.FilterIndex = 2;
             oOpenFileDialog.RestoreDirectory = true;
 
             if (oOpenFileDialog.ShowDialog() == DialogResult.OK)
             {
-                txtLocation1.Text = oOpenFileDialog.FileName;
-                DataSet oDataSet = new DataSet();
-                oDataSet = ImportExport.ExcelToDataSet(txtLocation1.Text);
-                List<OrderRef> listOrderRef = new List<OrderRef>();
-
-                 if (oDataSet != null)
-                 {
-                     listOrderRef = ParseOrderRef(oDataSet.Tables[0]);
-                     if (listOrderRef.Count() > 0)
-                     {
-                         dgvResult1.DataSource = listOrderRef;
-                     }
-                     else
-                     {
-                         MessageBox.Show("No record found", "Alert");
-                     }
-                 }
+            txtLocation1.Text = oOpenFileDialog.FileName;
+            BackgroundWorker startWorker = new BackgroundWorker();
+            startWorker.DoWork += btnbrowse1Click;
+            startWorker.RunWorkerAsync();
             }
+        }
+        private void btnbrowse1Click(object sender, EventArgs e)
+        {
+            DisableAllUpload();
+           
+                try
+                {
+                   
+                    //DataSet oDataSet = new DataSet();
+                    DataTable oDataTable = new DataTable();
+                    //oDataSet = ImportExport.ExcelToDataSet(txtLocation1.Text);
+                    oDataTable = ImportExport.ExcelToDataSetCloseXml(txtLocation1.Text);
+                    List<OrderRef> listOrderRef = new List<OrderRef>();
+
+                    if (oDataTable != null)
+                    {
+                        listOrderRef = ParseOrderRef(oDataTable);
+                        if (listOrderRef.Count() > 0)
+                        {
+                            ChangeGridView(dgvResult1,listOrderRef.ToList<dynamic>());
+                            //dgvResult1.DataSource = listOrderRef;
+                        }
+                        else
+                        {
+                            MessageBox.Show("No record found", "Alert");
+                        }
+                    
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Please check your file", "Alert");
+                }
+            
+            EnableAllUpload();
         }
 
         private List<OrderRef> ParseOrderRef(DataTable dt)
@@ -1232,54 +1405,9 @@ namespace OrderTracker
             {
                 if (cmbOrderStatus.Text != "" && cmbProcessBy.Text != "")
                 {
-                    List<OrderRef> listOrderRef = new List<OrderRef>();
-                    for (int i = 0; i < dgvResult1.RowCount; i++)
-                    {
-                        OrderRef oOrderRef = new OrderRef();
-                        string orderID = string.Empty;
-                        if (cmbProcessBy.Text == "Referance No.")
-                        {
-                            DataTable ordt = new DataTable();
-                            ordt= oorderhosTableAdapter.GetDataByRef(dgvResult1.Rows[i].Cells[0].Value.ToString());
-                            if (ordt.Rows.Count > 0)
-                            {
-                                orderID = ordt.Rows[0][0].ToString();
-                               
-                            }
-                        }
-                        else if (cmbProcessBy.Text == "Suborder ID")
-                        {
-                            orderID = dgvResult1.Rows[i].Cells[0].Value.ToString();
-                        }
-                        if (orderID.Length > 1)
-                        {
-                            if (cmbOrderStatus.Text == "Customer Complaint Acknowledged" || cmbOrderStatus.Text == "RTO Recieved")
-                            {
-                                List<Payment> listOrderPayment = new List<Payment>();
-                                Payment oPayment = new Payment();
-                                oPayment.SuborderID = orderID;
-                                oPayment.Shipping_method_code = cmbOrderStatus.Text;
-                                oPayment.Amount = 0;
-                                listOrderPayment.Add(oPayment);
-                                PaymentStatus(listOrderPayment);
-                            }
-                            else
-                            {
-                                oorderdetailsTableAdapter.UpdateBySubOrderId(cmbOrderStatus.Text, "", System.DateTime.Now, 0, orderID);
-                                oordertransectionTableAdapter.InsertQuery(orderID, "Status change- " + cmbOrderStatus.Text, DateTime.Now);
-                            }
-                            oOrderRef.OrderIdentifier = dgvResult1.Rows[i].Cells[0].Value.ToString();
-                            oOrderRef.Result = "Updated";
-                        }
-                        else
-                        {
-                            oOrderRef.OrderIdentifier = dgvResult1.Rows[i].Cells[0].Value.ToString();
-                            oOrderRef.Result = "Not Found";
-                        }
-                        listOrderRef.Add(oOrderRef);
-                    }
-                    dgvResult1.DataSource = listOrderRef;
-                    MessageBox.Show("Status Update Done","Done");
+                    BackgroundWorker startWorker = new BackgroundWorker();
+                    startWorker.DoWork += btnProcessClick;
+                    startWorker.RunWorkerAsync();
                 }
                 else
                 {
@@ -1290,6 +1418,74 @@ namespace OrderTracker
             {
                 MessageBox.Show("Please Upload file");
             }
+        }
+        private void btnProcessClick(object sender, EventArgs e)
+        {
+            try
+            {
+                DisableAllUpload();
+                List<OrderRef> listOrderRef = new List<OrderRef>();
+                for (int i = 0; i < dgvResult1.RowCount; i++)
+                {
+                    OrderRef oOrderRef = new OrderRef();
+                    string orderID = string.Empty;
+                    string text=string.Empty;
+                    this.Invoke(new MethodInvoker(delegate() { text = cmbProcessBy.Text; }));
+
+                    string cmbOrderStatustext = string.Empty;
+                    this.Invoke(new MethodInvoker(delegate() { cmbOrderStatustext = cmbOrderStatus.Text; }));
+
+                    if (text == "Referance No.")
+                    {
+                        DataTable ordt = new DataTable();
+                        ordt = oorderhosTableAdapter.GetDataByRef(dgvResult1.Rows[i].Cells[0].Value.ToString());
+                        if (ordt.Rows.Count > 0)
+                        {
+                            orderID = ordt.Rows[0][0].ToString();
+
+                        }
+                    }
+                    else if (text == "Suborder ID")
+                    {
+                        orderID = dgvResult1.Rows[i].Cells[0].Value.ToString();
+                    }
+                    if (orderID.Length > 1)
+                    {
+                        if (cmbOrderStatustext == "Customer Complaint Acknowledged" || cmbOrderStatustext == "RTO Recieved")
+                        {
+                            List<Payment> listOrderPayment = new List<Payment>();
+                            Payment oPayment = new Payment();
+                            oPayment.SuborderID = orderID;
+                            oPayment.Shipping_method_code = cmbOrderStatustext;
+                            oPayment.Amount = 0;
+                            listOrderPayment.Add(oPayment);
+                            PaymentStatus(listOrderPayment);
+                        }
+                        else
+                        {
+                            oorderdetailsTableAdapter.UpdateBySubOrderId(cmbOrderStatustext, "", System.DateTime.Now, 0, orderID);
+                            oordertransectionTableAdapter.InsertQuery(orderID, "Status change- " + cmbOrderStatustext, DateTime.Now);
+                        }
+                        oOrderRef.OrderIdentifier = dgvResult1.Rows[i].Cells[0].Value.ToString();
+                        oOrderRef.Result = "Updated";
+                    }
+                    else
+                    {
+                        oOrderRef.OrderIdentifier = dgvResult1.Rows[i].Cells[0].Value.ToString();
+                        oOrderRef.Result = "Not Found";
+                    }
+                    listOrderRef.Add(oOrderRef);
+                }
+                ChangeGridView(dgvResult1, listOrderRef.ToList<dynamic>());
+                //dgvResult1.DataSource = listOrderRef;
+                MessageBox.Show("Status Update Done", "Done");
+            }
+            catch
+            {
+                MessageBox.Show("Please contact Admin");
+                EnableAllUpload();
+            }
+            EnableAllUpload();
         }
         #endregion
 
@@ -1356,5 +1552,50 @@ namespace OrderTracker
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void btndelete_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Do you want to Delete all record?", "Confirmation", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                oorderdetailsTableAdapter.DeleteQuery();
+                oorderhosTableAdapter.DeleteQuery();
+                oorderpackedTableAdapter.DeleteQuery();
+                oordertransectionTableAdapter.DeleteQuery();
+                oorderallamountTableAdapter.DeleteQuery();
+            }
+
+        }
+
+        #region [Disable/Enable All]
+         private void DisableAllUpload()
+        {
+            ChangeControlState(btnHOS, false);
+            ChangeControlState(btnHos1, false);
+            ChangeControlState(btnMainfest, false);
+            ChangeControlState(btnPayment, false);
+            ChangeControlState(btnbrowse, false);
+            ChangeControlState(btnSearch, false);
+            ChangeControlState(btnbrowse1, false);
+            ChangeControlState(btnProcess, false);
+            ChangeControlState(btndelete, false);
+            ChangeControlState(btnExport, false);
+        }
+         private void EnableAllUpload()
+         {
+             ChangeControlState(btnHOS, true);
+             ChangeControlState(btnHos1, true);
+             ChangeControlState(btnMainfest, true);
+             ChangeControlState(btnPayment, true);
+             ChangeControlState(btnbrowse, true);
+             ChangeControlState(btnSearch, true);
+             ChangeControlState(btnbrowse1, true);
+             ChangeControlState(btnProcess, true);
+             ChangeControlState(btndelete, true);
+             ChangeControlState(btnExport, true);
+         }
+        #endregion
     }
+
+
 }
