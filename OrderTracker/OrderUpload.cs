@@ -1274,7 +1274,7 @@ namespace OrderTracker
             }
             try
             {
-                listHOS = listHOS.GroupBy(x => x.SubOrderID).Select(x => x.First()).ToList();
+                listHOS = listHOS.GroupBy(x => x.Ref).Select(x => x.First()).ToList();
                // var v = listHOS.SelectMany(mo => mo.SubOrderID).Distinct();
 
                 foreach (HOS oHOS in listHOS)
