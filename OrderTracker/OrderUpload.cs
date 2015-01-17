@@ -319,21 +319,21 @@ namespace OrderTracker
                                 hosdate = s.Substring(index + 21, s.Length - (index + 21));
                             }
                         }
-                        else
-                        {
-                            //rider copy started
-                            System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(s, "HOS\\w{7}");
-                            if (match.Success)
-                            {
-                                status = true;
-                                break;
-                            }
+                        //else
+                        //{
+                        //    //rider copy started
+                        //    System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(s, "HOS\\w{7}");
+                        //    if (match.Success)
+                        //    {
+                        //        status = true;
+                        //        break;
+                        //    }
 
-                        }
+                        //}
                     }
 
-                    if (status == true)
-                        break;
+                    //if (status == true)
+                    //    break;
 
                     index = fileText.IndexOf("Reference Code");
                     int index1 = fileText.Length - 1;

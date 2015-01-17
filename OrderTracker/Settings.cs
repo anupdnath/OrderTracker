@@ -28,8 +28,7 @@ namespace OrderTracker
         public string getConnectionString()
         {
             string objConnectionString = "";
-            //objConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & Application.StartupPath & "\msstock.mdb;Jet OLEDB:Database Password=ms;"
-            objConnectionString = "Data Source=124.7.138.29;Initial Catalog=IFB;User Id=ifb;Password=!fbadmin;";            
+            //objConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & Application.StartupPath & "\msstock.mdb;Jet OLEDB:Database Password=ms;"                   
             return objConnectionString;
         }
 
