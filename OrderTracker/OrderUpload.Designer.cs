@@ -62,6 +62,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.gridProduct = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -304,6 +305,7 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.progressBar1);
             this.groupBox2.Controls.Add(this.gridProduct);
             this.groupBox2.Location = new System.Drawing.Point(6, 65);
             this.groupBox2.Name = "groupBox2";
@@ -311,6 +313,16 @@
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Result";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.progressBar1.Location = new System.Drawing.Point(3, 258);
+            this.progressBar1.MarqueeAnimationSpeed = 0;
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(1002, 23);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.progressBar1.TabIndex = 58;
             // 
             // gridProduct
             // 
@@ -360,7 +372,7 @@
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
             this.gridProduct.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.gridProduct.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.gridProduct.Size = new System.Drawing.Size(1002, 262);
+            this.gridProduct.Size = new System.Drawing.Size(1002, 247);
             this.gridProduct.TabIndex = 57;
             this.gridProduct.TabStop = false;
             // 
@@ -1168,6 +1180,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Updatetiondate;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Active;
         private System.Windows.Forms.Button btndelete;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 

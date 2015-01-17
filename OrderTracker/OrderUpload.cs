@@ -14,6 +14,7 @@ using OrderTracker.Entity;
 using OrderTracker.OrderDBTableAdapters;
 using ClosedXML.Excel;
 using System.Globalization;
+using System.Threading;
 
 namespace OrderTracker
 {
@@ -21,7 +22,9 @@ namespace OrderTracker
     {
       
         #region [Global Variable]
+        private bool isProcessRunning = false;
          OpenFileDialog oOpenFileDialog = new OpenFileDialog();
+         BackgroundWorker startWorker = new BackgroundWorker();           
         #endregion
         DataTable oDataTable = new DataTable();
         orderdetailsTableAdapter oorderdetailsTableAdapter = new orderdetailsTableAdapter();
@@ -39,8 +42,9 @@ namespace OrderTracker
         #region [Mainfest]
         private void btnMainfest_Click(object sender, EventArgs e)
         {
-            BackgroundWorker startWorker = new BackgroundWorker();
+            startWorker = new BackgroundWorker();
             startWorker.DoWork += btnMainfestClick;
+            startWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgw_RunWorkerCompleted);
             startWorker.RunWorkerAsync();
         }       
         private void btnMainfestClick(object sender, EventArgs e)
@@ -236,15 +240,48 @@ namespace OrderTracker
             else
                 lvItem.DataSource = dt;
         }
+
+        private delegate void ChangeProgressDelegate(ProgressBar p, int i);
+        private void ChangeProgress(ProgressBar p, int i)
+        {
+            if (this.InvokeRequired)
+            {
+                ChangeProgressDelegate d = new ChangeProgressDelegate(ChangeProgress);
+                this.Invoke(d, p, i);
+            }
+            else
+                p.MarqueeAnimationSpeed=i;
+                p.Style = ProgressBarStyle.Marquee;
+        }
+
+        private delegate void ChangeProgressDelegatev(ProgressBar p, int i);
+        private void ChangeProgressv(ProgressBar p, int i)
+        {
+            if (this.InvokeRequired)
+            {
+                ChangeProgressDelegatev d = new ChangeProgressDelegatev(ChangeProgressv);
+                this.Invoke(d, p, i);
+            }
+            else
+                p.Value = i;
+        }
         #endregion
         
 
         #region [HOS]
         private void btnHOS_Click(object sender, EventArgs e)
         {
-            BackgroundWorker startWorker = new BackgroundWorker();           
-            startWorker.DoWork += btnHOSClick;           
+            startWorker = new BackgroundWorker();           
+            startWorker.DoWork += btnHOSClick;
+            startWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgw_RunWorkerCompleted);
             startWorker.RunWorkerAsync();
+        }
+        void bgw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            progressBar1.MarqueeAnimationSpeed = 0;
+            progressBar1.Style = ProgressBarStyle.Blocks;
+            progressBar1.Value = progressBar1.Minimum;
+            //do the code when bgv completes its work
         }
         private void startWorker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -368,9 +405,9 @@ namespace OrderTracker
                         }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
-                    MessageBox.Show("Something going wrong", "Error");
+                    MessageBox.Show(ex.ToString(), "Error");
                 }
             }
             ////
@@ -568,8 +605,9 @@ namespace OrderTracker
         #region [Import Payment]
         private void btnPayment_Click(object sender, EventArgs e)
         {
-            BackgroundWorker startWorker = new BackgroundWorker();
+            startWorker = new BackgroundWorker();
             startWorker.DoWork += btnPaymentClick;
+            startWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgw_RunWorkerCompleted);
             startWorker.RunWorkerAsync();
         }
         private void btnPaymentClick(object sender, EventArgs e)
@@ -598,8 +636,8 @@ namespace OrderTracker
                     MessageBox.Show("No Record Found");
                 }
             }
-            catch {
-                MessageBox.Show("Please contact Admin");
+            catch(Exception ex) {
+                MessageBox.Show(ex.ToString());
             }
             finally
             {
@@ -957,91 +995,98 @@ namespace OrderTracker
         }
         private void btnSearchClick(object sender, EventArgs e)
         {
-            DisableAllUpload();
-            DataTable dt = new DataTable();
-           ChangeGridViewdt(dgvResult,dt);
-            DateTime fromDT,toDT;
-            decimal amount=0;
-            string status;
-
-            string txtOrderIDtext = string.Empty;
-            this.Invoke(new MethodInvoker(delegate() { txtOrderIDtext = txtOrderID.Text; }));
-
-            string dtpFromtext = string.Empty;
-            this.Invoke(new MethodInvoker(delegate() { dtpFromtext = dtpFrom.Value.ToString(); }));
-            if (dtpFromtext != "")
+            try
             {
-                if (txtOrderIDtext != "")
+                DisableAllUpload();
+                DataTable dt = new DataTable();
+                ChangeGridViewdt(dgvResult, dt);
+                DateTime fromDT, toDT;
+                decimal amount = 0;
+                string status;
+
+                string txtOrderIDtext = string.Empty;
+                this.Invoke(new MethodInvoker(delegate() { txtOrderIDtext = txtOrderID.Text; }));
+
+                string dtpFromtext = string.Empty;
+                this.Invoke(new MethodInvoker(delegate() { dtpFromtext = dtpFrom.Value.ToString(); }));
+                if (dtpFromtext != "")
+                {
+                    if (txtOrderIDtext != "")
+                        fromDT = DateTime.Parse("01-01-2000");
+                    else
+                        fromDT = DateTime.Parse(dtpFromtext);
+                }
+                else
+                {
                     fromDT = DateTime.Parse("01-01-2000");
+                }
+
+                string dtpTotext = string.Empty;
+                this.Invoke(new MethodInvoker(delegate() { dtpTotext = dtpFrom.Value.ToString(); }));
+                if (dtpTotext != "")
+                {
+                    if (txtOrderIDtext != "")
+                        toDT = DateTime.Parse(dtpTotext);
+                    else
+                        toDT = DateTime.Parse("01-01-2099");
+                }
                 else
-                    fromDT = DateTime.Parse(dtpFromtext);
-            }
-            else
-            {
-               fromDT=DateTime.Parse("01-01-2000"); 
-            }
+                {
+                    toDT = DateTime.Parse("01-01-2099");
+                }
 
-            string dtpTotext = string.Empty;
-            this.Invoke(new MethodInvoker(delegate() { dtpTotext = dtpFrom.Value.ToString(); }));
-            if (dtpTotext != "")
-            {
-                if (txtOrderIDtext != "")
-                    toDT = DateTime.Parse(dtpTotext);
+                string cmbAmounttext = string.Empty;
+                this.Invoke(new MethodInvoker(delegate() { cmbAmounttext = cmbAmount.Text; }));
+                if (cmbAmounttext == "" || cmbAmounttext == "ALL")
+                {
+                    amount = -1000000;
+                }
+                else if (cmbAmounttext == "+VE")
+                {
+                    amount = 1;
+                }
+                else if (cmbAmounttext == "-VE")
+                {
+                    amount = 1;
+                }
+
+                string cmbStatustext = string.Empty;
+                this.Invoke(new MethodInvoker(delegate() { cmbStatustext = cmbStatus.Text; }));
+                if (cmbStatustext == "All" || cmbStatustext == "")
+                {
+                    status = "";
+                }
                 else
-                    toDT = DateTime.Parse("01-01-2099"); 
-            }
-            else
-            {
-               toDT=DateTime.Parse("01-01-2099"); 
-            }
-
-            string cmbAmounttext = string.Empty;
-            this.Invoke(new MethodInvoker(delegate() { cmbAmounttext = cmbAmount.Text; }));
-            if (cmbAmounttext == "" || cmbAmounttext == "ALL")
-            {
-                amount=-1000000;
-            }
-            else if (cmbAmounttext == "+VE")
-            {
-                amount = 1;
-            }
-            else if (cmbAmounttext == "-VE")
-            {
-                amount = 1;
-            }
-
-            string cmbStatustext = string.Empty;
-            this.Invoke(new MethodInvoker(delegate() { cmbStatustext = cmbStatus.Text; }));
-            if (cmbStatustext == "All" || cmbStatustext == "")
-            {
-                status = "";
-            }
-            else
-            {
-                status = cmbStatustext;
-            }
+                {
+                    status = cmbStatustext;
+                }
 
 
-            if (cmbAmounttext == "-VE")
-            {
-                dt = oorderdetailsTableAdapter.GetOrderSearchLessAmount(fromDT, toDT, status + "%", txtOrderIDtext + "%", amount);
+                if (cmbAmounttext == "-VE")
+                {
+                    dt = oorderdetailsTableAdapter.GetOrderSearchLessAmount(fromDT, toDT, status + "%", txtOrderIDtext + "%", amount);
+                }
+                else
+                {
+                    dt = oorderdetailsTableAdapter.GetOrderSearch(status + "%", txtOrderIDtext + "%", amount, fromDT, toDT);
+                }
+                //dgvResult.AutoGenerateColumns = false;
+
+                if (dt.Rows.Count > 0)
+                {
+                    ChangeGridViewdt(dgvResult, dt);
+                    // dgvResult.DataSource = dt;
+                }
+                else
+                {
+                    MessageBox.Show("No record found", "Alert");
+                }
+                EnableAllUpload();
             }
-            else
+            catch (Exception ex)
             {
-                dt = oorderdetailsTableAdapter.GetOrderSearch(status + "%", txtOrderIDtext + "%", amount, fromDT, toDT);
+                MessageBox.Show(ex.ToString());
             }
-             //dgvResult.AutoGenerateColumns = false;
-             
-             if (dt.Rows.Count > 0)
-             {
-                 ChangeGridViewdt(dgvResult,dt);
-                // dgvResult.DataSource = dt;
-             }
-             else
-             {
-                 MessageBox.Show("No record found", "Alert");
-             }
-             EnableAllUpload();
         }
         #endregion
 
@@ -1201,8 +1246,9 @@ namespace OrderTracker
         #region [Hos 1 Import]
         private void btnHos1_Click(object sender, EventArgs e)
         {
-            BackgroundWorker startWorker = new BackgroundWorker();
+            startWorker = new BackgroundWorker();
             startWorker.DoWork += btnHos1Click;
+            startWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgw_RunWorkerCompleted);
             startWorker.RunWorkerAsync();
         }
 
@@ -1267,9 +1313,9 @@ namespace OrderTracker
 
                 
                 }
-                catch
+                catch(Exception ex)
                 {
-                    MessageBox.Show("Something going wrong","Error");                   
+                    MessageBox.Show(ex.ToString());                   
                 }
             }
             try
@@ -1480,9 +1526,9 @@ namespace OrderTracker
                 //dgvResult1.DataSource = listOrderRef;
                 MessageBox.Show("Status Update Done", "Done");
             }
-            catch
+            catch(Exception ex)
             {
-                MessageBox.Show("Please contact Admin");
+                MessageBox.Show(ex.ToString());
                 EnableAllUpload();
             }
             EnableAllUpload();
@@ -1580,6 +1626,10 @@ namespace OrderTracker
             ChangeControlState(btnProcess, false);
             ChangeControlState(btndelete, false);
             ChangeControlState(btnExport, false);
+            ChangeProgress(progressBar1, 100);
+            
+           
+           
         }
          private void EnableAllUpload()
          {
@@ -1592,10 +1642,11 @@ namespace OrderTracker
              ChangeControlState(btnbrowse1, true);
              ChangeControlState(btnProcess, true);
              ChangeControlState(btndelete, true);
-             ChangeControlState(btnExport, true);
+             ChangeControlState(btnExport, true);             
          }
-        #endregion
+        #endregion        
 
+       
     }
 
 
