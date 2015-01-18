@@ -1304,9 +1304,9 @@ namespace OrderTracker
                             if (ordt.Rows.Count > 0)
                             {
                                 ohos.SubOrderID = ordt.Rows[0]["suborderid"].ToString();
-
+                                listHOS.Add(ohos);
                             }
-                            listHOS.Add(ohos);
+                            
                         }
                     }
 
