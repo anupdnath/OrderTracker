@@ -1293,7 +1293,7 @@ namespace OrderTracker
                   
                     foreach (string s in sentences)
                     {
-                        System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(s, "SLP\\w{9}");
+                        System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(s, "SLP\\w{7,10}");
                         if (match.Success)
                         {
                             HOS ohos = new HOS();
