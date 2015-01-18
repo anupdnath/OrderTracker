@@ -1304,9 +1304,13 @@ namespace OrderTracker
                             if (ordt.Rows.Count > 0)
                             {
                                 ohos.SubOrderID = ordt.Rows[0]["suborderid"].ToString();
-                                listHOS.Add(ohos);
+
                             }
-                            
+                            else
+                            {
+                                ohos.SubOrderID = "Sub OrderID Not Found";
+                            }
+                             listHOS.Add(ohos);
                         }
                     }
 
@@ -1332,15 +1336,17 @@ namespace OrderTracker
                     }
                     else
                     {
-                        //Insert                               
-                        oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate);
-                        oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
-                        OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
-                        oOrderDetailsEntity.Amount = 0;
-                        oOrderDetailsEntity.Status = "Shipped";
-                        oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
-                        OrderDetailsAU(oOrderDetailsEntity);
-
+                        if (oHOS.SubOrderID.Length > 0 && oHOS.SubOrderID!="Sub OrderID Not Found")
+                        {
+                            //Insert                               
+                            oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate);
+                            oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
+                            OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
+                            oOrderDetailsEntity.Amount = 0;
+                            oOrderDetailsEntity.Status = "Shipped";
+                            oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
+                            OrderDetailsAU(oOrderDetailsEntity);
+                        }
                     }
 
                 }
