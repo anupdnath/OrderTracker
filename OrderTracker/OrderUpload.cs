@@ -24,7 +24,8 @@ namespace OrderTracker
         #region [Global Variable]
         private bool isProcessRunning = false;
          OpenFileDialog oOpenFileDialog = new OpenFileDialog();
-         BackgroundWorker startWorker = new BackgroundWorker();           
+         BackgroundWorker startWorker = new BackgroundWorker();   
+       
         #endregion
         DataTable oDataTable = new DataTable();
         orderdetailsTableAdapter oorderdetailsTableAdapter = new orderdetailsTableAdapter();
@@ -42,10 +43,17 @@ namespace OrderTracker
         #region [Mainfest]
         private void btnMainfest_Click(object sender, EventArgs e)
         {
-            startWorker = new BackgroundWorker();
-            startWorker.DoWork += btnMainfestClick;
-            startWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgw_RunWorkerCompleted);
-            startWorker.RunWorkerAsync();
+            if (GetFileExtension(txtLocation.Text) == "csv")
+            {
+                startWorker = new BackgroundWorker();
+                startWorker.DoWork += btnMainfestClick;
+                startWorker.WorkerReportsProgress = true;
+                startWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgw_RunWorkerCompleted);
+                startWorker.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker1_ProgressChanged);
+                startWorker.RunWorkerAsync();
+            }
+            else
+                MessageBox.Show("Format not supported");
         }       
         private void btnMainfestClick(object sender, EventArgs e)
         {
@@ -61,6 +69,8 @@ namespace OrderTracker
                 listOrderMainfest = ParseMainfest(oDataTable);
                 if (listOrderMainfest.Count() > 0)
                 {
+                    int p = 100 / listOrderMainfest.Count();
+                    int i = 0;
                     foreach (OrderMainfest or in listOrderMainfest)
                     {
                         try
@@ -82,6 +92,8 @@ namespace OrderTracker
                         catch
                         {
                         }
+                        i++;
+                        startWorker.ReportProgress((100*i) / listOrderMainfest.Count());
                     }
                     ChangeGridView(gridProduct, listOrderMainfest.ToList<dynamic>());
                     //gridProduct.DataSource = listOrderMainfest;
@@ -250,8 +262,9 @@ namespace OrderTracker
                 this.Invoke(d, p, i);
             }
             else
-                p.MarqueeAnimationSpeed=i;
-                p.Style = ProgressBarStyle.Marquee;
+                //p.MarqueeAnimationSpeed=i;
+            p.Style = ProgressBarStyle.Blocks;
+            p.Value = i;
         }
 
         private delegate void ChangeProgressDelegatev(ProgressBar p, int i);
@@ -271,18 +284,43 @@ namespace OrderTracker
         #region [HOS]
         private void btnHOS_Click(object sender, EventArgs e)
         {
-            startWorker = new BackgroundWorker();           
-            startWorker.DoWork += btnHOSClick;
-            startWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgw_RunWorkerCompleted);
-            startWorker.RunWorkerAsync();
+            if (GetFileExtension(txtLocation.Text) == "pdf")
+            {
+                startWorker = new BackgroundWorker();
+                startWorker.WorkerReportsProgress = true;
+                startWorker.DoWork += btnHOSClick;
+                startWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgw_RunWorkerCompleted);
+                startWorker.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker1_ProgressChanged);
+                startWorker.RunWorkerAsync();
+            }
+            else
+                MessageBox.Show("Format not supported");
         }
         void bgw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            progressBar1.MarqueeAnimationSpeed = 0;
+            //progressBar1.MarqueeAnimationSpeed = 0;
             progressBar1.Style = ProgressBarStyle.Blocks;
             progressBar1.Value = progressBar1.Minimum;
+            lblper.Text = "";
+            
             //do the code when bgv completes its work
         }
+        void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            // The progress percentage is a property of e
+            if (e.ProgressPercentage >= 100)
+            {
+                progressBar1.Value = 100;
+                lblper.Text = "100%";
+            }
+            else
+            {
+                progressBar1.Value = e.ProgressPercentage;
+                lblper.Text = e.ProgressPercentage+"%";
+            }
+           
+        }
+
         private void startWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -329,6 +367,7 @@ namespace OrderTracker
             List<HOS> listHOS = new List<HOS>();
             ChangeGridView(gridProduct, listHOS.ToList<dynamic>());
             bool status = false;
+          
             for (int page = 1; page <= numberOfPages; page++)
             {
                 try
@@ -343,8 +382,8 @@ namespace OrderTracker
                     string[] sentences = fileText.Split('\n');
                     foreach (string s in sentences)
                     {
-                        if (page == 1)
-                        {
+                        //if (page == 1)
+                        //{
                             System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(s, "HOS\\w{7}");
                             if (match.Success)
                             {
@@ -355,7 +394,7 @@ namespace OrderTracker
                             {
                                 hosdate = s.Substring(index + 21, s.Length - (index + 21));
                             }
-                        }
+                        //}
                         //else
                         //{
                         //    //rider copy started
@@ -409,6 +448,7 @@ namespace OrderTracker
                 {
                     MessageBox.Show(ex.ToString(), "Error");
                 }
+                startWorker.ReportProgress((page *100)/ numberOfPages);
             }
             ////
             listHOS = listHOS.GroupBy(x => x.SubOrderID).Select(x => x.First()).ToList();
@@ -605,10 +645,17 @@ namespace OrderTracker
         #region [Import Payment]
         private void btnPayment_Click(object sender, EventArgs e)
         {
-            startWorker = new BackgroundWorker();
-            startWorker.DoWork += btnPaymentClick;
-            startWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgw_RunWorkerCompleted);
-            startWorker.RunWorkerAsync();
+            if (GetFileExtension(txtLocation.Text) == "xls" || GetFileExtension(txtLocation.Text) == "xlsx")
+            {
+                startWorker = new BackgroundWorker();
+                startWorker.DoWork += btnPaymentClick;
+                startWorker.WorkerReportsProgress = true;
+                startWorker.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker1_ProgressChanged);
+                startWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgw_RunWorkerCompleted);
+                startWorker.RunWorkerAsync();
+            }
+            else
+                MessageBox.Show("Format not supported");
         }
         private void btnPaymentClick(object sender, EventArgs e)
         {
@@ -622,11 +669,14 @@ namespace OrderTracker
                 if (oDataSet != null)
                 {
                     listOrderPayment = ParsePayment(oDataSet.Tables[0]);
-                    var distinctTypeIDs = listOrderPayment.Select(x => x.SuborderID).Distinct();
+                    var distinctTypeIDs = listOrderPayment.Select(x => x.SuborderID).Distinct();                    
+                    int i = 0;
                     foreach (string p in distinctTypeIDs)
                     {
                         var paymentlist = (from o in listOrderPayment where o.SuborderID == p select o).ToList();
                         PaymentStatus(paymentlist);
+                        i++;
+                        startWorker.ReportProgress((100*i) / distinctTypeIDs.Count());
                     }
                     ChangeGridView(gridProduct, listOrderPayment.ToList<dynamic>());
                     MessageBox.Show("Total Record Updated- " + listOrderPayment.Count().ToString());
@@ -1246,10 +1296,17 @@ namespace OrderTracker
         #region [Hos 1 Import]
         private void btnHos1_Click(object sender, EventArgs e)
         {
-            startWorker = new BackgroundWorker();
-            startWorker.DoWork += btnHos1Click;
-            startWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgw_RunWorkerCompleted);
-            startWorker.RunWorkerAsync();
+            if (GetFileExtension(txtLocation.Text) == "pdf")
+            {
+                startWorker = new BackgroundWorker();
+                startWorker.DoWork += btnHos1Click;
+                startWorker.WorkerReportsProgress = true;
+                startWorker.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker1_ProgressChanged);
+                startWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgw_RunWorkerCompleted);
+                startWorker.RunWorkerAsync();
+            }
+            else
+                MessageBox.Show("Format not supported");
         }
 
         private void btnHos1Click(object sender, EventArgs e)
@@ -1277,7 +1334,7 @@ namespace OrderTracker
             catch { }
             List<HOS> listHOS = new List<HOS>();
             ChangeGridView(gridProduct, listHOS.ToList<dynamic>());
-
+           
             for (int page = 1; page <= numberOfPages; page++)
             {
                 try
@@ -1321,6 +1378,7 @@ namespace OrderTracker
                 {
                     MessageBox.Show(ex.ToString());                   
                 }
+                startWorker.ReportProgress((page*100) / numberOfPages);
             }
             try
             {
@@ -1632,7 +1690,7 @@ namespace OrderTracker
             ChangeControlState(btnProcess, false);
             ChangeControlState(btndelete, false);
             ChangeControlState(btnExport, false);
-            ChangeProgress(progressBar1, 100);
+            ChangeProgress(progressBar1, 0);
             
            
            
@@ -1652,7 +1710,17 @@ namespace OrderTracker
          }
         #endregion        
 
-       
+         public static String GetFileExtension(string FileName)
+         {
+             try
+             {
+                 return FileName.Substring(FileName.LastIndexOf('.') + 1);
+             }
+             catch
+             {
+                 return "";
+             }
+         }
     }
 
 

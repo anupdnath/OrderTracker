@@ -115,6 +115,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.lblUserName = new System.Windows.Forms.Label();
             this.lblUserType = new System.Windows.Forms.Label();
+            this.lblper = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -285,7 +286,7 @@
             this.tabControl1.Location = new System.Drawing.Point(4, 58);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1031, 381);
+            this.tabControl1.Size = new System.Drawing.Size(1031, 400);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage1
@@ -295,7 +296,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1023, 355);
+            this.tabPage1.Size = new System.Drawing.Size(1023, 374);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Import";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -305,11 +306,12 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.lblper);
             this.groupBox2.Controls.Add(this.progressBar1);
             this.groupBox2.Controls.Add(this.gridProduct);
             this.groupBox2.Location = new System.Drawing.Point(6, 65);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1008, 284);
+            this.groupBox2.Size = new System.Drawing.Size(1008, 303);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Result";
@@ -317,11 +319,10 @@
             // progressBar1
             // 
             this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.progressBar1.Location = new System.Drawing.Point(3, 258);
+            this.progressBar1.Location = new System.Drawing.Point(3, 277);
             this.progressBar1.MarqueeAnimationSpeed = 0;
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(1002, 23);
-            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar1.TabIndex = 58;
             // 
             // gridProduct
@@ -372,7 +373,7 @@
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
             this.gridProduct.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.gridProduct.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.gridProduct.Size = new System.Drawing.Size(1002, 247);
+            this.gridProduct.Size = new System.Drawing.Size(1002, 246);
             this.gridProduct.TabIndex = 57;
             this.gridProduct.TabStop = false;
             // 
@@ -1069,11 +1070,22 @@
             this.lblUserType.Text = "UserType";
             this.lblUserType.Visible = false;
             // 
+            // lblper
+            // 
+            this.lblper.AutoSize = true;
+            this.lblper.BackColor = System.Drawing.Color.Transparent;
+            this.lblper.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblper.ForeColor = System.Drawing.Color.Maroon;
+            this.lblper.Location = new System.Drawing.Point(471, 262);
+            this.lblper.Name = "lblper";
+            this.lblper.Size = new System.Drawing.Size(0, 13);
+            this.lblper.TabIndex = 59;
+            // 
             // OrderUpload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1034, 451);
+            this.ClientSize = new System.Drawing.Size(1034, 460);
             this.Controls.Add(this.lblUserType);
             this.Controls.Add(this.lblUserName);
             this.Controls.Add(this.pictureBox2);
@@ -1090,6 +1102,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridProduct)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
@@ -1181,6 +1194,7 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn Active;
         private System.Windows.Forms.Button btndelete;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label lblper;
     }
 }
 
