@@ -17,4 +17,16 @@ namespace OrderTracker.Entity
        public String HosNo { get; set; }
        public String HosDate { get; set; }
     }
+   public class HOSDetails
+   {
+       public String HosNo { get; set; }
+       public String HosDate { get; set; }
+       public int index { get; set; }
+   }
+   public class RefDetails
+   {
+     
+       public String Other { get; set; }
+       public int index { get; set; }
+   }
 }

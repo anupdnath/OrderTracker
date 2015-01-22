@@ -15,6 +15,7 @@ using OrderTracker.OrderDBTableAdapters;
 using ClosedXML.Excel;
 using System.Globalization;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace OrderTracker
 {
@@ -93,9 +94,10 @@ namespace OrderTracker
                         {
                         }
                         i++;
-                        startWorker.ReportProgress((100*i) / listOrderMainfest.Count());
+                        startWorker.ReportProgress(((100*i) / listOrderMainfest.Count())-5);
                     }
                     ChangeGridView(gridProduct, listOrderMainfest.ToList<dynamic>());
+                    startWorker.ReportProgress(100);
                     //gridProduct.DataSource = listOrderMainfest;
                     if (listOrderMainfest.Count() > 0)
                     {
@@ -349,51 +351,78 @@ namespace OrderTracker
             String destDir, tempFile = string.Empty;
 
             FileInfo srcFinfo = new FileInfo(oOpenFileDialog.FileName);
-            int numberOfPages = new PdfReader(srcFinfo.FullName).NumberOfPages;
-            try
-            {
-                destDir = String.Format("{0}\\Output", Application.StartupPath);
-                tempFile = String.Format("{0}\\_temp.pdf", destDir);
-                if (!Directory.Exists(destDir))
-                    Directory.CreateDirectory(destDir);
+            //int numberOfPages = new PdfReader(srcFinfo.FullName).NumberOfPages;
+            //try
+            //{
+            //    destDir = String.Format("{0}\\Output", Application.StartupPath);
+            //    tempFile = String.Format("{0}\\_temp.pdf", destDir);
+            //    if (!Directory.Exists(destDir))
+            //        Directory.CreateDirectory(destDir);
 
-                foreach (FileInfo destFinfo in new DirectoryInfo(destDir).GetFiles())
-                    destFinfo.Delete();
-            }
-            catch { }
+            //    foreach (FileInfo destFinfo in new DirectoryInfo(destDir).GetFiles())
+            //        destFinfo.Delete();
+            //}
+            //catch { }
 
             int index;
+            int p;
             string hosCode = "", hosdate = "";
             List<HOS> listHOS = new List<HOS>();
             ChangeGridView(gridProduct, listHOS.ToList<dynamic>());
             bool status = false;
           
-            for (int page = 1; page <= numberOfPages; page++)
-            {
+            //for (int page = 1; page <= numberOfPages; page++)
+            //{
                 try
                 {
-
-                    ExtractPage(srcFinfo.FullName, tempFile, page);
+                    p = 10;
+                    startWorker.ReportProgress(p);
+                    //ExtractPage(srcFinfo.FullName, tempFile, page);
                     // Read Text from temp file
                     // String fileText = ExtractPageText(tempFile);
-                    String fileText = ImportExport.PDFText(tempFile);
-
+                    String fileText = ImportExport.PDFText(srcFinfo.FullName);
+                    p=20;
+                    int t = 1;
+                    List<HOSDetails> oHOSDetailsList = new List<HOSDetails>();
+                    startWorker.ReportProgress(p);
                     fileText=fileText.Replace("FORMS NEEDED", "");
-                    string[] sentences = fileText.Split('\n');
-                    foreach (string s in sentences)
-                    {
+                    //string[] sentences = fileText.Split('\n');
+                    //foreach (string s in sentences)
+                    //{
                         //if (page == 1)
                         //{
-                            System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(s, "HOS\\w{7}");
-                            if (match.Success)
+                            //System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(fileText, "HOS\\w{7}");
+                            string MatchEmailPattern = "HOS\\w{7}";
+                            Regex rx = new Regex(MatchEmailPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                            MatchCollection matches = rx.Matches(fileText);
+                            // Report the number of matches found.
+                            int noOfMatches = matches.Count;
+                            // Report on each match.
+                            foreach (Match match in matches)
                             {
-                                hosCode = match.Captures[0].Value;
+                               
+                                    HOSDetails oHOSDetails = new HOSDetails();
+                                    //hosCode = match.Captures[0].Value;
+                                    oHOSDetails.index = match.Index;
+                                    oHOSDetails.HosNo = match.Value;
+                                    string s = fileText.Substring(oHOSDetails.index, 100);
+                                    index = s.IndexOf("Handover Sheet Date:");
+                                    if (index > -1)
+                                    {
+                                        hosdate = s.Substring(index + 21, (s.IndexOf("Vendor Address") - index - 21));
+                                    }
+                                    oHOSDetails.HosDate = hosdate;
+                                    oHOSDetailsList.Add(oHOSDetails);
+                              
                             }
-                            index = s.IndexOf("Handover Sheet Date:");
-                            if (index > -1)
-                            {
-                                hosdate = s.Substring(index + 21, s.Length - (index + 21));
-                            }
+                            oHOSDetailsList = oHOSDetailsList.GroupBy(x => x.HosNo).Select(x => x.First()).ToList();
+                            p = p + 20;
+                            startWorker.ReportProgress(p);
+                            //index = s.IndexOf("Handover Sheet Date:");
+                            //if (index > -1)
+                            //{
+                            //    hosdate = s.Substring(index + 21, s.Length - (index + 21));
+                            //}
                         //}
                         //else
                         //{
@@ -406,50 +435,80 @@ namespace OrderTracker
                         //    }
 
                         //}
-                    }
+                    //}
 
                     //if (status == true)
                     //    break;
-
-                    index = fileText.IndexOf("Reference Code");
-                    int index1 = fileText.Length - 1;
-                    string totalline = fileText.Substring(index + 15, index1 - index - 15);
-                    string[] line = totalline.Split('\n');
-
-                    foreach (string str in line)
-                    {
-                        try
-                        {
-                            if (str.Length > 0)
+                            List<RefDetails> oRefDetailsList = new List<RefDetails>();
+                            string MatchEmailPatternR = "Reference Code";
+                            Regex rxR = new Regex(MatchEmailPatternR, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                            MatchCollection matchesR = rxR.Matches(fileText);
+                            // Report the number of matches found.
+                            int noOfMatchesR = matchesR.Count;
+                            // Report on each match.
+                            int k = 0;
+                            for (k = 0; k < matchesR.Count; )
                             {
-                                string[] orderdetails = str.Split(' ');
-                                int result;                                
-                                if (orderdetails.Count() == 6 && int.TryParse(orderdetails[0], out result))
+                                RefDetails oRefDetails = new RefDetails();
+                                oRefDetails.index = matchesR[k].Index;
+                                oRefDetailsList.Add(oRefDetails);
+                                k = k + 3;
+                            }
+                            p = p + 10;
+                            startWorker.ReportProgress(p);
+                            int j = 1;
+                            foreach (RefDetails d in oRefDetailsList)
+                            {
+                                var l = oHOSDetailsList.Where(n =>n.index<d.index).ToList();
+                                index = d.index;
+                                int index1 = fileText.Length - 1;
+                                string totalline = fileText.Substring(index + 15, index1 - index - 15);
+                                string[] line = totalline.Split('\n');
+
+                                foreach (string str in line)
                                 {
-                                    HOS oHOS = new HOS();
-                                    oHOS.SubOrderID = orderdetails[1];
-                                    oHOS.Sku = orderdetails[2];
-                                    oHOS.Supc = orderdetails[3];
-                                    oHOS.AWB = orderdetails[4];
-                                    oHOS.Ref = orderdetails[5].Replace("\r","");
-                                    oHOS.CreationDate = System.DateTime.Now;
-                                    oHOS.HosNo = hosCode;
-                                    oHOS.HosDate = hosdate;
-                                    listHOS.Add(oHOS);
+                                    if (str.Contains("Handover Sheet Date"))
+                                        break;
+                                    try
+                                    {
+                                        if (str.Length > 0)
+                                        {
+                                            string[] orderdetails = str.Split(' ');
+                                            int result;
+                                            if (orderdetails.Count() == 6 && int.TryParse(orderdetails[0], out result))
+                                            {
+                                                HOS oHOS = new HOS();
+                                                oHOS.SubOrderID = orderdetails[1];
+                                                oHOS.Sku = orderdetails[2];
+                                                oHOS.Supc = orderdetails[3];
+                                                oHOS.AWB = orderdetails[4];
+                                                oHOS.Ref = orderdetails[5].Replace("\r", "");
+                                                oHOS.CreationDate = System.DateTime.Now;
+
+                                                oHOS.HosNo = l[l.Count-1].HosNo;
+                                                oHOS.HosDate = l[l.Count - 1].HosDate;
+
+                                                listHOS.Add(oHOS);
+                                            }
+                                        }
+                                    }
+                                    catch
+                                    {
+                                    }
+                                    j++;
+                                    
+                                    startWorker.ReportProgress(p+((j * 40) / oRefDetailsList.Count()));
                                 }
                             }
-                        }
-                        catch
-                        {
-                        }
-                    }
+
+                   
                 }
                 catch(Exception ex)
                 {
                     MessageBox.Show(ex.ToString(), "Error");
                 }
-                startWorker.ReportProgress((page *100)/ numberOfPages);
-            }
+                //startWorker.ReportProgress(((page *100)/ numberOfPages)-10);
+           // }
             ////
             listHOS = listHOS.GroupBy(x => x.SubOrderID).Select(x => x.First()).ToList();
             foreach (HOS oHOS in listHOS)
@@ -474,6 +533,7 @@ namespace OrderTracker
                                
             }
             ChangeGridView(gridProduct, listHOS.ToList<dynamic>());
+            startWorker.ReportProgress(100);
             if (listHOS.Count() > 0)
             {
                 MessageBox.Show("Total Record Updated- " + listHOS.Count().ToString());
@@ -1114,11 +1174,17 @@ namespace OrderTracker
 
                 if (cmbAmounttext == "-VE")
                 {
+                    if(chkDisable.Checked==false)
                     dt = oorderdetailsTableAdapter.GetOrderSearchLessAmount(fromDT, toDT, status + "%", txtOrderIDtext + "%", amount);
+                    else
+                        dt = oorderdetailsTableAdapter.GetOrderLessAmtWODate(status + "%", txtOrderIDtext + "%", amount);
                 }
                 else
                 {
+                    if (chkDisable.Checked == false)
                     dt = oorderdetailsTableAdapter.GetOrderSearch(status + "%", txtOrderIDtext + "%", amount, fromDT, toDT);
+                    else
+                        dt = oorderdetailsTableAdapter.GetOrderWODate(status + "%", txtOrderIDtext + "%", amount);
                 }
                 //dgvResult.AutoGenerateColumns = false;
 
@@ -1378,7 +1444,7 @@ namespace OrderTracker
                 {
                     MessageBox.Show(ex.ToString());                   
                 }
-                startWorker.ReportProgress((page*100) / numberOfPages);
+                startWorker.ReportProgress(((page*100) / numberOfPages)-10);
             }
             try
             {
@@ -1415,6 +1481,7 @@ namespace OrderTracker
                 
             }
             ChangeGridView(gridProduct, listHOS.ToList<dynamic>());
+            startWorker.ReportProgress(100);
             if (listHOS.Count() > 0)
             {
                 MessageBox.Show("Total Record Updated- " + listHOS.Count().ToString());
@@ -1719,6 +1786,20 @@ namespace OrderTracker
              catch
              {
                  return "";
+             }
+         }
+
+         private void chkDisable_CheckedChanged(object sender, EventArgs e)
+         {
+             if (chkDisable.Checked == true)
+             {
+                 dtpFrom.Enabled = false;
+                 dtpTo.Enabled = false;
+             }
+             else
+             {
+                 dtpFrom.Enabled = true;
+                 dtpTo.Enabled = true;
              }
          }
     }

@@ -62,6 +62,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblper = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.gridProduct = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -115,7 +116,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.lblUserName = new System.Windows.Forms.Label();
             this.lblUserType = new System.Windows.Forms.Label();
-            this.lblper = new System.Windows.Forms.Label();
+            this.chkDisable = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -316,6 +317,17 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Result";
             // 
+            // lblper
+            // 
+            this.lblper.AutoSize = true;
+            this.lblper.BackColor = System.Drawing.Color.Transparent;
+            this.lblper.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblper.ForeColor = System.Drawing.Color.Maroon;
+            this.lblper.Location = new System.Drawing.Point(471, 262);
+            this.lblper.Name = "lblper";
+            this.lblper.Size = new System.Drawing.Size(0, 13);
+            this.lblper.TabIndex = 59;
+            // 
             // progressBar1
             // 
             this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -384,7 +396,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1023, 355);
+            this.tabPage2.Size = new System.Drawing.Size(1023, 374);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Order Search";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -460,6 +472,7 @@
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.chkDisable);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.cmbAmount);
             this.groupBox3.Controls.Add(this.btnExport);
@@ -519,7 +532,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(524, 22);
+            this.label6.Location = new System.Drawing.Point(551, 22);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(22, 18);
             this.label6.TabIndex = 8;
@@ -529,7 +542,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(354, 22);
+            this.label5.Location = new System.Drawing.Point(398, 20);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(35, 18);
             this.label5.TabIndex = 7;
@@ -572,7 +585,7 @@
             // 
             this.dtpTo.CustomFormat = "dd-MMM-yyyy";
             this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpTo.Location = new System.Drawing.Point(565, 20);
+            this.dtpTo.Location = new System.Drawing.Point(577, 20);
             this.dtpTo.Name = "dtpTo";
             this.dtpTo.Size = new System.Drawing.Size(110, 20);
             this.dtpTo.TabIndex = 3;
@@ -581,7 +594,7 @@
             // 
             this.dtpFrom.CustomFormat = "dd-MMM-yyyy";
             this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpFrom.Location = new System.Drawing.Point(402, 21);
+            this.dtpFrom.Location = new System.Drawing.Point(439, 20);
             this.dtpFrom.Name = "dtpFrom";
             this.dtpFrom.Size = new System.Drawing.Size(111, 20);
             this.dtpFrom.TabIndex = 2;
@@ -609,7 +622,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1023, 355);
+            this.tabPage3.Size = new System.Drawing.Size(1023, 374);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Status Change";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -781,7 +794,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1023, 355);
+            this.tabPage4.Size = new System.Drawing.Size(1023, 374);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Login Access";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1070,16 +1083,15 @@
             this.lblUserType.Text = "UserType";
             this.lblUserType.Visible = false;
             // 
-            // lblper
+            // chkDisable
             // 
-            this.lblper.AutoSize = true;
-            this.lblper.BackColor = System.Drawing.Color.Transparent;
-            this.lblper.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblper.ForeColor = System.Drawing.Color.Maroon;
-            this.lblper.Location = new System.Drawing.Point(471, 262);
-            this.lblper.Name = "lblper";
-            this.lblper.Size = new System.Drawing.Size(0, 13);
-            this.lblper.TabIndex = 59;
+            this.chkDisable.AutoSize = true;
+            this.chkDisable.Location = new System.Drawing.Point(365, 24);
+            this.chkDisable.Name = "chkDisable";
+            this.chkDisable.Size = new System.Drawing.Size(15, 14);
+            this.chkDisable.TabIndex = 12;
+            this.chkDisable.UseVisualStyleBackColor = true;
+            this.chkDisable.CheckedChanged += new System.EventHandler(this.chkDisable_CheckedChanged);
             // 
             // OrderUpload
             // 
@@ -1195,6 +1207,7 @@
         private System.Windows.Forms.Button btndelete;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label lblper;
+        private System.Windows.Forms.CheckBox chkDisable;
     }
 }
 
