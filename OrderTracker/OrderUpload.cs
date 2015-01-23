@@ -348,7 +348,7 @@ namespace OrderTracker
             }
 
 
-            String destDir, tempFile = string.Empty;
+            //String destDir, tempFile = string.Empty;
 
             FileInfo srcFinfo = new FileInfo(oOpenFileDialog.FileName);
             //int numberOfPages = new PdfReader(srcFinfo.FullName).NumberOfPages;
@@ -365,34 +365,28 @@ namespace OrderTracker
             //catch { }
 
             int index;
-            int p;
+            int p=0;
             string hosCode = "", hosdate = "";
             List<HOS> listHOS = new List<HOS>();
             ChangeGridView(gridProduct, listHOS.ToList<dynamic>());
             bool status = false;
-          
+            p = 10;
             //for (int page = 1; page <= numberOfPages; page++)
             //{
                 try
                 {
-                    p = 10;
+                   
                     startWorker.ReportProgress(p);
-                    //ExtractPage(srcFinfo.FullName, tempFile, page);
-                    // Read Text from temp file
-                    // String fileText = ExtractPageText(tempFile);
+                    #region[File read-20]
+                    #endregion
                     String fileText = ImportExport.PDFText(srcFinfo.FullName);
-                    p=20;
+                    p=30;
                     int t = 1;
                     List<HOSDetails> oHOSDetailsList = new List<HOSDetails>();
                     startWorker.ReportProgress(p);
-                    fileText=fileText.Replace("FORMS NEEDED", "");
-                    //string[] sentences = fileText.Split('\n');
-                    //foreach (string s in sentences)
-                    //{
-                        //if (page == 1)
-                        //{
-                            //System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(fileText, "HOS\\w{7}");
-                            string MatchEmailPattern = "HOS\\w{7}";
+                    fileText=fileText.Replace("FORMS NEEDED", "");                   
+                    #region [Hos Date Extract]
+                             string MatchEmailPattern = "HOS\\w{7}";
                             Regex rx = new Regex(MatchEmailPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
                             MatchCollection matches = rx.Matches(fileText);
                             // Report the number of matches found.
@@ -416,29 +410,9 @@ namespace OrderTracker
                               
                             }
                             oHOSDetailsList = oHOSDetailsList.GroupBy(x => x.HosNo).Select(x => x.First()).ToList();
-                            p = p + 20;
-                            startWorker.ReportProgress(p);
-                            //index = s.IndexOf("Handover Sheet Date:");
-                            //if (index > -1)
-                            //{
-                            //    hosdate = s.Substring(index + 21, s.Length - (index + 21));
-                            //}
-                        //}
-                        //else
-                        //{
-                        //    //rider copy started
-                        //    System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(s, "HOS\\w{7}");
-                        //    if (match.Success)
-                        //    {
-                        //        status = true;
-                        //        break;
-                        //    }
-
-                        //}
-                    //}
-
-                    //if (status == true)
-                    //    break;
+                           
+                    #endregion
+                    #region[Reference Code-20]
                             List<RefDetails> oRefDetailsList = new List<RefDetails>();
                             string MatchEmailPatternR = "Reference Code";
                             Regex rxR = new Regex(MatchEmailPatternR, RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -454,9 +428,12 @@ namespace OrderTracker
                                 oRefDetailsList.Add(oRefDetails);
                                 k = k + 3;
                             }
-                            p = p + 10;
-                            startWorker.ReportProgress(p);
-                            int j = 1;
+                            #endregion
+                    p = 50;
+                    startWorker.ReportProgress(p);
+                    int j = 1;
+                    #region[Retrive Date-30]
+                           
                             foreach (RefDetails d in oRefDetailsList)
                             {
                                 var l = oHOSDetailsList.Where(n =>n.index<d.index).ToList();
@@ -495,13 +472,15 @@ namespace OrderTracker
                                     catch
                                     {
                                     }
-                                    j++;
+                                   
                                     
-                                    startWorker.ReportProgress(p+((j * 40) / oRefDetailsList.Count()));
+                                   
                                 }
+                                j++;
+                                startWorker.ReportProgress(p + ((j * 30) / oRefDetailsList.Count()));
                             }
-
-                   
+                        #endregion
+                            p = 80;
                 }
                 catch(Exception ex)
                 {
@@ -510,7 +489,10 @@ namespace OrderTracker
                 //startWorker.ReportProgress(((page *100)/ numberOfPages)-10);
            // }
             ////
-            listHOS = listHOS.GroupBy(x => x.SubOrderID).Select(x => x.First()).ToList();
+             int c= 1;
+             #region[Data Insert-20]
+             
+             listHOS = listHOS.GroupBy(x => x.SubOrderID).Select(x => x.First()).ToList();
             foreach (HOS oHOS in listHOS)
             {
                 if (oorderhosTableAdapter.GetSuborderCount(oHOS.SubOrderID) > 0)
@@ -530,10 +512,12 @@ namespace OrderTracker
                     OrderDetailsAU(oOrderDetailsEntity);
                    
                 }
-                               
+                c++;
+                startWorker.ReportProgress(p + ((c * 20) / listHOS.Count()));
             }
+             #endregion
             ChangeGridView(gridProduct, listHOS.ToList<dynamic>());
-            startWorker.ReportProgress(100);
+           
             if (listHOS.Count() > 0)
             {
                 MessageBox.Show("Total Record Updated- " + listHOS.Count().ToString());
@@ -1174,14 +1158,14 @@ namespace OrderTracker
 
                 if (cmbAmounttext == "-VE")
                 {
-                    if(chkDisable.Checked==false)
+                    if(chkDisable.Checked==true)
                     dt = oorderdetailsTableAdapter.GetOrderSearchLessAmount(fromDT, toDT, status + "%", txtOrderIDtext + "%", amount);
                     else
                         dt = oorderdetailsTableAdapter.GetOrderLessAmtWODate(status + "%", txtOrderIDtext + "%", amount);
                 }
                 else
                 {
-                    if (chkDisable.Checked == false)
+                    if (chkDisable.Checked == true)
                     dt = oorderdetailsTableAdapter.GetOrderSearch(status + "%", txtOrderIDtext + "%", amount, fromDT, toDT);
                     else
                         dt = oorderdetailsTableAdapter.GetOrderWODate(status + "%", txtOrderIDtext + "%", amount);
@@ -1384,39 +1368,19 @@ namespace OrderTracker
                 return;
             }
             int p = 10;
-            startWorker.ReportProgress(p);
-            //String destDir, tempFile = string.Empty;
-
-            //FileInfo srcFinfo = new FileInfo(oOpenFileDialog.FileName);
-            //int numberOfPages = new PdfReader(srcFinfo.FullName).NumberOfPages;
-            //try
-            //{
-            //    destDir = String.Format("{0}\\Output", Application.StartupPath);
-            //    tempFile = String.Format("{0}\\_temp.pdf", destDir);
-
-            //    foreach (FileInfo destFinfo in new DirectoryInfo(destDir).GetFiles())
-            //        destFinfo.Delete();
-            //}
-            //catch { }
+            startWorker.ReportProgress(p);           
             List<HOS> listHOS = new List<HOS>();
-            ChangeGridView(gridProduct, listHOS.ToList<dynamic>());
-           
-            //for (int page = 1; page <= numberOfPages; page++)
-            //{
+            ChangeGridView(gridProduct, listHOS.ToList<dynamic>());           
+          
                 try
                 {
 
-                    //ExtractPage(srcFinfo.FullName, tempFile, page);
-                    //// Read Text from temp file
-                    //String fileText = ExtractPageText(tempFile);
+                   
                     String fileText = ImportExport.PDFText(oOpenFileDialog.FileName);
-                    p = p + 20;
+                    p = 30;
                     startWorker.ReportProgress(p);
-                    // Read Employee Code from temp file                   
-                    //string[] sentences = fileText.Split('\n');
-                  
-                    //foreach (string s in sentences)
-                    //{
+                    #region[Ref no extraction]
+                   
                     string MatchEmailPattern = "SLP\\w{7,10}";
                     Regex rx = new Regex(MatchEmailPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
                             MatchCollection matches = rx.Matches(fileText);
@@ -1441,40 +1405,21 @@ namespace OrderTracker
                                 }
                                 listHOS.Add(ohos);
                             }
-                            p = p + 20;
-                            startWorker.ReportProgress(p);
-                        //System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(s, "SLP\\w{7,10}");
-                        //if (match.Success)
-                        //{
-                        //    HOS ohos = new HOS();
-                        //    ohos.Ref = match.Captures[0].Value;
-                        //    //Get Suborder ID
-                        //    DataTable ordt = new DataTable();
-                        //    ordt = oorderpackedTableAdapter.GetDataRef(ohos.Ref);
-                        //    if (ordt.Rows.Count > 0)
-                        //    {
-                        //        ohos.SubOrderID = ordt.Rows[0]["suborderid"].ToString();
 
-                        //    }
-                        //    else
-                        //    {
-                        //        ohos.SubOrderID = "Sub OrderID Not Found";
-                        //    }
-                        //     listHOS.Add(ohos);
-                        //}
-                   // }
-
-
+                    #endregion
+                    p = 50;
+                    startWorker.ReportProgress(p);                       
                 
                 }
                 catch(Exception ex)
                 {
                     MessageBox.Show(ex.ToString());                   
                 }
-                //startWorker.ReportProgress(((page*100) / numberOfPages)-10);
-           // }
+               
             try
             {
+                #region [Data check and insert]
+                
                 listHOS = listHOS.GroupBy(x => x.Ref).Select(x => x.First()).ToList();
                // var v = listHOS.SelectMany(mo => mo.SubOrderID).Distinct();
                 int j = 1;
@@ -1503,7 +1448,7 @@ namespace OrderTracker
 
                     startWorker.ReportProgress(p + ((j * 40) / listHOS.Count()));
                 }
-
+                #endregion
             }
             catch
             {
@@ -1820,7 +1765,7 @@ namespace OrderTracker
 
          private void chkDisable_CheckedChanged(object sender, EventArgs e)
          {
-             if (chkDisable.Checked == true)
+             if (chkDisable.Checked == false)
              {
                  dtpFrom.Enabled = false;
                  dtpTo.Enabled = false;

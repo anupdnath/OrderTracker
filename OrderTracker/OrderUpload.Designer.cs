@@ -69,6 +69,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.dgvResult = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.chkDisable = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
             this.cmbAmount = new System.Windows.Forms.ComboBox();
             this.btnExport = new System.Windows.Forms.Button();
@@ -116,7 +117,6 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.lblUserName = new System.Windows.Forms.Label();
             this.lblUserType = new System.Windows.Forms.Label();
-            this.chkDisable = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -491,6 +491,18 @@
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Order Search";
+            // 
+            // chkDisable
+            // 
+            this.chkDisable.AutoSize = true;
+            this.chkDisable.Checked = true;
+            this.chkDisable.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkDisable.Location = new System.Drawing.Point(365, 24);
+            this.chkDisable.Name = "chkDisable";
+            this.chkDisable.Size = new System.Drawing.Size(15, 14);
+            this.chkDisable.TabIndex = 12;
+            this.chkDisable.UseVisualStyleBackColor = true;
+            this.chkDisable.CheckedChanged += new System.EventHandler(this.chkDisable_CheckedChanged);
             // 
             // label7
             // 
@@ -1082,16 +1094,6 @@
             this.lblUserType.TabIndex = 10;
             this.lblUserType.Text = "UserType";
             this.lblUserType.Visible = false;
-            // 
-            // chkDisable
-            // 
-            this.chkDisable.AutoSize = true;
-            this.chkDisable.Location = new System.Drawing.Point(365, 24);
-            this.chkDisable.Name = "chkDisable";
-            this.chkDisable.Size = new System.Drawing.Size(15, 14);
-            this.chkDisable.TabIndex = 12;
-            this.chkDisable.UseVisualStyleBackColor = true;
-            this.chkDisable.CheckedChanged += new System.EventHandler(this.chkDisable_CheckedChanged);
             // 
             // OrderUpload
             // 
