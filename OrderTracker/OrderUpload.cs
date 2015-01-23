@@ -1383,59 +1383,86 @@ namespace OrderTracker
                 MessageBox.Show("Input file missing", "Alert");
                 return;
             }
+            int p = 10;
+            startWorker.ReportProgress(p);
+            //String destDir, tempFile = string.Empty;
 
+            //FileInfo srcFinfo = new FileInfo(oOpenFileDialog.FileName);
+            //int numberOfPages = new PdfReader(srcFinfo.FullName).NumberOfPages;
+            //try
+            //{
+            //    destDir = String.Format("{0}\\Output", Application.StartupPath);
+            //    tempFile = String.Format("{0}\\_temp.pdf", destDir);
 
-            String destDir, tempFile = string.Empty;
-
-            FileInfo srcFinfo = new FileInfo(oOpenFileDialog.FileName);
-            int numberOfPages = new PdfReader(srcFinfo.FullName).NumberOfPages;
-            try
-            {
-                destDir = String.Format("{0}\\Output", Application.StartupPath);
-                tempFile = String.Format("{0}\\_temp.pdf", destDir);
-
-                foreach (FileInfo destFinfo in new DirectoryInfo(destDir).GetFiles())
-                    destFinfo.Delete();
-            }
-            catch { }
+            //    foreach (FileInfo destFinfo in new DirectoryInfo(destDir).GetFiles())
+            //        destFinfo.Delete();
+            //}
+            //catch { }
             List<HOS> listHOS = new List<HOS>();
             ChangeGridView(gridProduct, listHOS.ToList<dynamic>());
            
-            for (int page = 1; page <= numberOfPages; page++)
-            {
+            //for (int page = 1; page <= numberOfPages; page++)
+            //{
                 try
                 {
 
-                    ExtractPage(srcFinfo.FullName, tempFile, page);
-                    // Read Text from temp file
-                    String fileText = ExtractPageText(tempFile);
-                    String fileText1 = ImportExport.PDFText(tempFile);
-
+                    //ExtractPage(srcFinfo.FullName, tempFile, page);
+                    //// Read Text from temp file
+                    //String fileText = ExtractPageText(tempFile);
+                    String fileText = ImportExport.PDFText(oOpenFileDialog.FileName);
+                    p = p + 20;
+                    startWorker.ReportProgress(p);
                     // Read Employee Code from temp file                   
-                    string[] sentences = fileText.Split('\n');
+                    //string[] sentences = fileText.Split('\n');
                   
-                    foreach (string s in sentences)
-                    {
-                        System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(s, "SLP\\w{7,10}");
-                        if (match.Success)
-                        {
-                            HOS ohos = new HOS();
-                            ohos.Ref = match.Captures[0].Value;
-                            //Get Suborder ID
-                            DataTable ordt = new DataTable();
-                            ordt = oorderpackedTableAdapter.GetDataRef(ohos.Ref);
-                            if (ordt.Rows.Count > 0)
+                    //foreach (string s in sentences)
+                    //{
+                    string MatchEmailPattern = "SLP\\w{7,10}";
+                    Regex rx = new Regex(MatchEmailPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                            MatchCollection matches = rx.Matches(fileText);
+                            // Report the number of matches found.
+                            int noOfMatches = matches.Count;
+                            // Report on each match.
+                            foreach (Match match in matches)
                             {
-                                ohos.SubOrderID = ordt.Rows[0]["suborderid"].ToString();
+                                HOS ohos = new HOS();
+                                ohos.Ref = match.Value;
+                                //Get Suborder ID
+                                DataTable ordt = new DataTable();
+                                ordt = oorderpackedTableAdapter.GetDataRef(ohos.Ref);
+                                if (ordt.Rows.Count > 0)
+                                {
+                                    ohos.SubOrderID = ordt.Rows[0]["suborderid"].ToString();
 
+                                }
+                                else
+                                {
+                                    ohos.SubOrderID = "Sub OrderID Not Found";
+                                }
+                                listHOS.Add(ohos);
                             }
-                            else
-                            {
-                                ohos.SubOrderID = "Sub OrderID Not Found";
-                            }
-                             listHOS.Add(ohos);
-                        }
-                    }
+                            p = p + 20;
+                            startWorker.ReportProgress(p);
+                        //System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(s, "SLP\\w{7,10}");
+                        //if (match.Success)
+                        //{
+                        //    HOS ohos = new HOS();
+                        //    ohos.Ref = match.Captures[0].Value;
+                        //    //Get Suborder ID
+                        //    DataTable ordt = new DataTable();
+                        //    ordt = oorderpackedTableAdapter.GetDataRef(ohos.Ref);
+                        //    if (ordt.Rows.Count > 0)
+                        //    {
+                        //        ohos.SubOrderID = ordt.Rows[0]["suborderid"].ToString();
+
+                        //    }
+                        //    else
+                        //    {
+                        //        ohos.SubOrderID = "Sub OrderID Not Found";
+                        //    }
+                        //     listHOS.Add(ohos);
+                        //}
+                   // }
 
 
                 
@@ -1444,13 +1471,13 @@ namespace OrderTracker
                 {
                     MessageBox.Show(ex.ToString());                   
                 }
-                startWorker.ReportProgress(((page*100) / numberOfPages)-10);
-            }
+                //startWorker.ReportProgress(((page*100) / numberOfPages)-10);
+           // }
             try
             {
                 listHOS = listHOS.GroupBy(x => x.Ref).Select(x => x.First()).ToList();
                // var v = listHOS.SelectMany(mo => mo.SubOrderID).Distinct();
-
+                int j = 1;
                 foreach (HOS oHOS in listHOS)
                 {
                     if (oorderhosTableAdapter.GetSuborderCount(oHOS.SubOrderID) > 0)
@@ -1472,7 +1499,9 @@ namespace OrderTracker
                             OrderDetailsAU(oOrderDetailsEntity);
                         }
                     }
+                    j++;
 
+                    startWorker.ReportProgress(p + ((j * 40) / listHOS.Count()));
                 }
 
             }
