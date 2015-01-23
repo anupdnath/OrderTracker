@@ -1208,7 +1208,7 @@ namespace OrderTracker
                 }
                 cmbOrderStatus.DisplayMember = "StatusName";
                 cmbOrderStatus.DataSource = dt1;
-                
+                cmbAmount.SelectedIndex = 0;
                 
             }
             catch { }
@@ -1714,6 +1714,9 @@ namespace OrderTracker
                 oorderpackedTableAdapter.DeleteQuery();
                 oordertransectionTableAdapter.DeleteQuery();
                 oorderallamountTableAdapter.DeleteQuery();
+                DataTable dt = new DataTable();
+                dgvResult.DataSource = dt;
+                dgvResult1.DataSource = dt;
             }
 
         }
