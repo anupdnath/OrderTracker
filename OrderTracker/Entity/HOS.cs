@@ -16,6 +16,7 @@ namespace OrderTracker.Entity
        public DateTime CreationDate { get; set; }
        public String HosNo { get; set; }
        public String HosDate { get; set; }
+       public DateTime HSDate { get; set; }
     }
    public class HOSDetails
    {

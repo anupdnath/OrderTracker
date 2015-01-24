@@ -54,8 +54,6 @@
             this.btnHos1 = new System.Windows.Forms.Button();
             this.txtLocation = new System.Windows.Forms.TextBox();
             this.btnbrowse = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.btnPayment = new System.Windows.Forms.Button();
             this.btnHOS = new System.Windows.Forms.Button();
             this.btnMainfest = new System.Windows.Forms.Button();
@@ -117,6 +115,9 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.lblUserName = new System.Windows.Forms.Label();
             this.lblUserType = new System.Windows.Forms.Label();
+            this.btnexportImport = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.lblSaveType = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -142,12 +143,12 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.btnSave);
+            this.groupBox1.Controls.Add(this.btnexportImport);
             this.groupBox1.Controls.Add(this.btndelete);
             this.groupBox1.Controls.Add(this.btnHos1);
             this.groupBox1.Controls.Add(this.txtLocation);
             this.groupBox1.Controls.Add(this.btnbrowse);
-            this.groupBox1.Controls.Add(this.button5);
-            this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.btnPayment);
             this.groupBox1.Controls.Add(this.btnHOS);
             this.groupBox1.Controls.Add(this.btnMainfest);
@@ -204,34 +205,6 @@
             this.btnbrowse.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnbrowse.UseVisualStyleBackColor = true;
             this.btnbrowse.Click += new System.EventHandler(this.btnbrowse_Click);
-            // 
-            // button5
-            // 
-            this.button5.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Image = global::OrderTracker.Properties.Resources.excel;
-            this.button5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button5.Location = new System.Drawing.Point(829, 15);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(108, 30);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "Import CCO";
-            this.button5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Visible = false;
-            // 
-            // button4
-            // 
-            this.button4.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Image = global::OrderTracker.Properties.Resources.excel;
-            this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button4.Location = new System.Drawing.Point(711, 15);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(105, 30);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "Import RTO";
-            this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Visible = false;
             // 
             // btnPayment
             // 
@@ -321,9 +294,10 @@
             // 
             this.lblper.AutoSize = true;
             this.lblper.BackColor = System.Drawing.Color.Transparent;
+            this.lblper.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblper.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblper.ForeColor = System.Drawing.Color.Maroon;
-            this.lblper.Location = new System.Drawing.Point(471, 262);
+            this.lblper.Location = new System.Drawing.Point(3, 264);
             this.lblper.Name = "lblper";
             this.lblper.Size = new System.Drawing.Size(0, 13);
             this.lblper.TabIndex = 59;
@@ -370,6 +344,7 @@
             this.gridProduct.DefaultCellStyle = dataGridViewCellStyle3;
             this.gridProduct.Location = new System.Drawing.Point(3, 16);
             this.gridProduct.Name = "gridProduct";
+            this.gridProduct.ReadOnly = true;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Times New Roman", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1095,11 +1070,51 @@
             this.lblUserType.Text = "UserType";
             this.lblUserType.Visible = false;
             // 
+            // btnexportImport
+            // 
+            this.btnexportImport.Image = global::OrderTracker.Properties.Resources.down;
+            this.btnexportImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnexportImport.Location = new System.Drawing.Point(856, 12);
+            this.btnexportImport.Name = "btnexportImport";
+            this.btnexportImport.Size = new System.Drawing.Size(75, 31);
+            this.btnexportImport.TabIndex = 10;
+            this.btnexportImport.Text = "Export";
+            this.btnexportImport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnexportImport.UseVisualStyleBackColor = true;
+            this.btnexportImport.Click += new System.EventHandler(this.btnexportImport_Click);
+            // 
+            // btnSave
+            // 
+            this.btnSave.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSave.Image = global::OrderTracker.Properties.Resources.Save;
+            this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSave.Location = new System.Drawing.Point(773, 13);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(77, 30);
+            this.btnSave.TabIndex = 11;
+            this.btnSave.Text = "Save";
+            this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // lblSaveType
+            // 
+            this.lblSaveType.AutoSize = true;
+            this.lblSaveType.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSaveType.ForeColor = System.Drawing.Color.Teal;
+            this.lblSaveType.Location = new System.Drawing.Point(678, 9);
+            this.lblSaveType.Name = "lblSaveType";
+            this.lblSaveType.Size = new System.Drawing.Size(69, 18);
+            this.lblSaveType.TabIndex = 11;
+            this.lblSaveType.Text = "Save Value";
+            this.lblSaveType.Visible = false;
+            // 
             // OrderUpload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1034, 460);
+            this.Controls.Add(this.lblSaveType);
             this.Controls.Add(this.lblUserType);
             this.Controls.Add(this.lblUserName);
             this.Controls.Add(this.pictureBox2);
@@ -1144,8 +1159,6 @@
 
         private System.Windows.Forms.Button btnMainfest;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button btnPayment;
         private System.Windows.Forms.Button btnHOS;
         private System.Windows.Forms.TabControl tabControl1;
@@ -1210,6 +1223,9 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label lblper;
         private System.Windows.Forms.CheckBox chkDisable;
+        private System.Windows.Forms.Button btnexportImport;
+        private System.Windows.Forms.Button btnSave;
+        public System.Windows.Forms.Label lblSaveType;
     }
 }
 

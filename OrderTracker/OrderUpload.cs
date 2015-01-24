@@ -55,16 +55,50 @@ namespace OrderTracker
             }
             else
                 MessageBox.Show("Format not supported");
-        }       
+        }
+        #region [Save Mainfest]
+        private void saveMainfest(List<OrderMainfest> listOrderMainfest)
+        {
+            int i = 0;
+            foreach (OrderMainfest or in listOrderMainfest)
+            {
+                try
+                {
+                    if (oorderpackedTableAdapter.GetSubOrderCount(or.Suborder_Id) > 0)
+                    { }
+                    else
+                    {
+                        //insert
+                        oorderpackedTableAdapter.InsertQuery(or.Suborder_Id, or.Category, or.Courier, or.Product, or.Reference_Code, or.SKU_Code, or.AWB_Number, or.Order_Verified_Date, or.Order_Created_Date, or.Customer_Name, or.Shipping_Name, or.City, or.State, or.PINCode, or.Selling_Price.ToString(), or.IMEI_SERIAL, or.PromisedShipDate, or.MRP.ToString(), or.InvoiceCode, or.CreationDate);
+                        OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
+                        oOrderDetailsEntity.Amount = 0;
+                        oOrderDetailsEntity.Status = "Packed";
+                        oOrderDetailsEntity.SuborderId = or.Suborder_Id;
+                        OrderDetailsAU(oOrderDetailsEntity);
+                        oordertransectionTableAdapter.InsertQuery(or.Suborder_Id, OrderConstant.Packed, DateTime.Now);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Utility.ErrorLog(ex, "btnMainfestClick-Data Insert");
+                }
+                i++;
+                startWorker.ReportProgress(((100 * i) / listOrderMainfest.Count()));
+            }
+        }
+        #endregion
+
         private void btnMainfestClick(object sender, EventArgs e)
         {
 
             try
             {
+                startWorker.ReportProgress(20);
                 DisableAllUpload();
                 oDataTable = new DataTable();
                 //gridProduct.DataSource = oDataTable;
                 ChangeGridViewdt(gridProduct, oDataTable);
+                ChangeTextControlState(lblSaveType, SaveType.Mainfest.ToString());
                 oDataTable = ImportExport.CSVToDataTable(txtLocation.Text, true);
                 List<OrderMainfest> listOrderMainfest = new List<OrderMainfest>();
                 listOrderMainfest = ParseMainfest(oDataTable);
@@ -72,36 +106,37 @@ namespace OrderTracker
                 {
                     int p = 100 / listOrderMainfest.Count();
                     int i = 0;
-                    foreach (OrderMainfest or in listOrderMainfest)
-                    {
-                        try
-                        {
-                            if (oorderpackedTableAdapter.GetSubOrderCount(or.Suborder_Id) > 0)
-                            { }
-                            else
-                            {
-                                //insert
-                                oorderpackedTableAdapter.InsertQuery(or.Suborder_Id, or.Category, or.Courier, or.Product, or.Reference_Code, or.SKU_Code, or.AWB_Number, or.Order_Verified_Date, or.Order_Created_Date, or.Customer_Name, or.Shipping_Name, or.City, or.State, or.PINCode, or.Selling_Price.ToString(), or.IMEI_SERIAL, or.PromisedShipDate, or.MRP.ToString(), or.InvoiceCode, or.CreationDate);
-                                OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
-                                oOrderDetailsEntity.Amount = 0;
-                                oOrderDetailsEntity.Status = "Packed";
-                                oOrderDetailsEntity.SuborderId = or.Suborder_Id;
-                                OrderDetailsAU(oOrderDetailsEntity);
-                                oordertransectionTableAdapter.InsertQuery(or.Suborder_Id, OrderConstant.Packed, DateTime.Now);
-                            }
-                        }
-                        catch
-                        {
-                        }
-                        i++;
-                        startWorker.ReportProgress(((100*i) / listOrderMainfest.Count())-5);
-                    }
+                    //foreach (OrderMainfest or in listOrderMainfest)
+                    //{
+                    //    try
+                    //    {
+                    //        if (oorderpackedTableAdapter.GetSubOrderCount(or.Suborder_Id) > 0)
+                    //        { }
+                    //        else
+                    //        {
+                    //            //insert
+                    //            oorderpackedTableAdapter.InsertQuery(or.Suborder_Id, or.Category, or.Courier, or.Product, or.Reference_Code, or.SKU_Code, or.AWB_Number, or.Order_Verified_Date, or.Order_Created_Date, or.Customer_Name, or.Shipping_Name, or.City, or.State, or.PINCode, or.Selling_Price.ToString(), or.IMEI_SERIAL, or.PromisedShipDate, or.MRP.ToString(), or.InvoiceCode, or.CreationDate);
+                    //            OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
+                    //            oOrderDetailsEntity.Amount = 0;
+                    //            oOrderDetailsEntity.Status = "Packed";
+                    //            oOrderDetailsEntity.SuborderId = or.Suborder_Id;
+                    //            OrderDetailsAU(oOrderDetailsEntity);
+                    //            oordertransectionTableAdapter.InsertQuery(or.Suborder_Id, OrderConstant.Packed, DateTime.Now);
+                    //        }
+                    //    }
+                    //    catch(Exception ex)
+                    //    {
+                    //        Utility.ErrorLog(ex, "btnMainfestClick-Data Insert"); 
+                    //    }
+                    //    i++;
+                    //    startWorker.ReportProgress(((100*i) / listOrderMainfest.Count())-5);
+                    //}
                     ChangeGridView(gridProduct, listOrderMainfest.ToList<dynamic>());
                     startWorker.ReportProgress(100);
                     //gridProduct.DataSource = listOrderMainfest;
                     if (listOrderMainfest.Count() > 0)
                     {
-                        MessageBox.Show("Total Record Updated- " + listOrderMainfest.Count().ToString());
+                        MessageBox.Show("Total Record Found- " + listOrderMainfest.Count().ToString());
                     }
                 }
                 else
@@ -113,12 +148,83 @@ namespace OrderTracker
             catch (Exception ex)
             {
                 MessageBox.Show("Close your excel file or contact admin");
+                Utility.ErrorLog(ex, "orderMainfest import"); 
             }
             finally
             {
                 EnableAllUpload();
             }
             //EnableAllUpload();
+        }
+        #region[Parse HOS]
+        private List<HOS> ParseHOS(DataTable dt)
+        {
+            List<HOS> listHOS = new List<HOS>();
+            if (dt.Rows.Count > 0)
+            {
+
+                foreach (DataColumn dc in dt.Columns)
+                {
+                    dc.ColumnName = dc.ColumnName.Trim();
+                }
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    HOS oHOS = new HOS();
+
+                    oHOS.HosNo = DataTableValidation("HosNo", dt, i);
+                    oHOS.HosDate = DataTableValidation("HosDate", dt, i);
+                    oHOS.Ref = DataTableValidation("Ref", dt, i);
+                    oHOS.Sku = DataTableValidation("Sku", dt, i);
+                    oHOS.SubOrderID = DataTableValidation("SubOrderID", dt, i);
+                    oHOS.Supc = DataTableValidation("Supc", dt, i);
+                    oHOS.AWB = DataTableValidation("AWB", dt, i);
+                    oHOS.HSDate = DataTableValidationHOSDate("HosDate", dt, i);
+                    listHOS.Add(oHOS);
+                }
+            }
+            return listHOS;
+        }
+        #endregion
+        #region [Parse Mainfest]
+        #endregion
+        private List<OrderMainfest> ParseSaveMainfest(DataTable dt)
+        {
+            List<OrderMainfest> listOrderMainfest = new List<OrderMainfest>();
+            if (dt.Rows.Count > 0)
+            {
+
+                foreach (DataColumn dc in dt.Columns)
+                {
+                    dc.ColumnName = dc.ColumnName.Trim();
+                }
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    OrderMainfest oOrderMainfest = new OrderMainfest();
+
+                    oOrderMainfest.Category = DataTableValidation("Category", dt, i);
+                    oOrderMainfest.Courier = DataTableValidation("Courier", dt, i);
+                    oOrderMainfest.Product = DataTableValidation("Product", dt, i);
+                    oOrderMainfest.Reference_Code = DataTableValidation("Reference_Code", dt, i);
+                    oOrderMainfest.Suborder_Id = dt.Rows[i]["Suborder_Id"].ToString();
+                    oOrderMainfest.SKU_Code = DataTableValidation("SKU Code", dt, i);
+                    oOrderMainfest.AWB_Number = DataTableValidation("AWB_Number", dt, i);
+                    oOrderMainfest.Order_Verified_Date = DataTableValidationDate("Order_Verified_Date", dt, i);
+                    oOrderMainfest.Order_Created_Date = DataTableValidationDate("Order_Created_Date", dt, i);
+                    oOrderMainfest.Customer_Name = DataTableValidation("Shipping_Name", dt, i);
+                    oOrderMainfest.Shipping_Name = DataTableValidation("Shipping_Name", dt, i);
+                    oOrderMainfest.City = DataTableValidation("City", dt, i);
+                    oOrderMainfest.State = DataTableValidation("State", dt, i);
+                    oOrderMainfest.PINCode = DataTableValidation("PINCode", dt, i);
+                    oOrderMainfest.Selling_Price = DataTableValidationDecimal("Selling_Price", dt, i);
+                    oOrderMainfest.IMEI_SERIAL = DataTableValidation("IMEI_SERIAL", dt, i);
+                    oOrderMainfest.PromisedShipDate = DataTableValidationDate("PromisedShipDate", dt, i);
+                    oOrderMainfest.MRP = DataTableValidationDecimal("MRP", dt, i);
+                    oOrderMainfest.InvoiceCode = DataTableValidation("InvoiceCode", dt, i);
+                    oOrderMainfest.CreationDate = System.DateTime.Now;
+                    listOrderMainfest.Add(oOrderMainfest);
+                }
+            }
+            return listOrderMainfest;
         }
         private List<OrderMainfest> ParseMainfest(DataTable dt)
         {
@@ -192,7 +298,28 @@ namespace OrderTracker
 
             return validdate;
         }
+        private DateTime DataTableValidationHOSDate(string col, DataTable dt, int i)
+        {
+            DateTime validdate = DateTime.ParseExact("01-01-1900", "dd-MM-yyyy", CultureInfo.CurrentCulture);
 
+            if (dt.Columns.Contains(col) && dt.Rows[i][col].ToString().Length>5)
+            {
+                string dateString = dt.Rows[i][col].ToString().Substring(8, 2) + "-" + dt.Rows[i][col].ToString().Substring(4, 3) + "-" + dt.Rows[i][col].ToString().Substring(24, 4) + " " + dt.Rows[i][col].ToString().Substring(11, 8);
+                string format = "dd-MMM-yyyy HH:mm:ss";
+                DateTime dateTime;
+                if (DateTime.TryParseExact(dateString, format, CultureInfo.CurrentCulture,
+                    DateTimeStyles.None, out dateTime))
+                {
+                    if (dateString.Length > 10)
+                        validdate = DateTime.ParseExact(dateString, format, CultureInfo.CurrentCulture);
+                    else
+                        validdate = DateTime.ParseExact(dateString, "dd-MMM-yyyy", CultureInfo.CurrentCulture);
+                }
+
+            }
+
+            return validdate;
+        }
         private decimal DataTableValidationDecimal(string col, DataTable dt, int i)
         {
             if (dt.Columns.Contains(col))
@@ -229,6 +356,18 @@ namespace OrderTracker
             }
             else
                 control.Enabled = Enabled;
+        }
+
+        private delegate void ChangeTextControlStateDelegate(Control control, string s);
+        private void ChangeTextControlState(Control control, string s)
+        {
+            if (this.InvokeRequired)
+            {
+                ChangeTextControlStateDelegate d = new ChangeTextControlStateDelegate(ChangeTextControlState);
+                this.Invoke(d, control, s);
+            }
+            else
+                control.Text = s;
         }
 
         private delegate void ChangeGridViewDelegate(DataGridView lvItem, List<dynamic> listHos);
@@ -369,6 +508,7 @@ namespace OrderTracker
             string hosCode = "", hosdate = "";
             List<HOS> listHOS = new List<HOS>();
             ChangeGridView(gridProduct, listHOS.ToList<dynamic>());
+            ChangeTextControlState(lblSaveType, SaveType.HOS.ToString());
             bool status = false;
             p = 10;
             //for (int page = 1; page <= numberOfPages; page++)
@@ -469,8 +609,9 @@ namespace OrderTracker
                                             }
                                         }
                                     }
-                                    catch
+                                    catch(Exception ex)
                                     {
+                                        Utility.ErrorLog(ex, "HOS Import- HOS Date"); 
                                     }
                                    
                                     
@@ -484,6 +625,7 @@ namespace OrderTracker
                 }
                 catch(Exception ex)
                 {
+                    Utility.ErrorLog(ex, "orderMainfest Click"); 
                     MessageBox.Show(ex.ToString(), "Error");
                 }
                 //startWorker.ReportProgress(((page *100)/ numberOfPages)-10);
@@ -493,6 +635,58 @@ namespace OrderTracker
              #region[Data Insert-20]
              
              listHOS = listHOS.GroupBy(x => x.SubOrderID).Select(x => x.First()).ToList();
+            //foreach (HOS oHOS in listHOS)
+            //{
+            //    if (oorderhosTableAdapter.GetSuborderCount(oHOS.SubOrderID) > 0)
+            //    {
+            //        //update
+            //        // oorderhosTableAdapter.UpdateQuery(oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.SubOrderID);
+            //    }
+            //    else
+            //    {
+            //        //Insert                               
+            //        oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate);
+            //        oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
+            //        OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
+            //        oOrderDetailsEntity.Amount = 0;
+            //        oOrderDetailsEntity.Status = "Shipped";
+            //        oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
+            //        OrderDetailsAU(oOrderDetailsEntity);
+                   
+            //    }
+            //    c++;
+            //    startWorker.ReportProgress(p + ((c * 20) / listHOS.Count()));
+            //}
+             #endregion
+             var selectedFields = from s in listHOS
+                                  select new
+                                  {
+                                      s.SubOrderID,
+                                      s.Sku,
+                                      s.Supc,
+                                      s.AWB,
+                                      s.Ref,
+                                      s.HosNo,
+                                      s.HosDate
+
+                                  };
+             ChangeGridView(gridProduct, selectedFields.ToList<dynamic>());
+            startWorker.ReportProgress(100);
+            if (listHOS.Count() > 0)
+            {
+                MessageBox.Show("Total Record Found- " + listHOS.Count().ToString());
+
+            }
+            else
+            {
+                MessageBox.Show("No record found", "Alert");
+            }
+            EnableAllUpload();
+        }
+        #region[HOS Insert]
+        private void HOSInsert(List<HOS> listHOS)
+        {
+            int c = 0;
             foreach (HOS oHOS in listHOS)
             {
                 if (oorderhosTableAdapter.GetSuborderCount(oHOS.SubOrderID) > 0)
@@ -503,32 +697,20 @@ namespace OrderTracker
                 else
                 {
                     //Insert                               
-                    oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate);
+                    oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate,oHOS.HSDate);
                     oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
                     OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
                     oOrderDetailsEntity.Amount = 0;
                     oOrderDetailsEntity.Status = "Shipped";
                     oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
                     OrderDetailsAU(oOrderDetailsEntity);
-                   
+
                 }
                 c++;
-                startWorker.ReportProgress(p + ((c * 20) / listHOS.Count()));
+                startWorker.ReportProgress(((c * 100) / listHOS.Count()));
             }
-             #endregion
-            ChangeGridView(gridProduct, listHOS.ToList<dynamic>());
-           
-            if (listHOS.Count() > 0)
-            {
-                MessageBox.Show("Total Record Updated- " + listHOS.Count().ToString());
-
-            }
-            else
-            {
-                MessageBox.Show("No record found", "Alert");
-            }
-            EnableAllUpload();
         }
+        #endregion
 
         #region [Read Text]
         public String ExtractPageText(string sourcePdfPath)
@@ -588,6 +770,7 @@ namespace OrderTracker
             }
             catch (Exception ex)
             {
+                Utility.ErrorLog(ex, "extract Page"); 
                 throw ex;
             }
         }
@@ -706,24 +889,27 @@ namespace OrderTracker
             DisableAllUpload();
             try
             {
+                startWorker.ReportProgress(20);
                 DataSet oDataSet = new DataSet();
                 oDataSet = ImportExport.ExcelToDataSet(txtLocation.Text);
                 List<Payment> listOrderPayment = new List<Payment>();
                 ChangeGridView(gridProduct, listOrderPayment.ToList<dynamic>());
+                ChangeTextControlState(lblSaveType, SaveType.Payment.ToString());
                 if (oDataSet != null)
                 {
                     listOrderPayment = ParsePayment(oDataSet.Tables[0]);
-                    var distinctTypeIDs = listOrderPayment.Select(x => x.SuborderID).Distinct();                    
-                    int i = 0;
-                    foreach (string p in distinctTypeIDs)
-                    {
-                        var paymentlist = (from o in listOrderPayment where o.SuborderID == p select o).ToList();
-                        PaymentStatus(paymentlist);
-                        i++;
-                        startWorker.ReportProgress((100*i) / distinctTypeIDs.Count());
-                    }
+                    //var distinctTypeIDs = listOrderPayment.Select(x => x.SuborderID).Distinct();                    
+                    //int i = 0;
+                    //foreach (string p in distinctTypeIDs)
+                    //{
+                    //    var paymentlist = (from o in listOrderPayment where o.SuborderID == p select o).ToList();
+                    //    PaymentStatus(paymentlist);
+                    //    i++;
+                    //    startWorker.ReportProgress((100*i) / distinctTypeIDs.Count());
+                    //}
                     ChangeGridView(gridProduct, listOrderPayment.ToList<dynamic>());
-                    MessageBox.Show("Total Record Updated- " + listOrderPayment.Count().ToString());
+                    startWorker.ReportProgress(100);
+                    MessageBox.Show("Total Record Found- " + listOrderPayment.Count().ToString());
                 }
                 else
                 {
@@ -731,6 +917,7 @@ namespace OrderTracker
                 }
             }
             catch(Exception ex) {
+                Utility.ErrorLog(ex, "Payment sheet import"); 
                 MessageBox.Show(ex.ToString());
             }
             finally
@@ -739,7 +926,20 @@ namespace OrderTracker
                 EnableAllUpload();
             }
         }
-
+        #region[Save Payment]
+        private void SavePayment(List<Payment> listOrderPayment)
+        {
+            var distinctTypeIDs = listOrderPayment.Select(x => x.SuborderID).Distinct();      
+            int i = 0;
+            foreach (string p in distinctTypeIDs)
+            {
+                var paymentlist = (from o in listOrderPayment where o.SuborderID == p select o).ToList();
+                PaymentStatus(paymentlist);
+                i++;
+                startWorker.ReportProgress((100 * i) / distinctTypeIDs.Count());
+            }
+        }
+        #endregion
         private void PaymentStatus(List<Payment> listOrderPayment)
         {
             try
@@ -993,7 +1193,9 @@ namespace OrderTracker
                     oorderdetailsTableAdapter.UpdateAmount(DateTime.Now, total, listOrderPayment[0].SuborderID);
                 }
             }
-            catch { }
+            catch(Exception ex) {
+                Utility.ErrorLog(ex, "Payment final catch"); 
+            }
             
         }
         #region [Save Amount]
@@ -1185,6 +1387,7 @@ namespace OrderTracker
             }
             catch (Exception ex)
             {
+                Utility.ErrorLog(ex, "Search"); 
                 MessageBox.Show(ex.ToString());
             }
         }
@@ -1211,7 +1414,9 @@ namespace OrderTracker
                 cmbAmount.SelectedIndex = 0;
                 
             }
-            catch { }
+            catch(Exception ex) {
+                Utility.ErrorLog(ex, "status Load import"); 
+            }
         }
         #endregion
 
@@ -1257,61 +1462,104 @@ namespace OrderTracker
             fs.Close();
         }
 
-        #region [Export To Excel]        
-       
-        private void btnExport_Click(object sender, EventArgs e)
+        #region[Grid to DataTable]
+        private DataTable griddt(DataGridView dgv)
         {
-            ////SaveFileDialog sfd = new SaveFileDialog();
-            ////sfd.Filter = "Excel Documents (*.xls)|*.xls";
-            ////sfd.FileName = "export.xls";
-            ////if (sfd.ShowDialog() == DialogResult.OK)
-            ////{
-            ////    //ToCsV(dataGridView1, @"c:\export.xls");
-            ////    ToCsV(dgvResult, sfd.FileName); // Here dataGridview1 is your grid view name 
-            ////}  
-            //Creating DataTable
             DataTable dt = new DataTable();
-           
-            //Adding the Columns
-            foreach (DataGridViewColumn column in dgvResult.Columns)
+            try
             {
-                dt.Columns.Add(column.HeaderText, column.ValueType);
-            }
-
-            //Adding the Rows
-           
-            foreach (DataGridViewRow row in dgvResult.Rows)
-            {
-                dt.Rows.Add();
-                foreach (DataGridViewCell cell in row.Cells)
+                if (dgv.RowCount > 0)
                 {
-                    if (dt.Columns[cell.ColumnIndex].DataType == typeof(DateTime))
+                   
+
+                    //Adding the Columns
+                    foreach (DataGridViewColumn column in dgv.Columns)
                     {
-                        if (!string.IsNullOrEmpty(cell.Value.ToString()))
+                        dt.Columns.Add(column.HeaderText, column.ValueType);
+                    }
+
+                    //Adding the Rows
+
+                    foreach (DataGridViewRow row in dgv.Rows)
+                    {
+                        dt.Rows.Add();
+                        foreach (DataGridViewCell cell in row.Cells)
+                        {
+                            if (dt.Columns[cell.ColumnIndex].DataType == typeof(DateTime))
+                            {
+                                if (!string.IsNullOrEmpty(cell.Value.ToString()))
+                                {
+                                    dt.Rows[dt.Rows.Count - 1][cell.ColumnIndex] = cell.Value.ToString();
+                                }
+                            }
+                            else
+                            {
+                                dt.Rows[dt.Rows.Count - 1][cell.ColumnIndex] = cell.Value.ToString();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Utility.ErrorLog(ex, "HOS import- Database insert"); 
+            }
+            return dt;
+        }
+        #endregion
+        #region [Export To Excel]
+        private void exportGrid(DataGridView dgv)
+        {
+            if (dgv.RowCount > 0)
+            {
+                DataTable dt = new DataTable();
+
+                //Adding the Columns
+                foreach (DataGridViewColumn column in dgv.Columns)
+                {
+                    dt.Columns.Add(column.HeaderText, column.ValueType);
+                }
+
+                //Adding the Rows
+
+                foreach (DataGridViewRow row in dgv.Rows)
+                {
+                    dt.Rows.Add();
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        if (dt.Columns[cell.ColumnIndex].DataType == typeof(DateTime))
+                        {
+                            if (!string.IsNullOrEmpty(cell.Value.ToString()))
+                            {
+                                dt.Rows[dt.Rows.Count - 1][cell.ColumnIndex] = cell.Value.ToString();
+                            }
+                        }
+                        else
                         {
                             dt.Rows[dt.Rows.Count - 1][cell.ColumnIndex] = cell.Value.ToString();
                         }
                     }
-                    else
-                    {
-                        dt.Rows[dt.Rows.Count - 1][cell.ColumnIndex] = cell.Value.ToString();
-                    }
+                }
+                var wb = new XLWorkbook();
+
+
+                // Add a DataTable as a worksheet
+                wb.Worksheets.Add(dt, "Report");
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "Excel Documents (*.xlsx)|*.xlsx";
+                sfd.FileName = "Report.xlsx";
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    //ToCsV(dataGridView1, @"c:\export.xls");
+                    wb.SaveAs(sfd.FileName); // Here dataGridview1 is your grid view name 
                 }
             }
-            var wb = new XLWorkbook();
-
-
-            // Add a DataTable as a worksheet
-            wb.Worksheets.Add(dt, "Report");
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Excel Documents (*.xlsx)|*.xlsx";
-            sfd.FileName = "Report.xlsx";
-            if (sfd.ShowDialog() == DialogResult.OK)
-            {
-                //ToCsV(dataGridView1, @"c:\export.xls");
-                wb.SaveAs(sfd.FileName); // Here dataGridview1 is your grid view name 
-            }  
-            
+            else
+                MessageBox.Show("Not record found");
+        }
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            exportGrid(dgvResult);
         }
         #endregion
 
@@ -1345,7 +1593,9 @@ namespace OrderTracker
                     oorderdetailsTableAdapter.InsertQuery(oOrderDetailsEntity.SuborderId, oOrderDetailsEntity.Status, oOrderDetailsEntity.Remark, DateTime.Now, oOrderDetailsEntity.Amount,DateTime.Now);
                 }
             }
-            catch { }
+            catch(Exception ex) {
+                Utility.ErrorLog(ex, "orderdetails Table Insert"); 
+            }
         }
         #endregion
 
@@ -1381,8 +1631,8 @@ namespace OrderTracker
             int p = 10;
             startWorker.ReportProgress(p);           
             List<HOS> listHOS = new List<HOS>();
-            ChangeGridView(gridProduct, listHOS.ToList<dynamic>());           
-          
+            ChangeGridView(gridProduct, listHOS.ToList<dynamic>());
+            ChangeTextControlState(lblSaveType, SaveType.HOS1.ToString());
                 try
                 {
 
@@ -1412,7 +1662,7 @@ namespace OrderTracker
                                 }
                                 else
                                 {
-                                    ohos.SubOrderID = "Sub OrderID Not Found";
+                                    ohos.SubOrderID = "";
                                 }
                                 listHOS.Add(ohos);
                             }
@@ -1424,6 +1674,7 @@ namespace OrderTracker
                 }
                 catch(Exception ex)
                 {
+                    Utility.ErrorLog(ex, "HOS import- Ref No"); 
                     MessageBox.Show(ex.ToString());                   
                 }
                
@@ -1433,43 +1684,55 @@ namespace OrderTracker
                 
                 listHOS = listHOS.GroupBy(x => x.Ref).Select(x => x.First()).ToList();
                // var v = listHOS.SelectMany(mo => mo.SubOrderID).Distinct();
-                int j = 1;
-                foreach (HOS oHOS in listHOS)
-                {
-                    if (oorderhosTableAdapter.GetSuborderCount(oHOS.SubOrderID) > 0)
-                    {
-                        //update
-                        // oorderhosTableAdapter.UpdateQuery(oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.SubOrderID);
-                    }
-                    else
-                    {
-                        if (oHOS.SubOrderID.Length > 0 && oHOS.SubOrderID!="Sub OrderID Not Found")
-                        {
-                            //Insert                               
-                            oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate);
-                            oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
-                            OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
-                            oOrderDetailsEntity.Amount = 0;
-                            oOrderDetailsEntity.Status = "Shipped";
-                            oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
-                            OrderDetailsAU(oOrderDetailsEntity);
-                        }
-                    }
-                    j++;
+                //int j = 1;
+                //foreach (HOS oHOS in listHOS)
+                //{
+                //    if (oorderhosTableAdapter.GetSuborderCount(oHOS.SubOrderID) > 0)
+                //    {
+                //        //update
+                //        // oorderhosTableAdapter.UpdateQuery(oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.SubOrderID);
+                //    }
+                //    else
+                //    {
+                //        if (oHOS.SubOrderID.Length > 0 && oHOS.SubOrderID!="Sub OrderID Not Found")
+                //        {
+                //            //Insert                               
+                //            oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate);
+                //            oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
+                //            OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
+                //            oOrderDetailsEntity.Amount = 0;
+                //            oOrderDetailsEntity.Status = "Shipped";
+                //            oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
+                //            OrderDetailsAU(oOrderDetailsEntity);
+                //        }
+                //    }
+                //    j++;
 
-                    startWorker.ReportProgress(p + ((j * 40) / listHOS.Count()));
-                }
+                //    startWorker.ReportProgress(p + ((j * 40) / listHOS.Count()));
+                //}
                 #endregion
             }
-            catch
+            catch(Exception ex)
             {
-                
+                Utility.ErrorLog(ex, "HOS import- Database insert"); 
             }
-            ChangeGridView(gridProduct, listHOS.ToList<dynamic>());
+            var selectedFields = from s in listHOS
+                                 select new
+                                 {
+                                     s.SubOrderID,
+                                     s.Sku,
+                                     s.Supc,
+                                     s.AWB,
+                                     s.Ref,
+                                     s.HosNo,
+                                     s.HosDate
+
+                                 };
+            ChangeGridView(gridProduct, selectedFields.ToList<dynamic>());
             startWorker.ReportProgress(100);
             if (listHOS.Count() > 0)
             {
-                MessageBox.Show("Total Record Updated- " + listHOS.Count().ToString());
+                MessageBox.Show("Total Record Found- " + listHOS.Count().ToString());
 
             }
             else
@@ -1480,7 +1743,38 @@ namespace OrderTracker
         }
          #endregion
 
-        #region [Import 1]  
+        #region[HOS1 Save]
+        private void SaveHOS1(List<HOS> listHOS)
+        {
+            int j = 1;
+            foreach (HOS oHOS in listHOS)
+            {
+                if (oorderhosTableAdapter.GetSuborderCount(oHOS.SubOrderID) > 0)
+                {
+                    //update
+                    // oorderhosTableAdapter.UpdateQuery(oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.SubOrderID);
+                }
+                else
+                {
+                    if (oHOS.SubOrderID.Length > 0 && oHOS.SubOrderID != "")
+                    {
+                        //Insert                               
+                        oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate,oHOS.HSDate);
+                        oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
+                        OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
+                        oOrderDetailsEntity.Amount = 0;
+                        oOrderDetailsEntity.Status = "Shipped";
+                        oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
+                        OrderDetailsAU(oOrderDetailsEntity);
+                    }
+                }
+                j++;
+
+                startWorker.ReportProgress(((j * 100) / listHOS.Count()));
+            }
+        }
+        #endregion
+        #region [Import 1]
         private void btnbrowse1_Click(object sender, EventArgs e)
         {
              oOpenFileDialog.Title = "Open File Dialog";
@@ -1525,8 +1819,9 @@ namespace OrderTracker
                     
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    Utility.ErrorLog(ex, "Browse file"); 
                     MessageBox.Show("Please check your file", "Alert");
                 }
             
@@ -1555,7 +1850,9 @@ namespace OrderTracker
                     }
                 }
             }
-            catch { }
+            catch(Exception ex) {
+                Utility.ErrorLog(ex, "ParseOrderRef"); 
+            }
             return listOrderRef;
         }
         #endregion
@@ -1644,6 +1941,7 @@ namespace OrderTracker
             }
             catch(Exception ex)
             {
+                Utility.ErrorLog(ex, "Status Change-btnProcessClick"); 
                 MessageBox.Show(ex.ToString());
                 EnableAllUpload();
             }
@@ -1711,6 +2009,7 @@ namespace OrderTracker
             }
             catch (Exception ex)
             {
+                Utility.ErrorLog(ex, "User Add Edit"); 
                 MessageBox.Show(ex.Message);
             }
         }
@@ -1726,6 +2025,7 @@ namespace OrderTracker
                 oordertransectionTableAdapter.DeleteQuery();
                 oorderallamountTableAdapter.DeleteQuery();
                 DataTable dt = new DataTable();
+                gridProduct.DataSource = dt;
                 dgvResult.DataSource = dt;
                 dgvResult1.DataSource = dt;
             }
@@ -1788,6 +2088,60 @@ namespace OrderTracker
              {
                  dtpFrom.Enabled = true;
                  dtpTo.Enabled = true;
+             }
+         }
+
+         private void btnexportImport_Click(object sender, EventArgs e)
+         {
+             exportGrid(gridProduct);
+         }
+
+         private void btnSaveClick(object sender, EventArgs e)
+         {
+             try
+             {
+                 if (SaveType.Mainfest == (SaveType)Enum.Parse(typeof(SaveType), lblSaveType.Text))
+                 {
+                     saveMainfest(ParseSaveMainfest(griddt(gridProduct)));
+
+                 }
+                 else if (SaveType.HOS == (SaveType)Enum.Parse(typeof(SaveType), lblSaveType.Text))
+                 {
+                     HOSInsert(ParseHOS(griddt(gridProduct)));
+                 }
+                 else if (SaveType.HOS1 == (SaveType)Enum.Parse(typeof(SaveType), lblSaveType.Text))
+                 {
+                     SaveHOS1(ParseHOS(griddt(gridProduct)));
+                 }
+                 else if (SaveType.Payment == (SaveType)Enum.Parse(typeof(SaveType), lblSaveType.Text))
+                 {
+                    SavePayment(ParsePayment(griddt(gridProduct)));
+                 }
+                 MessageBox.Show("Data Saved Successfully");
+                 DataTable dt = new DataTable();
+                 ChangeGridViewdt(gridProduct, dt);
+                 lblSaveType.Text = "0";
+             }
+             catch (Exception ex)
+             {
+                 Utility.ErrorLog(ex, "btnSaveClick"); 
+             }
+            
+         }
+         private void btnSave_Click(object sender, EventArgs e)
+         {
+             if (SaveType.None != (SaveType)Enum.Parse(typeof(SaveType), lblSaveType.Text))
+             {
+                 startWorker = new BackgroundWorker();
+                 startWorker.DoWork += btnSaveClick;
+                 startWorker.WorkerReportsProgress = true;
+                 startWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgw_RunWorkerCompleted);
+                 startWorker.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker1_ProgressChanged);
+                 startWorker.RunWorkerAsync();
+             }
+             else
+             {
+                 MessageBox.Show("Please import the data again");
              }
          }
     }
