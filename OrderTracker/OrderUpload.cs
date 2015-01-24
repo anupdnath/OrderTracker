@@ -174,18 +174,18 @@ namespace OrderTracker
 
         private DateTime DataTableValidationDate(string col, DataTable dt, int i)
         {
-            DateTime validdate = DateTime.ParseExact("01-01-1900", "dd-MM-yyyy", CultureInfo.InvariantCulture); ;
+            DateTime validdate = DateTime.ParseExact("01-01-1900", "dd-MM-yyyy", CultureInfo.CurrentCulture); ;
             if (dt.Columns.Contains(col))
             {
                 string format = "dd-MM-yyyy HH:mm";
                 DateTime dateTime;
-                if (DateTime.TryParseExact(dt.Rows[i][col].ToString(), format, CultureInfo.InvariantCulture,
+                if (DateTime.TryParseExact(dt.Rows[i][col].ToString(), format, CultureInfo.CurrentCulture,
                     DateTimeStyles.None, out dateTime))
                 {
                     if (dt.Rows[i][col].ToString().Length > 10)
-                        validdate = DateTime.ParseExact(dt.Rows[i][col].ToString(), "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
+                        validdate = DateTime.ParseExact(dt.Rows[i][col].ToString(), "dd-MM-yyyy HH:mm", CultureInfo.CurrentCulture);
                     else
-                        validdate = DateTime.ParseExact(dt.Rows[i][col].ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                        validdate = DateTime.ParseExact(dt.Rows[i][col].ToString(), "dd-MM-yyyy", CultureInfo.CurrentCulture);
                 }
 
             }
@@ -405,7 +405,7 @@ namespace OrderTracker
                                     {
                                         hosdate = s.Substring(index + 21, (s.IndexOf("Vendor Address") - index - 21));
                                     }
-                                    oHOSDetails.HosDate = hosdate;
+                                    oHOSDetails.HosDate = hosdate.Replace("*","");
                                     oHOSDetailsList.Add(oHOSDetails);
                               
                             }
@@ -1271,7 +1271,7 @@ namespace OrderTracker
             ////}  
             //Creating DataTable
             DataTable dt = new DataTable();
-
+           
             //Adding the Columns
             foreach (DataGridViewColumn column in dgvResult.Columns)
             {
@@ -1279,12 +1279,23 @@ namespace OrderTracker
             }
 
             //Adding the Rows
+           
             foreach (DataGridViewRow row in dgvResult.Rows)
             {
                 dt.Rows.Add();
                 foreach (DataGridViewCell cell in row.Cells)
                 {
-                    dt.Rows[dt.Rows.Count - 1][cell.ColumnIndex] = cell.Value.ToString();
+                    if (dt.Columns[cell.ColumnIndex].DataType == typeof(DateTime))
+                    {
+                        if (!string.IsNullOrEmpty(cell.Value.ToString()))
+                        {
+                            dt.Rows[dt.Rows.Count - 1][cell.ColumnIndex] = cell.Value.ToString();
+                        }
+                    }
+                    else
+                    {
+                        dt.Rows[dt.Rows.Count - 1][cell.ColumnIndex] = cell.Value.ToString();
+                    }
                 }
             }
             var wb = new XLWorkbook();
