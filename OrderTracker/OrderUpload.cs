@@ -132,6 +132,7 @@ namespace OrderTracker
                     //    startWorker.ReportProgress(((100*i) / listOrderMainfest.Count())-5);
                     //}
                     ChangeGridView(gridProduct, listOrderMainfest.ToList<dynamic>());
+                    
                     startWorker.ReportProgress(100);
                     //gridProduct.DataSource = listOrderMainfest;
                     if (listOrderMainfest.Count() > 0)
@@ -379,7 +380,11 @@ namespace OrderTracker
                 this.Invoke(d, lvItem, listHos);
             }
             else
+            {
                 lvItem.DataSource = listHos;
+                lvItem.PerformLayout();
+            }
+                
         }
 
         private delegate void ChangeGridViewDelegatedt(DataGridView lvItem, DataTable dt);
@@ -1637,7 +1642,7 @@ namespace OrderTracker
                 {
 
                    
-                    String fileText = ImportExport.PDFText(oOpenFileDialog.FileName);
+                    String fileText = ImportExport.PDFText(oOpenFileDialog.FileName);                    
                     p = 30;
                     startWorker.ReportProgress(p);
                     #region[Ref no extraction]
