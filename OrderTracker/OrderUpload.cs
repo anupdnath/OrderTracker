@@ -172,14 +172,17 @@ namespace OrderTracker
                 {
                     HOS oHOS = new HOS();
 
-                    oHOS.HosNo = DataTableValidation("HosNo", dt, i);
-                    oHOS.HosDate = DataTableValidation("HosDate", dt, i);
+                    //oHOS.HosNo = DataTableValidation("HosNo", dt, i);
+                   // oHOS.HosDate = DataTableValidation("HosDate", dt, i);
                     oHOS.Ref = DataTableValidation("Ref", dt, i);
                     oHOS.Sku = DataTableValidation("Sku", dt, i);
                     oHOS.SubOrderID = DataTableValidation("SubOrderID", dt, i);
                     oHOS.Supc = DataTableValidation("Supc", dt, i);
                     oHOS.AWB = DataTableValidation("AWB", dt, i);
-                    oHOS.HSDate = DataTableValidationHOSDate("HosDate", dt, i);
+                    oHOS.Weight = DataTableValidation("Weight", dt, i);
+                    oHOS.MobileNo = DataTableValidation("MobileNo", dt, i);
+                    oHOS.RecDetails = DataTableValidation("RecDetails", dt, i);
+                    //oHOS.HSDate = DataTableValidationHOSDate("HosDate", dt, i);
                     listHOS.Add(oHOS);
                 }
             }
@@ -318,6 +321,29 @@ namespace OrderTracker
                 }
 
             }
+
+            return validdate;
+        }
+
+        private DateTime DataTableValidationHOS1MainfestDate(string col)
+        {
+            DateTime validdate = DateTime.ParseExact("01-01-1900", "dd-MM-yyyy", CultureInfo.CurrentCulture);
+
+            if (col.Length > 5)
+            {
+                string dateString = col.Substring(8, 2) + "-" + col.Substring(5, 2) + "-" + col.Substring(0, 4) + " " + col.Substring(11, 8);
+                string format = "dd-MM-yyyy HH:mm:ss";
+                DateTime dateTime;
+                if (DateTime.TryParseExact(dateString, format, CultureInfo.CurrentCulture,
+                    DateTimeStyles.None, out dateTime))
+                {
+                    if (dateString.Length > 10)
+                        validdate = DateTime.ParseExact(dateString, format, CultureInfo.CurrentCulture);
+                    else
+                        validdate = DateTime.ParseExact(dateString, "dd-MMM-yyyy", CultureInfo.CurrentCulture);
+                }
+            }
+           
 
             return validdate;
         }
@@ -702,7 +728,7 @@ namespace OrderTracker
                 else
                 {
                     //Insert                               
-                    oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate,oHOS.HSDate);
+                    oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate, oHOS.HSDate, oHOS.Weight, oHOS.MobileNo, oHOS.RecDetails);
                     oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
                     OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
                     oOrderDetailsEntity.Amount = 0;
@@ -1541,7 +1567,10 @@ namespace OrderTracker
                         }
                         else
                         {
-                            dt.Rows[dt.Rows.Count - 1][cell.ColumnIndex] = cell.Value.ToString();
+                            if ( cell.Value!=null)
+                            {
+                                dt.Rows[dt.Rows.Count - 1][cell.ColumnIndex] = cell.Value.ToString();
+                            }
                         }
                     }
                 }
@@ -1633,6 +1662,7 @@ namespace OrderTracker
                 MessageBox.Show("Input file missing", "Alert");
                 return;
             }
+            String fileText=string.Empty;
             int p = 10;
             startWorker.ReportProgress(p);           
             List<HOS> listHOS = new List<HOS>();
@@ -1642,7 +1672,8 @@ namespace OrderTracker
                 {
 
                    
-                    String fileText = ImportExport.PDFText(oOpenFileDialog.FileName);                    
+                    fileText = ImportExport.PDFText(oOpenFileDialog.FileName);
+                    fileText = fileText.Replace("FORMS NEEDED", "");     
                     p = 30;
                     startWorker.ReportProgress(p);
                     #region[Ref no extraction]
@@ -1657,18 +1688,9 @@ namespace OrderTracker
                             {
                                 HOS ohos = new HOS();
                                 ohos.Ref = match.Value;
+                                ohos.RefIndex = match.Index;
                                 //Get Suborder ID
-                                DataTable ordt = new DataTable();
-                                ordt = oorderpackedTableAdapter.GetDataRef(ohos.Ref);
-                                if (ordt.Rows.Count > 0)
-                                {
-                                    ohos.SubOrderID = ordt.Rows[0]["suborderid"].ToString();
-
-                                }
-                                else
-                                {
-                                    ohos.SubOrderID = "";
-                                }
+                                
                                 listHOS.Add(ohos);
                             }
 
@@ -1685,36 +1707,72 @@ namespace OrderTracker
                
             try
             {
-                #region [Data check and insert]
+                #region [Uplicate removed]
                 
                 listHOS = listHOS.GroupBy(x => x.Ref).Select(x => x.First()).ToList();
-               // var v = listHOS.SelectMany(mo => mo.SubOrderID).Distinct();
-                //int j = 1;
-                //foreach (HOS oHOS in listHOS)
-                //{
-                //    if (oorderhosTableAdapter.GetSuborderCount(oHOS.SubOrderID) > 0)
-                //    {
-                //        //update
-                //        // oorderhosTableAdapter.UpdateQuery(oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.SubOrderID);
-                //    }
-                //    else
-                //    {
-                //        if (oHOS.SubOrderID.Length > 0 && oHOS.SubOrderID!="Sub OrderID Not Found")
-                //        {
-                //            //Insert                               
-                //            oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate);
-                //            oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
-                //            OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
-                //            oOrderDetailsEntity.Amount = 0;
-                //            oOrderDetailsEntity.Status = "Shipped";
-                //            oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
-                //            OrderDetailsAU(oOrderDetailsEntity);
-                //        }
-                //    }
-                //    j++;
+                int prev=0, next=0;
+                for (int i = 0; i < listHOS.Count;i++ )
+                {
+                    try
+                    {                        
+                        prev = listHOS[i].RefIndex;
+                        if (i < listHOS.Count-1)
+                        {
+                            next = listHOS[i + 1].RefIndex;
+                        }
+                        else
+                        {
+                            next = fileText.IndexOf("For Courier", prev);
+                        }
+                        string RawString = fileText.Substring(prev + listHOS[i].Ref.Length, next - prev - listHOS[i].Ref.Length);
+                        string[] SplitString = RawString.Split('|');
+                        #region[Scraping Other Details]
+                       
+                        //SKU Found
+                        listHOS[i].Sku = SplitString[0];
 
-                //    startWorker.ReportProgress(p + ((j * 40) / listHOS.Count()));
-                //}
+                        string dReplace = SplitString[SplitString.Length-1].Replace("\r\n", " ");
+                        string[] dsplit = dReplace.Split('*');
+                        //AWB No found
+                        listHOS[i].AWB = dsplit[1];
+                        //Date
+                        listHOS[i].MainfeastDate =DataTableValidationHOS1MainfestDate( dsplit[0].Substring(0, 22).Trim());
+                        listHOS[i].Weight = dsplit[0].Substring(22, dsplit[0].Length-22);
+                        //Find Product Name
+                        string MatchMobilePattern = @"(\d*-)?\d{10}";
+                        Regex rxm = new Regex(MatchMobilePattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        string m=SplitString[1];
+                        if (SplitString.Length > 3)
+                            m = SplitString[2];
+                        m=m.Replace("\r\n", " ");
+                        MatchCollection matches = rxm.Matches(m);
+                        
+                        int mIndex = 0;
+                        if (matches.Count > 1)
+                        {
+                            mIndex = matches[1].Index;
+                            listHOS[i].Product = m.Substring(mIndex + 10, m.Length - mIndex - 10);
+                            listHOS[i].MobileNo = matches[1].Value;
+                            listHOS[i].RecDetails = m.Substring(0, mIndex);
+                        }
+                        #endregion
+                        //Find Sub Order ID
+                        DataTable ordt = new DataTable();
+                        ordt = oorderpackedTableAdapter.GetDataRef(listHOS[i].Ref);
+                        if (ordt.Rows.Count > 0)
+                        {
+                            listHOS[i].SubOrderID = ordt.Rows[0]["suborderid"].ToString();
+
+                        }
+                        else
+                        {
+                            listHOS[i].SubOrderID = "";
+                        }
+                    }
+                    catch { }
+                    startWorker.ReportProgress(p+((i * 40) / listHOS.Count()));
+                }
+
                 #endregion
             }
             catch(Exception ex)
@@ -1725,13 +1783,14 @@ namespace OrderTracker
                                  select new
                                  {
                                      s.SubOrderID,
-                                     s.Sku,
-                                     s.Supc,
+                                     s.Sku,                                    
                                      s.AWB,
-                                     s.Ref,
+                                     s.Ref, 
                                      s.HosNo,
-                                     s.HosDate
-
+                                     s.MainfeastDate,
+                                     s.Product,
+                                     s.Weight,
+                                     s.MobileNo
                                  };
             ChangeGridView(gridProduct, selectedFields.ToList<dynamic>());
             startWorker.ReportProgress(100);
@@ -1764,7 +1823,7 @@ namespace OrderTracker
                     if (oHOS.SubOrderID.Length > 0 && oHOS.SubOrderID != "")
                     {
                         //Insert                               
-                        oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate,oHOS.HSDate);
+                        oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate, oHOS.HSDate, oHOS.Weight, oHOS.MobileNo, oHOS.RecDetails);
                         oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
                         OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
                         oOrderDetailsEntity.Amount = 0;
