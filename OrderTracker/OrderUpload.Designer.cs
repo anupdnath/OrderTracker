@@ -50,6 +50,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnexportImport = new System.Windows.Forms.Button();
             this.btndelete = new System.Windows.Forms.Button();
             this.btnHos1 = new System.Windows.Forms.Button();
             this.txtLocation = new System.Windows.Forms.TextBox();
@@ -115,8 +117,6 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.lblUserName = new System.Windows.Forms.Label();
             this.lblUserType = new System.Windows.Forms.Label();
-            this.btnexportImport = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
             this.lblSaveType = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -157,6 +157,33 @@
             this.groupBox1.Size = new System.Drawing.Size(1005, 53);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSave.Image = global::OrderTracker.Properties.Resources.Save;
+            this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSave.Location = new System.Drawing.Point(773, 13);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(77, 30);
+            this.btnSave.TabIndex = 11;
+            this.btnSave.Text = "Save";
+            this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnexportImport
+            // 
+            this.btnexportImport.Image = global::OrderTracker.Properties.Resources.down;
+            this.btnexportImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnexportImport.Location = new System.Drawing.Point(856, 12);
+            this.btnexportImport.Name = "btnexportImport";
+            this.btnexportImport.Size = new System.Drawing.Size(75, 31);
+            this.btnexportImport.TabIndex = 10;
+            this.btnexportImport.Text = "Export";
+            this.btnexportImport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnexportImport.UseVisualStyleBackColor = true;
+            this.btnexportImport.Click += new System.EventHandler(this.btnexportImport_Click);
             // 
             // btndelete
             // 
@@ -423,6 +450,7 @@
             this.dgvResult.Location = new System.Drawing.Point(3, 16);
             this.dgvResult.MultiSelect = false;
             this.dgvResult.Name = "dgvResult";
+            this.dgvResult.ReadOnly = true;
             dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle9.Font = new System.Drawing.Font("Times New Roman", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1069,33 +1097,6 @@
             this.lblUserType.TabIndex = 10;
             this.lblUserType.Text = "UserType";
             this.lblUserType.Visible = false;
-            // 
-            // btnexportImport
-            // 
-            this.btnexportImport.Image = global::OrderTracker.Properties.Resources.down;
-            this.btnexportImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnexportImport.Location = new System.Drawing.Point(856, 12);
-            this.btnexportImport.Name = "btnexportImport";
-            this.btnexportImport.Size = new System.Drawing.Size(75, 31);
-            this.btnexportImport.TabIndex = 10;
-            this.btnexportImport.Text = "Export";
-            this.btnexportImport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnexportImport.UseVisualStyleBackColor = true;
-            this.btnexportImport.Click += new System.EventHandler(this.btnexportImport_Click);
-            // 
-            // btnSave
-            // 
-            this.btnSave.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Image = global::OrderTracker.Properties.Resources.Save;
-            this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSave.Location = new System.Drawing.Point(773, 13);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(77, 30);
-            this.btnSave.TabIndex = 11;
-            this.btnSave.Text = "Save";
-            this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // lblSaveType
             // 
