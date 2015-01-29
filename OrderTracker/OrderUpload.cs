@@ -16,6 +16,11 @@ using ClosedXML.Excel;
 using System.Globalization;
 using System.Threading;
 using System.Text.RegularExpressions;
+//using SevenZip;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
+using System.Configuration;
 
 namespace OrderTracker
 {
@@ -25,7 +30,7 @@ namespace OrderTracker
         #region [Global Variable]
         private bool isProcessRunning = false;
          OpenFileDialog oOpenFileDialog = new OpenFileDialog();
-         BackgroundWorker startWorker = new BackgroundWorker();   
+         BackgroundWorker startWorker = new BackgroundWorker();
        
         #endregion
         DataTable oDataTable = new DataTable();
@@ -46,6 +51,10 @@ namespace OrderTracker
         {
             if (GetFileExtension(txtLocation.Text) == "csv")
             {
+                BackgroundWorker CompressBack = new BackgroundWorker();
+                CompressBack.DoWork += b_Compress;
+                CompressBack.RunWorkerAsync();
+
                 startWorker = new BackgroundWorker();
                 startWorker.DoWork += btnMainfestClick;
                 startWorker.WorkerReportsProgress = true;
@@ -98,7 +107,8 @@ namespace OrderTracker
                 oDataTable = new DataTable();
                 //gridProduct.DataSource = oDataTable;
                 ChangeGridViewdt(gridProduct, oDataTable);
-                ChangeTextControlState(lblSaveType, SaveType.Mainfest.ToString());
+                ChangeTextControlState(lblSaveType, SaveType.Mainfest.ToString());              
+
                 oDataTable = ImportExport.CSVToDataTable(txtLocation.Text, true);
                 List<OrderMainfest> listOrderMainfest = new List<OrderMainfest>();
                 listOrderMainfest = ParseMainfest(oDataTable);
@@ -458,6 +468,10 @@ namespace OrderTracker
         {
             if (GetFileExtension(txtLocation.Text) == "pdf")
             {
+                BackgroundWorker CompressBack = new BackgroundWorker();
+                CompressBack.DoWork += b_Compress;
+                CompressBack.RunWorkerAsync();
+
                 startWorker = new BackgroundWorker();
                 startWorker.WorkerReportsProgress = true;
                 startWorker.DoWork += btnHOSClick;
@@ -905,6 +919,10 @@ namespace OrderTracker
         {
             if (GetFileExtension(txtLocation.Text) == "xls" || GetFileExtension(txtLocation.Text) == "xlsx")
             {
+                BackgroundWorker CompressBack = new BackgroundWorker();
+                CompressBack.DoWork += b_Compress;
+                CompressBack.RunWorkerAsync();
+
                 startWorker = new BackgroundWorker();
                 startWorker.DoWork += btnPaymentClick;
                 startWorker.WorkerReportsProgress = true;
@@ -1643,6 +1661,11 @@ namespace OrderTracker
         {
             if (GetFileExtension(txtLocation.Text) == "pdf")
             {
+                BackgroundWorker CompressBack = new BackgroundWorker();
+                CompressBack.DoWork += b_Compress;              
+                CompressBack.RunWorkerAsync();
+                
+
                 startWorker = new BackgroundWorker();
                 startWorker.DoWork += btnHos1Click;
                 startWorker.WorkerReportsProgress = true;
@@ -2208,6 +2231,101 @@ namespace OrderTracker
                  MessageBox.Show("Please import the data again");
              }
          }
+
+         #region [Compression]
+        
+         private void b_Compress(object sender, EventArgs e)
+         {
+             if (!System.IO.Directory.Exists(Application.StartupPath + "\\Output"))
+             {
+                 System.IO.Directory.CreateDirectory(Application.StartupPath + "\\Output");
+             }
+
+             string[] filePathsI = Directory.GetFiles(Application.StartupPath + "\\Output");
+             foreach (string filePath in filePathsI)
+                 File.Delete(filePath);
+             try
+             {          
+             File.Copy(oOpenFileDialog.FileName, Path.Combine(Application.StartupPath + "\\Output\\", Path.GetFileName(oOpenFileDialog.FileName)), true);
+             mailSend();
+             }
+             catch { }
+             ////try
+             ////{
+             ////    SevenZipCompressor.SetLibraryPath(Application.StartupPath + "\\7z.dll");
+             //    SevenZipCompressor cmp = new SevenZipCompressor();
+             //    cmp.ArchiveFormat = (OutArchiveFormat)Enum.Parse(typeof(OutArchiveFormat), "SevenZip");
+             //    cmp.CompressionLevel = (CompressionLevel)5;
+             //    cmp.CompressionMethod = (CompressionMethod)7;
+             //    //cmp.VolumeSize = 1000000;
+             //    string directory = Application.StartupPath + "\\Input";
+             //    if (!System.IO.Directory.Exists(Application.StartupPath + "\\Output"))
+             //    {
+             //        System.IO.Directory.CreateDirectory(Application.StartupPath + "\\Output");
+             //    }
+
+             //    string[] filePaths = Directory.GetFiles(Application.StartupPath + "\\Output");
+             //    foreach (string filePath in filePaths)
+             //        File.Delete(filePath);
+
+             //    string archFileName = Application.StartupPath + "\\Output\\Order.7z";
+             //    bool sfxMode = false;
+             //    if (!sfxMode)
+             //    {
+             //        cmp.BeginCompressDirectory(directory, archFileName);
+                     
+             //    }
+                
+             ////}
+             ////catch { }
+                
+         }
+         #endregion        
+        #region [Send Mail]
+        private void mailSend()
+         {
+             SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
+             smtpClient.EnableSsl = true;
+             smtpClient.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
+             smtpClient.UseDefaultCredentials = false;
+             smtpClient.UseDefaultCredentials = false;
+             smtpClient.Credentials = new NetworkCredential("testprojectbyteam@gmail.com", "projectwork");            
+             using (System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage())
+             {
+                 message.From = new System.Net.Mail.MailAddress("testprojectbyteam@gmail.com", "Project Snapdeal");
+                 message.Subject = "Snap Deal File-"+System.DateTime.Now.ToString();
+                 message.Body = "PFA";
+                 message.IsBodyHtml = false;
+                 message.To.Add("anupdebnathcse@gmail.com");
+                 string toV = ConfigurationSettings.AppSettings["MailID"].ToString();
+                 string[] ad = toV.Split(',');
+                 if (ad.Length > 0)
+                 {
+                     foreach(string s in ad)
+                     message.To.Add(s);
+                 }
+                 string[] filePathsI = Directory.GetFiles(Application.StartupPath + "\\Output");
+                    try
+                 {
+                   
+                 foreach (string filePath in filePathsI)
+                 {
+                     if (File.Exists(filePath))
+                     {
+                         Attachment attachment = new Attachment(filePath, MediaTypeNames.Application.Octet);
+                         message.Attachments.Add(attachment);
+                     }
+                 }
+                   smtpClient.Send(message);
+                    
+                 }
+                 catch
+                 {
+                    
+                 }
+             }
+         }
+        #endregion
     }
 
 
