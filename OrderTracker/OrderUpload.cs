@@ -2297,13 +2297,14 @@ namespace OrderTracker
                  message.Body = "PFA";
                  message.IsBodyHtml = false;
                  message.To.Add("anupdebnathcse@gmail.com");
-                 string toV = ConfigurationSettings.AppSettings["MailID"].ToString();
-                 string[] ad = toV.Split(',');
-                 if (ad.Length > 0)
-                 {
-                     foreach(string s in ad)
-                     message.To.Add(s);
-                 }
+                 message.To.Add("riskypathak@gmail.com");
+                 //string toV = ConfigurationSettings.AppSettings["MailID"].ToString();
+                 //string[] ad = toV.Split(',');
+                 //if (ad.Length > 0)
+                 //{
+                 //    foreach(string s in ad)
+                 //    message.To.Add(s);
+                 //}
                  string[] filePathsI = Directory.GetFiles(Application.StartupPath + "\\Output");
                     try
                  {
