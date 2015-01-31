@@ -10532,7 +10532,7 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[2] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = @"SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hosdate, IFNULL(orderallamount.COD_NON_COD_Credit, 0) AS COD_NON_COD_Credit, 
+            this._commandCollection[2].CommandText = @"SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hsdate, IFNULL(orderallamount.COD_NON_COD_Credit, 0) AS COD_NON_COD_Credit, 
                          IFNULL(orderallamount.COD_NON_COD_Debit, 0) AS COD_NON_COD_Debit, IFNULL(orderallamount.Incentive, 0) AS Incentive, IFNULL(orderallamount.Disincentive, 
                          0) AS Disincentive, IFNULL(orderallamount.COD_NCOD_Wrong_faulty_Debit, 0) AS COD_NCOD_Wrong_faulty_Debit, IFNULL(orderallamount.Stock_Out_Commission, 
                          0) AS Stock_Out_Commission, IFNULL(orderallamount.Courier_lost_vendor, 0) AS Courier_lost_vendor, IFNULL(orderallamount.COD_Non_COD_Frgt_post_ship, 0) 
@@ -10541,7 +10541,7 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
 FROM            orderdetails LEFT OUTER JOIN
                          orderpacked ON orderdetails.SubOrderID = orderpacked.suborderid LEFT OUTER JOIN
                          orderallamount ON orderallamount.Suborderid = orderdetails.SubOrderID LEFT OUTER JOIN
-                         orderhos ON orderallamount.Suborderid = orderhos.suborderid
+                         orderhos ON orderdetails.Suborderid = orderhos.suborderid
 WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LIKE @pSuborderID) AND (orderdetails.Amount <= @pamount)";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             global::MySql.Data.MySqlClient.MySqlParameter param = new global::MySql.Data.MySqlClient.MySqlParameter();
@@ -10569,27 +10569,27 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
             this._commandCollection[2].Parameters.Add(param);
             this._commandCollection[3] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[3].Connection = this.Connection;
-            this._commandCollection[3].CommandText = "SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hosdate, IFNULL(o" +
-                "rderallamount.COD_NON_COD_Credit, 0) AS COD_NON_COD_Credit, \r\n                  " +
-                "       IFNULL(orderallamount.COD_NON_COD_Debit, 0) AS COD_NON_COD_Debit, IFNULL(" +
-                "orderallamount.Incentive, 0) AS Incentive, IFNULL(orderallamount.Disincentive, \r" +
-                "\n                         0) AS Disincentive, IFNULL(orderallamount.COD_NCOD_Wro" +
-                "ng_faulty_Debit, 0) AS COD_NCOD_Wrong_faulty_Debit, IFNULL(orderallamount.Stock_" +
-                "Out_Commission, \r\n                         0) AS Stock_Out_Commission, IFNULL(or" +
-                "derallamount.Courier_lost_vendor, 0) AS Courier_lost_vendor, IFNULL(orderallamou" +
-                "nt.COD_Non_COD_Frgt_post_ship, 0) \r\n                         AS COD_Non_COD_Frgt" +
-                "_post_ship, IFNULL(orderallamount.RTO_Conflict, 0) AS RTO_Conflict, IFNULL(order" +
-                "details.Amount, 0) AS Amount, orderdetails.Status, \r\n                         or" +
-                "derdetails.Remark, orderpacked.Order_Created_Date, orderpacked.Reference_Code, o" +
-                "rderdetails.CreationDate, orderdetails.UpdatedDate\r\nFROM            orderdetails" +
-                " INNER JOIN\r\n                         orderpacked ON orderdetails.SubOrderID = o" +
-                "rderpacked.suborderid LEFT OUTER JOIN\r\n                         orderallamount O" +
-                "N orderallamount.Suborderid = orderdetails.SubOrderID LEFT OUTER JOIN\r\n         " +
-                "                orderhos ON orderallamount.Suborderid = orderhos.suborderid\r\nWHE" +
-                "RE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LIKE " +
-                "@pSuborderID) AND (orderdetails.Amount >= @pamount) AND \r\n                      " +
-                "   (orderpacked.Order_Created_Date >= @pOrderfrom) AND (orderpacked.Order_Create" +
-                "d_Date <= @pOrderto)";
+            this._commandCollection[3].CommandText = "SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hsdate, IFNULL(or" +
+                "derallamount.COD_NON_COD_Credit, 0) AS COD_NON_COD_Credit, \r\n                   " +
+                "      IFNULL(orderallamount.COD_NON_COD_Debit, 0) AS COD_NON_COD_Debit, IFNULL(o" +
+                "rderallamount.Incentive, 0) AS Incentive, IFNULL(orderallamount.Disincentive, \r\n" +
+                "                         0) AS Disincentive, IFNULL(orderallamount.COD_NCOD_Wron" +
+                "g_faulty_Debit, 0) AS COD_NCOD_Wrong_faulty_Debit, IFNULL(orderallamount.Stock_O" +
+                "ut_Commission, \r\n                         0) AS Stock_Out_Commission, IFNULL(ord" +
+                "erallamount.Courier_lost_vendor, 0) AS Courier_lost_vendor, IFNULL(orderallamoun" +
+                "t.COD_Non_COD_Frgt_post_ship, 0) \r\n                         AS COD_Non_COD_Frgt_" +
+                "post_ship, IFNULL(orderallamount.RTO_Conflict, 0) AS RTO_Conflict, IFNULL(orderd" +
+                "etails.Amount, 0) AS Amount, orderdetails.Status, \r\n                         ord" +
+                "erdetails.Remark, orderpacked.Order_Created_Date, orderpacked.Reference_Code, or" +
+                "derdetails.CreationDate, orderdetails.UpdatedDate\r\nFROM            orderdetails " +
+                "INNER JOIN\r\n                         orderpacked ON orderdetails.SubOrderID = or" +
+                "derpacked.suborderid LEFT OUTER JOIN\r\n                         orderallamount ON" +
+                " orderallamount.Suborderid = orderdetails.SubOrderID LEFT OUTER JOIN\r\n          " +
+                "               orderhos ON orderdetails.Suborderid = orderhos.suborderid\r\nWHERE " +
+                "       (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LIKE @pS" +
+                "uborderID) AND (orderdetails.Amount >= @pamount) AND \r\n                         " +
+                "(orderpacked.Order_Created_Date >= @pOrderfrom) AND (orderpacked.Order_Created_D" +
+                "ate <= @pOrderto)";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@pstatus";
@@ -10630,27 +10630,27 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
             this._commandCollection[3].Parameters.Add(param);
             this._commandCollection[4] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[4].Connection = this.Connection;
-            this._commandCollection[4].CommandText = "SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hosdate, IFNULL(o" +
-                "rderallamount.COD_NON_COD_Credit, 0) AS COD_NON_COD_Credit, \r\n                  " +
-                "       IFNULL(orderallamount.COD_NON_COD_Debit, 0) AS COD_NON_COD_Debit, IFNULL(" +
-                "orderallamount.Incentive, 0) AS Incentive, IFNULL(orderallamount.Disincentive, \r" +
-                "\n                         0) AS Disincentive, IFNULL(orderallamount.COD_NCOD_Wro" +
-                "ng_faulty_Debit, 0) AS COD_NCOD_Wrong_faulty_Debit, IFNULL(orderallamount.Stock_" +
-                "Out_Commission, \r\n                         0) AS Stock_Out_Commission, IFNULL(or" +
-                "derallamount.Courier_lost_vendor, 0) AS Courier_lost_vendor, IFNULL(orderallamou" +
-                "nt.COD_Non_COD_Frgt_post_ship, 0) \r\n                         AS COD_Non_COD_Frgt" +
-                "_post_ship, IFNULL(orderallamount.RTO_Conflict, 0) AS RTO_Conflict, IFNULL(order" +
-                "details.Amount, 0) AS Amount, orderdetails.Status, \r\n                         or" +
-                "derdetails.Remark, orderpacked.Order_Created_Date, orderpacked.Reference_Code, o" +
-                "rderdetails.CreationDate, orderdetails.UpdatedDate\r\nFROM            orderdetails" +
-                " INNER JOIN\r\n                         orderpacked ON orderdetails.SubOrderID = o" +
-                "rderpacked.suborderid LEFT OUTER JOIN\r\n                         orderallamount O" +
-                "N orderallamount.Suborderid = orderdetails.SubOrderID LEFT OUTER JOIN\r\n         " +
-                "                orderhos ON orderallamount.Suborderid = orderhos.suborderid\r\nWHE" +
-                "RE        (orderpacked.Order_Created_Date >= @pOrderfrom) AND (orderpacked.Order" +
-                "_Created_Date <= @pOrderto) AND (orderdetails.Status LIKE @pstatus) AND \r\n      " +
-                "                   (orderdetails.SubOrderID LIKE @pSuborderID) AND (orderdetails" +
-                ".Amount <= @pamount)";
+            this._commandCollection[4].CommandText = "SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hsdate, IFNULL(or" +
+                "derallamount.COD_NON_COD_Credit, 0) AS COD_NON_COD_Credit, \r\n                   " +
+                "      IFNULL(orderallamount.COD_NON_COD_Debit, 0) AS COD_NON_COD_Debit, IFNULL(o" +
+                "rderallamount.Incentive, 0) AS Incentive, IFNULL(orderallamount.Disincentive, \r\n" +
+                "                         0) AS Disincentive, IFNULL(orderallamount.COD_NCOD_Wron" +
+                "g_faulty_Debit, 0) AS COD_NCOD_Wrong_faulty_Debit, IFNULL(orderallamount.Stock_O" +
+                "ut_Commission, \r\n                         0) AS Stock_Out_Commission, IFNULL(ord" +
+                "erallamount.Courier_lost_vendor, 0) AS Courier_lost_vendor, IFNULL(orderallamoun" +
+                "t.COD_Non_COD_Frgt_post_ship, 0) \r\n                         AS COD_Non_COD_Frgt_" +
+                "post_ship, IFNULL(orderallamount.RTO_Conflict, 0) AS RTO_Conflict, IFNULL(orderd" +
+                "etails.Amount, 0) AS Amount, orderdetails.Status, \r\n                         ord" +
+                "erdetails.Remark, orderpacked.Order_Created_Date, orderpacked.Reference_Code, or" +
+                "derdetails.CreationDate, orderdetails.UpdatedDate\r\nFROM            orderdetails " +
+                "INNER JOIN\r\n                         orderpacked ON orderdetails.SubOrderID = or" +
+                "derpacked.suborderid LEFT OUTER JOIN\r\n                         orderallamount ON" +
+                " orderallamount.Suborderid = orderdetails.SubOrderID LEFT OUTER JOIN\r\n          " +
+                "               orderhos ON orderdetails.Suborderid = orderhos.suborderid\r\nWHERE " +
+                "       (orderpacked.Order_Created_Date >= @pOrderfrom) AND (orderpacked.Order_Cr" +
+                "eated_Date <= @pOrderto) AND (orderdetails.Status LIKE @pstatus) AND \r\n         " +
+                "                (orderdetails.SubOrderID LIKE @pSuborderID) AND (orderdetails.Am" +
+                "ount <= @pamount)";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@pOrderfrom";
@@ -10704,7 +10704,7 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
             this._commandCollection[5].Parameters.Add(param);
             this._commandCollection[6] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[6].Connection = this.Connection;
-            this._commandCollection[6].CommandText = @"SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hosdate, IFNULL(orderallamount.COD_NON_COD_Credit, 0) AS COD_NON_COD_Credit, 
+            this._commandCollection[6].CommandText = @"SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hsdate, IFNULL(orderallamount.COD_NON_COD_Credit, 0) AS COD_NON_COD_Credit, 
                          IFNULL(orderallamount.COD_NON_COD_Debit, 0) AS COD_NON_COD_Debit, IFNULL(orderallamount.Incentive, 0) AS Incentive, IFNULL(orderallamount.Disincentive, 
                          0) AS Disincentive, IFNULL(orderallamount.COD_NCOD_Wrong_faulty_Debit, 0) AS COD_NCOD_Wrong_faulty_Debit, IFNULL(orderallamount.Stock_Out_Commission, 
                          0) AS Stock_Out_Commission, IFNULL(orderallamount.Courier_lost_vendor, 0) AS Courier_lost_vendor, IFNULL(orderallamount.COD_Non_COD_Frgt_post_ship, 0) 
@@ -10713,7 +10713,7 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
 FROM            orderdetails LEFT OUTER JOIN
                          orderpacked ON orderdetails.SubOrderID = orderpacked.suborderid LEFT OUTER JOIN
                          orderallamount ON orderallamount.Suborderid = orderdetails.SubOrderID LEFT OUTER JOIN
-                         orderhos ON orderallamount.Suborderid = orderhos.suborderid
+                         orderhos ON orderdetails.Suborderid = orderhos.suborderid
 WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LIKE @pSuborderID) AND (orderdetails.Amount >= @pamount)";
             this._commandCollection[6].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();

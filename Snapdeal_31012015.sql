@@ -91,6 +91,10 @@ CREATE TABLE `orderhos` (
   `CreationDate` datetime DEFAULT NULL,
   `hosno` varchar(45) DEFAULT NULL,
   `hosdate` varchar(45) DEFAULT NULL,
+  `hsdate` datetime DEFAULT NULL,
+  `weight` varchar(45) DEFAULT NULL,
+  `mobile` varchar(45) DEFAULT NULL,
+  `RecDetails` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`suborderid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -134,7 +138,7 @@ CREATE TABLE `orderpacked` (
   `InvoiceCode` varchar(100) DEFAULT NULL,
   `CreationDate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`,`suborderid`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,7 +205,7 @@ CREATE TABLE `orderstatus` (
   `statusname` varchar(45) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,7 +214,7 @@ CREATE TABLE `orderstatus` (
 
 LOCK TABLES `orderstatus` WRITE;
 /*!40000 ALTER TABLE `orderstatus` DISABLE KEYS */;
-INSERT INTO `orderstatus` VALUES (1,'Packed',1),(2,'Shipped',2),(3,'Payment Received',3),(4,'Penalty',4),(5,'Returned',5),(6,'Penalty Approved',6),(7,'All',0);
+INSERT INTO `orderstatus` (`id`, `statusname`, `priority`) VALUES (1,'Packed',1),(2,'Shipped',2),(3,'Payment Received',3),(4,'Penalty',4),(5,'Returned',5),(6,'Penalty Approved',6),(7,'All',0),(8,'RTO Recieved',7),(9,'Customer Complaint Acknowledged',8);
 /*!40000 ALTER TABLE `orderstatus` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -227,7 +231,7 @@ CREATE TABLE `ordertransection` (
   `remark` varchar(128) DEFAULT NULL,
   `creationDate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4331 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -282,7 +286,7 @@ CREATE TABLE `paymentstatus` (
 
 LOCK TABLES `paymentstatus` WRITE;
 /*!40000 ALTER TABLE `paymentstatus` DISABLE KEYS */;
-INSERT INTO `paymentstatus` VALUES ('COD','Payment Received',NULL),('COD','Sales Return','Missing Credit'),('NCOD','Sales Return','Missing Credit'),('NCOD','Payment Received',''),('COD','Sales Return','Subject to be Approved'),('NCOD','Sales Return','Subject to be Approved'),('Incentive','','Payment Not Received'),('Disincentive','','Payment Not Received'),('COD Wrong faulty','Customer Complaint','Penalty Charged'),('NCOD Wrong faulty','Customer Complaint','Penalty Charged'),('Stock Out Commission','Stock out commission',''),('Courier Lost Vendor','Payment received','Courier Lost Vendor'),('COD Frgt Post Ship','Sales return','Penalty Charged'),('NCOD Frgt Post Ship','Sales return','Penalty Charged'),('RTO Conflict','Payment received','RTO Conflict');
+INSERT INTO `paymentstatus` (`code`, `status`, `remark`) VALUES ('COD','Payment Received',NULL),('COD','Sales Return','Missing Credit'),('NCOD','Sales Return','Missing Credit'),('NCOD','Payment Received',''),('COD','Sales Return','Subject to be Approved'),('NCOD','Sales Return','Subject to be Approved'),('Incentive','','Payment Not Received'),('Disincentive','','Payment Not Received'),('COD Wrong faulty','Customer Complaint','Penalty Charged'),('NCOD Wrong faulty','Customer Complaint','Penalty Charged'),('Stock Out Commission','Stock out commission',''),('Courier Lost Vendor','Payment received','Courier Lost Vendor'),('COD Frgt Post Ship','Sales return','Penalty Charged'),('NCOD Frgt Post Ship','Sales return','Penalty Charged'),('RTO Conflict','Payment received','RTO Conflict');
 /*!40000 ALTER TABLE `paymentstatus` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -310,7 +314,7 @@ CREATE TABLE `usermaster` (
 
 LOCK TABLES `usermaster` WRITE;
 /*!40000 ALTER TABLE `usermaster` DISABLE KEYS */;
-INSERT INTO `usermaster` VALUES ('admin','admin','admin',NULL,NULL,'');
+INSERT INTO `usermaster` (`username`, `Pass`, `UserType`, `CreatedOn`, `UpdatedOn`, `Active`) VALUES ('admin','admin','admin',NULL,NULL,''),('test','121212','USER','2014-12-03 15:38:39','2014-12-03 16:18:05','');
 /*!40000 ALTER TABLE `usermaster` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -323,4 +327,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-25 22:11:47
+-- Dump completed on 2015-01-31 13:22:27

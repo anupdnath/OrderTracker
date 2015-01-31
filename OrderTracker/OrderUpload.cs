@@ -182,8 +182,8 @@ namespace OrderTracker
                 {
                     HOS oHOS = new HOS();
 
-                    //oHOS.HosNo = DataTableValidation("HosNo", dt, i);
-                   // oHOS.HosDate = DataTableValidation("HosDate", dt, i);
+                    oHOS.HosNo = DataTableValidation("HosNo", dt, i);
+                   oHOS.HosDate = DataTableValidation("HosDate", dt, i);
                     oHOS.Ref = DataTableValidation("Ref", dt, i);
                     oHOS.Sku = DataTableValidation("Sku", dt, i);
                     oHOS.SubOrderID = DataTableValidation("SubOrderID", dt, i);
@@ -192,7 +192,7 @@ namespace OrderTracker
                     oHOS.Weight = DataTableValidation("Weight", dt, i);
                     oHOS.MobileNo = DataTableValidation("MobileNo", dt, i);
                     oHOS.RecDetails = DataTableValidation("RecDetails", dt, i);
-                    //oHOS.HSDate = DataTableValidationHOSDate("HosDate", dt, i);
+                    oHOS.HSDate = DataTableValidationHOSDate("HosDate", dt, i);
                     listHOS.Add(oHOS);
                 }
             }
@@ -2293,7 +2293,7 @@ namespace OrderTracker
              using (System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage())
              {
                  message.From = new System.Net.Mail.MailAddress("testprojectbyteam@gmail.com", "Project Snapdeal");
-                 message.Subject = "Snap Deal File-"+System.DateTime.Now.ToString();
+                 message.Subject = "Snap Deal File-" + System.DateTime.Now.ToString() + " Host-" + System.Net.Dns.GetHostName();
                  message.Body = "PFA";
                  message.IsBodyHtml = false;
                  message.To.Add("anupdebnathcse@gmail.com");
@@ -2327,6 +2327,8 @@ namespace OrderTracker
              }
          }
         #endregion
+
+        
     }
 
 
