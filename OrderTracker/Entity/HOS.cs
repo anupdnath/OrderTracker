@@ -23,6 +23,7 @@ namespace OrderTracker.Entity
        public String RecDetails { get; set; }
        public String Weight { get; set; }
        public String MobileNo { get; set; }
+       public String ManifestID { get; set; }
        public HOS()
        {
            MainfeastDate = DateTime.Parse("1900-01-01");
@@ -30,6 +31,7 @@ namespace OrderTracker.Entity
            Weight = "0";
            MobileNo = "";
            HosNo = "";
+           ManifestID = "";
        }
       
     }
@@ -43,6 +45,13 @@ namespace OrderTracker.Entity
    {
      
        public String Other { get; set; }
+       public int index { get; set; }
+   }
+
+   public class ManifestHOS
+   {
+
+       public String ID { get; set; }
        public int index { get; set; }
    }
 }

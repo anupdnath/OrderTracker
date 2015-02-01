@@ -95,6 +95,7 @@ CREATE TABLE `orderhos` (
   `weight` varchar(45) DEFAULT NULL,
   `mobile` varchar(45) DEFAULT NULL,
   `RecDetails` varchar(500) DEFAULT NULL,
+  `Manifestid` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`suborderid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -138,7 +139,7 @@ CREATE TABLE `orderpacked` (
   `InvoiceCode` varchar(100) DEFAULT NULL,
   `CreationDate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`,`suborderid`)
-) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -231,7 +232,7 @@ CREATE TABLE `ordertransection` (
   `remark` varchar(128) DEFAULT NULL,
   `creationDate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4331 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4336 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -327,4 +328,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-31 13:22:27
+-- Dump completed on 2015-02-02  0:10:03

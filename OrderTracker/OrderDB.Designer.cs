@@ -1423,6 +1423,8 @@ namespace OrderTracker {
             
             private global::System.Data.DataColumn columnRecDetails;
             
+            private global::System.Data.DataColumn columnManifestid;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public orderhosDataTable() {
@@ -1554,6 +1556,14 @@ namespace OrderTracker {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ManifestidColumn {
+                get {
+                    return this.columnManifestid;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1589,7 +1599,7 @@ namespace OrderTracker {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public orderhosRow AddorderhosRow(string suborderid, string Sku, string Supc, string AWB, string Ref, System.DateTime CreationDate, string hosno, string hosdate, System.DateTime hsdate, string weight, string mobile, string RecDetails) {
+            public orderhosRow AddorderhosRow(string suborderid, string Sku, string Supc, string AWB, string Ref, System.DateTime CreationDate, string hosno, string hosdate, System.DateTime hsdate, string weight, string mobile, string RecDetails, string Manifestid) {
                 orderhosRow roworderhosRow = ((orderhosRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         suborderid,
@@ -1603,7 +1613,8 @@ namespace OrderTracker {
                         hsdate,
                         weight,
                         mobile,
-                        RecDetails};
+                        RecDetails,
+                        Manifestid};
                 roworderhosRow.ItemArray = columnValuesArray;
                 this.Rows.Add(roworderhosRow);
                 return roworderhosRow;
@@ -1645,6 +1656,7 @@ namespace OrderTracker {
                 this.columnweight = base.Columns["weight"];
                 this.columnmobile = base.Columns["mobile"];
                 this.columnRecDetails = base.Columns["RecDetails"];
+                this.columnManifestid = base.Columns["Manifestid"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1674,6 +1686,8 @@ namespace OrderTracker {
                 base.Columns.Add(this.columnmobile);
                 this.columnRecDetails = new global::System.Data.DataColumn("RecDetails", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRecDetails);
+                this.columnManifestid = new global::System.Data.DataColumn("Manifestid", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnManifestid);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnsuborderid}, true));
                 this.columnsuborderid.AllowDBNull = false;
@@ -1688,6 +1702,7 @@ namespace OrderTracker {
                 this.columnweight.MaxLength = 45;
                 this.columnmobile.MaxLength = 45;
                 this.columnRecDetails.MaxLength = 500;
+                this.columnManifestid.MaxLength = 45;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4064,6 +4079,22 @@ namespace OrderTracker {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Manifestid {
+                get {
+                    try {
+                        return ((string)(this[this.tableorderhos.ManifestidColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Manifestid\' in table \'orderhos\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableorderhos.ManifestidColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsSkuNull() {
                 return this.IsNull(this.tableorderhos.SkuColumn);
             }
@@ -4192,6 +4223,18 @@ namespace OrderTracker {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetRecDetailsNull() {
                 this[this.tableorderhos.RecDetailsColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsManifestidNull() {
+                return this.IsNull(this.tableorderhos.ManifestidColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetManifestidNull() {
+                this[this.tableorderhos.ManifestidColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -8602,10 +8645,11 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             tableMapping.ColumnMappings.Add("weight", "weight");
             tableMapping.ColumnMappings.Add("mobile", "mobile");
             tableMapping.ColumnMappings.Add("RecDetails", "RecDetails");
+            tableMapping.ColumnMappings.Add("Manifestid", "Manifestid");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `orderhos` WHERE ((`suborderid` = @p1) AND ((@p2 = 1 AND `Sku` IS NULL) OR (`Sku` = @p3)) AND ((@p4 = 1 AND `Supc` IS NULL) OR (`Supc` = @p5)) AND ((@p6 = 1 AND `AWB` IS NULL) OR (`AWB` = @p7)) AND ((@p8 = 1 AND `Ref` IS NULL) OR (`Ref` = @p9)) AND ((@p10 = 1 AND `CreationDate` IS NULL) OR (`CreationDate` = @p11)) AND ((@p12 = 1 AND `hosno` IS NULL) OR (`hosno` = @p13)) AND ((@p14 = 1 AND `hosdate` IS NULL) OR (`hosdate` = @p15)) AND ((@p16 = 1 AND `hsdate` IS NULL) OR (`hsdate` = @p17)) AND ((@p18 = 1 AND `weight` IS NULL) OR (`weight` = @p19)) AND ((@p20 = 1 AND `mobile` IS NULL) OR (`mobile` = @p21)) AND ((@p22 = 1 AND `RecDetails` IS NULL) OR (`RecDetails` = @p23)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `orderhos` WHERE ((`suborderid` = @p1) AND ((@p2 = 1 AND `Sku` IS NULL) OR (`Sku` = @p3)) AND ((@p4 = 1 AND `Supc` IS NULL) OR (`Supc` = @p5)) AND ((@p6 = 1 AND `AWB` IS NULL) OR (`AWB` = @p7)) AND ((@p8 = 1 AND `Ref` IS NULL) OR (`Ref` = @p9)) AND ((@p10 = 1 AND `CreationDate` IS NULL) OR (`CreationDate` = @p11)) AND ((@p12 = 1 AND `hosno` IS NULL) OR (`hosno` = @p13)) AND ((@p14 = 1 AND `hosdate` IS NULL) OR (`hosdate` = @p15)) AND ((@p16 = 1 AND `hsdate` IS NULL) OR (`hsdate` = @p17)) AND ((@p18 = 1 AND `weight` IS NULL) OR (`weight` = @p19)) AND ((@p20 = 1 AND `mobile` IS NULL) OR (`mobile` = @p21)) AND ((@p22 = 1 AND `RecDetails` IS NULL) OR (`RecDetails` = @p23)) AND ((@p24 = 1 AND `Manifestid` IS NULL) OR (`Manifestid` = @p25)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             global::MySql.Data.MySqlClient.MySqlParameter param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@p1";
@@ -8802,11 +8846,28 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.SourceColumn = "RecDetails";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p24";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "Manifestid";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p25";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.IsNullable = true;
+            param.SourceColumn = "Manifestid";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
             this._adapter.InsertCommand.CommandText = "INSERT INTO `orderhos` (`suborderid`, `Sku`, `Supc`, `AWB`, `Ref`, `CreationDate`" +
-                ", `hosno`, `hosdate`, `hsdate`, `weight`, `mobile`, `RecDetails`) VALUES (@p1, @" +
-                "p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)";
+                ", `hosno`, `hosdate`, `hsdate`, `weight`, `mobile`, `RecDetails`, `Manifestid`) " +
+                "VALUES (@p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@p1";
@@ -8892,9 +8953,16 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.IsNullable = true;
             param.SourceColumn = "RecDetails";
             this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p13";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.IsNullable = true;
+            param.SourceColumn = "Manifestid";
+            this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE `orderhos` SET `suborderid` = @p1, `Sku` = @p2, `Supc` = @p3, `AWB` = @p4, `Ref` = @p5, `CreationDate` = @p6, `hosno` = @p7, `hosdate` = @p8, `hsdate` = @p9, `weight` = @p10, `mobile` = @p11, `RecDetails` = @p12 WHERE ((`suborderid` = @p13) AND ((@p14 = 1 AND `Sku` IS NULL) OR (`Sku` = @p15)) AND ((@p16 = 1 AND `Supc` IS NULL) OR (`Supc` = @p17)) AND ((@p18 = 1 AND `AWB` IS NULL) OR (`AWB` = @p19)) AND ((@p20 = 1 AND `Ref` IS NULL) OR (`Ref` = @p21)) AND ((@p22 = 1 AND `CreationDate` IS NULL) OR (`CreationDate` = @p23)) AND ((@p24 = 1 AND `hosno` IS NULL) OR (`hosno` = @p25)) AND ((@p26 = 1 AND `hosdate` IS NULL) OR (`hosdate` = @p27)) AND ((@p28 = 1 AND `hsdate` IS NULL) OR (`hsdate` = @p29)) AND ((@p30 = 1 AND `weight` IS NULL) OR (`weight` = @p31)) AND ((@p32 = 1 AND `mobile` IS NULL) OR (`mobile` = @p33)) AND ((@p34 = 1 AND `RecDetails` IS NULL) OR (`RecDetails` = @p35)))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE `orderhos` SET `suborderid` = @p1, `Sku` = @p2, `Supc` = @p3, `AWB` = @p4, `Ref` = @p5, `CreationDate` = @p6, `hosno` = @p7, `hosdate` = @p8, `hsdate` = @p9, `weight` = @p10, `mobile` = @p11, `RecDetails` = @p12, `Manifestid` = @p13 WHERE ((`suborderid` = @p14) AND ((@p15 = 1 AND `Sku` IS NULL) OR (`Sku` = @p16)) AND ((@p17 = 1 AND `Supc` IS NULL) OR (`Supc` = @p18)) AND ((@p19 = 1 AND `AWB` IS NULL) OR (`AWB` = @p20)) AND ((@p21 = 1 AND `Ref` IS NULL) OR (`Ref` = @p22)) AND ((@p23 = 1 AND `CreationDate` IS NULL) OR (`CreationDate` = @p24)) AND ((@p25 = 1 AND `hosno` IS NULL) OR (`hosno` = @p26)) AND ((@p27 = 1 AND `hosdate` IS NULL) OR (`hosdate` = @p28)) AND ((@p29 = 1 AND `hsdate` IS NULL) OR (`hsdate` = @p30)) AND ((@p31 = 1 AND `weight` IS NULL) OR (`weight` = @p32)) AND ((@p33 = 1 AND `mobile` IS NULL) OR (`mobile` = @p34)) AND ((@p35 = 1 AND `RecDetails` IS NULL) OR (`RecDetails` = @p36)) AND ((@p37 = 1 AND `Manifestid` IS NULL) OR (`Manifestid` = @p38)))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@p1";
@@ -8985,37 +9053,44 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.DbType = global::System.Data.DbType.String;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
             param.IsNullable = true;
+            param.SourceColumn = "Manifestid";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p14";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.IsNullable = true;
             param.SourceColumn = "suborderid";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p14";
+            param.ParameterName = "@p15";
             param.DbType = global::System.Data.DbType.Int32;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
             param.IsNullable = true;
             param.SourceColumn = "Sku";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p15";
-            param.DbType = global::System.Data.DbType.String;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
-            param.IsNullable = true;
-            param.SourceColumn = "Sku";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@p16";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
             param.IsNullable = true;
-            param.SourceColumn = "Supc";
+            param.SourceColumn = "Sku";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@p17";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "Supc";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p18";
             param.DbType = global::System.Data.DbType.String;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
             param.IsNullable = true;
@@ -9023,33 +9098,33 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p18";
+            param.ParameterName = "@p19";
             param.DbType = global::System.Data.DbType.Int32;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
             param.IsNullable = true;
             param.SourceColumn = "AWB";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p19";
-            param.DbType = global::System.Data.DbType.String;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
-            param.IsNullable = true;
-            param.SourceColumn = "AWB";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@p20";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
             param.IsNullable = true;
-            param.SourceColumn = "Ref";
+            param.SourceColumn = "AWB";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@p21";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "Ref";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p22";
             param.DbType = global::System.Data.DbType.String;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
             param.IsNullable = true;
@@ -9057,33 +9132,33 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p22";
+            param.ParameterName = "@p23";
             param.DbType = global::System.Data.DbType.Int32;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
             param.IsNullable = true;
             param.SourceColumn = "CreationDate";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p23";
-            param.DbType = global::System.Data.DbType.DateTime;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
-            param.IsNullable = true;
-            param.SourceColumn = "CreationDate";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@p24";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
-            param.SourceColumn = "hosno";
+            param.SourceColumn = "CreationDate";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@p25";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "hosno";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p26";
             param.DbType = global::System.Data.DbType.String;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
             param.IsNullable = true;
@@ -9091,7 +9166,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p26";
+            param.ParameterName = "@p27";
             param.DbType = global::System.Data.DbType.Int32;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
             param.IsNullable = true;
@@ -9100,7 +9175,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.SourceColumnNullMapping = true;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p27";
+            param.ParameterName = "@p28";
             param.DbType = global::System.Data.DbType.String;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
             param.IsNullable = true;
@@ -9108,7 +9183,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p28";
+            param.ParameterName = "@p29";
             param.DbType = global::System.Data.DbType.Int32;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
             param.IsNullable = true;
@@ -9117,7 +9192,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.SourceColumnNullMapping = true;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p29";
+            param.ParameterName = "@p30";
             param.DbType = global::System.Data.DbType.DateTime;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
@@ -9125,33 +9200,33 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p30";
+            param.ParameterName = "@p31";
             param.DbType = global::System.Data.DbType.Int32;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
             param.IsNullable = true;
             param.SourceColumn = "weight";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p31";
-            param.DbType = global::System.Data.DbType.String;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
-            param.IsNullable = true;
-            param.SourceColumn = "weight";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@p32";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
             param.IsNullable = true;
-            param.SourceColumn = "mobile";
+            param.SourceColumn = "weight";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@p33";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "mobile";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p34";
             param.DbType = global::System.Data.DbType.String;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
             param.IsNullable = true;
@@ -9159,7 +9234,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p34";
+            param.ParameterName = "@p35";
             param.DbType = global::System.Data.DbType.Int32;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
             param.IsNullable = true;
@@ -9168,11 +9243,28 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             param.SourceColumnNullMapping = true;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p35";
+            param.ParameterName = "@p36";
             param.DbType = global::System.Data.DbType.String;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
             param.IsNullable = true;
             param.SourceColumn = "RecDetails";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p37";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "Manifestid";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p38";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.IsNullable = true;
+            param.SourceColumn = "Manifestid";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
         }
@@ -9191,7 +9283,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             this._commandCollection[0] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT        suborderid, Sku, Supc, AWB, Ref, CreationDate, hosno, hosdate, hsda" +
-                "te, weight, mobile, RecDetails\r\nFROM            orderhos";
+                "te, weight, mobile, RecDetails, Manifestid\r\nFROM            orderhos";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[1].Connection = this.Connection;
@@ -9199,8 +9291,8 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[2] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = "SELECT AWB, CreationDate, RecDetails, Ref, Sku, Supc, hosdate, hosno, hsdate, mob" +
-                "ile, suborderid, weight FROM orderhos WHERE (Ref = @Ref)";
+            this._commandCollection[2].CommandText = "SELECT AWB, CreationDate, Manifestid, RecDetails, Ref, Sku, Supc, hosdate, hosno," +
+                " hsdate, mobile, suborderid, weight FROM orderhos WHERE (Ref = @Ref)";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             global::MySql.Data.MySqlClient.MySqlParameter param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Ref";
@@ -9226,8 +9318,8 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
             this._commandCollection[4] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[4].Connection = this.Connection;
             this._commandCollection[4].CommandText = @"INSERT INTO orderhos
-                         (suborderid, Sku, Supc, AWB, Ref, CreationDate, hosno, hosdate, hsdate, weight, mobile, RecDetails)
-VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hosdate, @hsdate, @weight, @mobile, @RecDetails)";
+                         (suborderid, Sku, Supc, AWB, Ref, CreationDate, hosno, hosdate, hsdate, weight, mobile, RecDetails, Manifestid)
+VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hosdate, @hsdate, @weight, @mobile, @RecDetails, @Manifestid)";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@suborderid";
@@ -9322,6 +9414,14 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             param.Size = 500;
             param.IsNullable = true;
             param.SourceColumn = "RecDetails";
+            this._commandCollection[4].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@Manifestid";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "Manifestid";
             this._commandCollection[4].Parameters.Add(param);
             this._commandCollection[5] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[5].Connection = this.Connection;
@@ -9445,7 +9545,7 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(string p1, string p3, string p5, string p7, string p9, global::System.Nullable<global::System.DateTime> p11, string p13, string p15, global::System.Nullable<global::System.DateTime> p17, string p19, string p21, string p23) {
+        public virtual int Delete(string p1, string p3, string p5, string p7, string p9, global::System.Nullable<global::System.DateTime> p11, string p13, string p15, global::System.Nullable<global::System.DateTime> p17, string p19, string p21, string p23, string p25) {
             if ((p1 == null)) {
                 throw new global::System.ArgumentNullException("p1");
             }
@@ -9540,6 +9640,14 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
                 this.Adapter.DeleteCommand.Parameters[21].Value = ((object)(0));
                 this.Adapter.DeleteCommand.Parameters[22].Value = ((string)(p23));
             }
+            if ((p25 == null)) {
+                this.Adapter.DeleteCommand.Parameters[23].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[24].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[23].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[24].Value = ((string)(p25));
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -9560,7 +9668,7 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string p1, string p2, string p3, string p4, string p5, global::System.Nullable<global::System.DateTime> p6, string p7, string p8, global::System.Nullable<global::System.DateTime> p9, string p10, string p11, string p12) {
+        public virtual int Insert(string p1, string p2, string p3, string p4, string p5, global::System.Nullable<global::System.DateTime> p6, string p7, string p8, global::System.Nullable<global::System.DateTime> p9, string p10, string p11, string p12, string p13) {
             if ((p1 == null)) {
                 throw new global::System.ArgumentNullException("p1");
             }
@@ -9633,6 +9741,12 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             else {
                 this.Adapter.InsertCommand.Parameters[11].Value = ((string)(p12));
             }
+            if ((p13 == null)) {
+                this.Adapter.InsertCommand.Parameters[12].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[12].Value = ((string)(p13));
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -9667,17 +9781,19 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
                     string p11, 
                     string p12, 
                     string p13, 
-                    string p15, 
-                    string p17, 
-                    string p19, 
-                    string p21, 
-                    global::System.Nullable<global::System.DateTime> p23, 
-                    string p25, 
-                    string p27, 
-                    global::System.Nullable<global::System.DateTime> p29, 
-                    string p31, 
-                    string p33, 
-                    string p35) {
+                    string p14, 
+                    string p16, 
+                    string p18, 
+                    string p20, 
+                    string p22, 
+                    global::System.Nullable<global::System.DateTime> p24, 
+                    string p26, 
+                    string p28, 
+                    global::System.Nullable<global::System.DateTime> p30, 
+                    string p32, 
+                    string p34, 
+                    string p36, 
+                    string p38) {
             if ((p1 == null)) {
                 throw new global::System.ArgumentNullException("p1");
             }
@@ -9751,98 +9867,112 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
                 this.Adapter.UpdateCommand.Parameters[11].Value = ((string)(p12));
             }
             if ((p13 == null)) {
-                throw new global::System.ArgumentNullException("p13");
+                this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[12].Value = ((string)(p13));
             }
-            if ((p15 == null)) {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[14].Value = global::System.DBNull.Value;
+            if ((p14 == null)) {
+                throw new global::System.ArgumentNullException("p14");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((string)(p15));
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((string)(p14));
             }
-            if ((p17 == null)) {
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[16].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[16].Value = ((string)(p17));
-            }
-            if ((p19 == null)) {
-                this.Adapter.UpdateCommand.Parameters[17].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[18].Value = global::System.DBNull.Value;
+            if ((p16 == null)) {
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[15].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[17].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[18].Value = ((string)(p19));
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((string)(p16));
             }
-            if ((p21 == null)) {
-                this.Adapter.UpdateCommand.Parameters[19].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[20].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[19].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[20].Value = ((string)(p21));
-            }
-            if ((p23.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[21].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[22].Value = ((System.DateTime)(p23.Value));
+            if ((p18 == null)) {
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[17].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[21].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[22].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[17].Value = ((string)(p18));
             }
-            if ((p25 == null)) {
-                this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[24].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[24].Value = ((string)(p25));
-            }
-            if ((p27 == null)) {
-                this.Adapter.UpdateCommand.Parameters[25].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[26].Value = global::System.DBNull.Value;
+            if ((p20 == null)) {
+                this.Adapter.UpdateCommand.Parameters[18].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[19].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[25].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[26].Value = ((string)(p27));
+                this.Adapter.UpdateCommand.Parameters[18].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[19].Value = ((string)(p20));
             }
-            if ((p29.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[27].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[28].Value = ((System.DateTime)(p29.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[27].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[28].Value = global::System.DBNull.Value;
-            }
-            if ((p31 == null)) {
-                this.Adapter.UpdateCommand.Parameters[29].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[30].Value = global::System.DBNull.Value;
+            if ((p22 == null)) {
+                this.Adapter.UpdateCommand.Parameters[20].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[21].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[29].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[30].Value = ((string)(p31));
+                this.Adapter.UpdateCommand.Parameters[20].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[21].Value = ((string)(p22));
             }
-            if ((p33 == null)) {
-                this.Adapter.UpdateCommand.Parameters[31].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[32].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[31].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[32].Value = ((string)(p33));
-            }
-            if ((p35 == null)) {
-                this.Adapter.UpdateCommand.Parameters[33].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[34].Value = global::System.DBNull.Value;
+            if ((p24.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[22].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[23].Value = ((System.DateTime)(p24.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[33].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[34].Value = ((string)(p35));
+                this.Adapter.UpdateCommand.Parameters[22].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[23].Value = global::System.DBNull.Value;
+            }
+            if ((p26 == null)) {
+                this.Adapter.UpdateCommand.Parameters[24].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[25].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[24].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[25].Value = ((string)(p26));
+            }
+            if ((p28 == null)) {
+                this.Adapter.UpdateCommand.Parameters[26].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[27].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[26].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[27].Value = ((string)(p28));
+            }
+            if ((p30.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[28].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[29].Value = ((System.DateTime)(p30.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[28].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[29].Value = global::System.DBNull.Value;
+            }
+            if ((p32 == null)) {
+                this.Adapter.UpdateCommand.Parameters[30].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[31].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[30].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[31].Value = ((string)(p32));
+            }
+            if ((p34 == null)) {
+                this.Adapter.UpdateCommand.Parameters[32].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[33].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[32].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[33].Value = ((string)(p34));
+            }
+            if ((p36 == null)) {
+                this.Adapter.UpdateCommand.Parameters[34].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[35].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[34].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[35].Value = ((string)(p36));
+            }
+            if ((p38 == null)) {
+                this.Adapter.UpdateCommand.Parameters[36].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[37].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[36].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[37].Value = ((string)(p38));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -9877,18 +10007,20 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
                     string p11, 
                     string p12, 
                     string p13, 
-                    string p15, 
-                    string p17, 
-                    string p19, 
-                    string p21, 
-                    global::System.Nullable<global::System.DateTime> p23, 
-                    string p25, 
-                    string p27, 
-                    global::System.Nullable<global::System.DateTime> p29, 
-                    string p31, 
-                    string p33, 
-                    string p35) {
-            return this.Update(p13, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p15, p17, p19, p21, p23, p25, p27, p29, p31, p33, p35);
+                    string p14, 
+                    string p16, 
+                    string p18, 
+                    string p20, 
+                    string p22, 
+                    global::System.Nullable<global::System.DateTime> p24, 
+                    string p26, 
+                    string p28, 
+                    global::System.Nullable<global::System.DateTime> p30, 
+                    string p32, 
+                    string p34, 
+                    string p36, 
+                    string p38) {
+            return this.Update(p14, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p16, p18, p20, p22, p24, p26, p28, p30, p32, p34, p36, p38);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -9952,7 +10084,7 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
-        public virtual int InsertQuery(string suborderid, string Sku, string Supc, string AWB, string Ref, global::System.Nullable<global::System.DateTime> CreationDate, string hosno, string hosdate, global::System.Nullable<global::System.DateTime> hsdate, string weight, string mobile, string RecDetails) {
+        public virtual int InsertQuery(string suborderid, string Sku, string Supc, string AWB, string Ref, global::System.Nullable<global::System.DateTime> CreationDate, string hosno, string hosdate, global::System.Nullable<global::System.DateTime> hsdate, string weight, string mobile, string RecDetails, string Manifestid) {
             global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[4];
             if ((suborderid == null)) {
                 throw new global::System.ArgumentNullException("suborderid");
@@ -10025,6 +10157,12 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             }
             else {
                 command.Parameters[11].Value = ((string)(RecDetails));
+            }
+            if ((Manifestid == null)) {
+                command.Parameters[12].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[12].Value = ((string)(Manifestid));
             }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 

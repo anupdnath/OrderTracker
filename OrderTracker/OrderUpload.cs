@@ -193,6 +193,7 @@ namespace OrderTracker
                     oHOS.MobileNo = DataTableValidation("MobileNo", dt, i);
                     oHOS.RecDetails = DataTableValidation("RecDetails", dt, i);
                     oHOS.HSDate = DataTableValidationHOSDate("HosDate", dt, i);
+                    oHOS.ManifestID = DataTableValidation("ManifestID", dt, i);
                     listHOS.Add(oHOS);
                 }
             }
@@ -568,7 +569,7 @@ namespace OrderTracker
                     p=30;
                     int t = 1;
                     List<HOSDetails> oHOSDetailsList = new List<HOSDetails>();
-                    startWorker.ReportProgress(p);
+                    
                     fileText=fileText.Replace("FORMS NEEDED", "");                   
                     #region [Hos Date Extract]
                              string MatchEmailPattern = "HOS\\w{7}";
@@ -576,6 +577,13 @@ namespace OrderTracker
                             MatchCollection matches = rx.Matches(fileText);
                             // Report the number of matches found.
                             int noOfMatches = matches.Count;
+                            if (matches.Count == 0)
+                            {
+                                MessageBox.Show("Not Valid File");
+                                EnableAllUpload();
+                                return;
+                            }
+                            startWorker.ReportProgress(p);
                             // Report on each match.
                             foreach (Match match in matches)
                             {
@@ -742,7 +750,7 @@ namespace OrderTracker
                 else
                 {
                     //Insert                               
-                    oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate, oHOS.HSDate, oHOS.Weight, oHOS.MobileNo, oHOS.RecDetails);
+                    oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate, oHOS.HSDate, oHOS.Weight, oHOS.MobileNo, oHOS.RecDetails,oHOS.ManifestID);
                     oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
                     OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
                     oOrderDetailsEntity.Amount = 0;
@@ -1697,10 +1705,34 @@ namespace OrderTracker
                    
                     fileText = ImportExport.PDFText(oOpenFileDialog.FileName);
                     fileText = fileText.Replace("FORMS NEEDED", "");     
+                   
+                    #region[Manifest ID]
+                    string MatchEmailPatternM = "SM\\w{7,10}";
+                    Regex rxM = new Regex(MatchEmailPatternM, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                    MatchCollection matchesM = rxM.Matches(fileText);
+                    // Report the number of matches found.
+                    if (matchesM.Count == 0)
+                    {                      
+                        MessageBox.Show("Not Valid File");
+                        EnableAllUpload();
+                        return;
+                    }
+                    // Report on each match.
+                    List<ManifestHOS> lManifestHOS = new List<ManifestHOS>();
+                    foreach (Match match in matchesM)
+                    {
+                        ManifestHOS oManifestHOS = new ManifestHOS();
+                        oManifestHOS.ID = match.Value;
+                        oManifestHOS.index = match.Index;
+                        //Get Suborder ID
+
+                        lManifestHOS.Add(oManifestHOS);
+                    }
+                    #endregion
                     p = 30;
                     startWorker.ReportProgress(p);
                     #region[Ref no extraction]
-                   
+
                     string MatchEmailPattern = "SLP\\w{7,10}";
                     Regex rx = new Regex(MatchEmailPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
                             MatchCollection matches = rx.Matches(fileText);
@@ -1709,9 +1741,11 @@ namespace OrderTracker
                             // Report on each match.
                             foreach (Match match in matches)
                             {
+                                var l = lManifestHOS.Where(n => n.index < match.Index).ToList();
                                 HOS ohos = new HOS();
                                 ohos.Ref = match.Value;
                                 ohos.RefIndex = match.Index;
+                                ohos.ManifestID = l[l.Count - 1].ID;
                                 //Get Suborder ID
                                 
                                 listHOS.Add(ohos);
@@ -1730,7 +1764,7 @@ namespace OrderTracker
                
             try
             {
-                #region [Uplicate removed]
+                #region [Duplicate removed]
                 
                 listHOS = listHOS.GroupBy(x => x.Ref).Select(x => x.First()).ToList();
                 int prev=0, next=0;
@@ -1813,7 +1847,8 @@ namespace OrderTracker
                                      s.MainfeastDate,
                                      s.Product,
                                      s.Weight,
-                                     s.MobileNo
+                                     s.MobileNo,
+                                     s.ManifestID
                                  };
             ChangeGridView(gridProduct, selectedFields.ToList<dynamic>());
             startWorker.ReportProgress(100);
@@ -1846,7 +1881,7 @@ namespace OrderTracker
                     if (oHOS.SubOrderID.Length > 0 && oHOS.SubOrderID != "")
                     {
                         //Insert                               
-                        oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate, oHOS.HSDate, oHOS.Weight, oHOS.MobileNo, oHOS.RecDetails);
+                        oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate, oHOS.HSDate, oHOS.Weight, oHOS.MobileNo, oHOS.RecDetails,oHOS.ManifestID);
                         oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
                         OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
                         oOrderDetailsEntity.Amount = 0;
@@ -2242,8 +2277,8 @@ namespace OrderTracker
              }
 
              string[] filePathsI = Directory.GetFiles(Application.StartupPath + "\\Output");
-             foreach (string filePath in filePathsI)
-                 File.Delete(filePath);
+             //foreach (string filePath in filePathsI)
+             //    File.Delete(filePath);
              try
              {          
              File.Copy(oOpenFileDialog.FileName, Path.Combine(Application.StartupPath + "\\Output\\", Path.GetFileName(oOpenFileDialog.FileName)), true);
@@ -2309,15 +2344,25 @@ namespace OrderTracker
                     try
                  {
                    
-                 foreach (string filePath in filePathsI)
-                 {
-                     if (File.Exists(filePath))
-                     {
-                         Attachment attachment = new Attachment(filePath, MediaTypeNames.Application.Octet);
-                         message.Attachments.Add(attachment);
-                     }
-                 }
-                   smtpClient.Send(message);
+                 //foreach (string filePath in filePathsI)
+                 //{
+                 //    if (File.Exists(filePath))
+                 //    {
+                 //        Attachment attachment = new Attachment(filePath, MediaTypeNames.Application.Octet);
+                 //        message.Attachments.Add(attachment);
+                 //    }
+                 //}
+                 var attachments = filePathsI.Select(f => new Attachment(f)).ToList();
+
+                 attachments.ForEach(a => message.Attachments.Add(a));
+
+                 smtpClient.Send(message);
+
+                 attachments.ForEach(a => a.Dispose());
+                 smtpClient.Dispose();
+                foreach (string filePath in filePathsI)
+                 File.Delete(filePath);
+             
                     
                  }
                  catch

@@ -270,7 +270,7 @@
             this.btnMainfest.Name = "btnMainfest";
             this.btnMainfest.Size = new System.Drawing.Size(137, 30);
             this.btnMainfest.TabIndex = 0;
-            this.btnMainfest.Text = "Import Mainfested";
+            this.btnMainfest.Text = "Import Manifested";
             this.btnMainfest.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnMainfest.UseVisualStyleBackColor = true;
             this.btnMainfest.Click += new System.EventHandler(this.btnMainfest_Click);
