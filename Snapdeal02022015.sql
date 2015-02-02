@@ -18,6 +18,32 @@ USE `ordertracker`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `fileheader`
+--
+
+DROP TABLE IF EXISTS `fileheader`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `fileheader` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Filename` varchar(100) DEFAULT NULL,
+  `CreatedDate` date DEFAULT NULL,
+  `TotalRecord` int(11) DEFAULT NULL,
+  `FileType` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `fileheader`
+--
+
+LOCK TABLES `fileheader` WRITE;
+/*!40000 ALTER TABLE `fileheader` DISABLE KEYS */;
+/*!40000 ALTER TABLE `fileheader` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `orderallamount`
 --
 
@@ -62,7 +88,7 @@ CREATE TABLE `orderdetails` (
   `UpdatedDate` datetime DEFAULT NULL,
   `Amount` decimal(18,2) DEFAULT NULL,
   `CreationDate` datetime DEFAULT NULL,
-  PRIMARY KEY (`SubOrderID`)
+  `refNo` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -139,7 +165,7 @@ CREATE TABLE `orderpacked` (
   `InvoiceCode` varchar(100) DEFAULT NULL,
   `CreationDate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`,`suborderid`)
-) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,7 +258,7 @@ CREATE TABLE `ordertransection` (
   `remark` varchar(128) DEFAULT NULL,
   `creationDate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4336 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=544 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -328,4 +354,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-02  0:10:03
+-- Dump completed on 2015-02-02 23:41:46

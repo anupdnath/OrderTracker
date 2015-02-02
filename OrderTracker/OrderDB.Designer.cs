@@ -38,6 +38,8 @@ namespace OrderTracker {
         
         private orderstatusDataTable tableorderstatus;
         
+        private fileheaderDataTable tablefileheader;
+        
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -86,6 +88,9 @@ namespace OrderTracker {
                 }
                 if ((ds.Tables["orderstatus"] != null)) {
                     base.Tables.Add(new orderstatusDataTable(ds.Tables["orderstatus"]));
+                }
+                if ((ds.Tables["fileheader"] != null)) {
+                    base.Tables.Add(new fileheaderDataTable(ds.Tables["fileheader"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -177,6 +182,16 @@ namespace OrderTracker {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public fileheaderDataTable fileheader {
+            get {
+                return this.tablefileheader;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.BrowsableAttribute(true)]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public override global::System.Data.SchemaSerializationMode SchemaSerializationMode {
@@ -263,6 +278,9 @@ namespace OrderTracker {
                 if ((ds.Tables["orderstatus"] != null)) {
                     base.Tables.Add(new orderstatusDataTable(ds.Tables["orderstatus"]));
                 }
+                if ((ds.Tables["fileheader"] != null)) {
+                    base.Tables.Add(new fileheaderDataTable(ds.Tables["fileheader"]));
+                }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
                 this.Namespace = ds.Namespace;
@@ -338,6 +356,12 @@ namespace OrderTracker {
                     this.tableorderstatus.InitVars();
                 }
             }
+            this.tablefileheader = ((fileheaderDataTable)(base.Tables["fileheader"]));
+            if ((initTable == true)) {
+                if ((this.tablefileheader != null)) {
+                    this.tablefileheader.InitVars();
+                }
+            }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -362,6 +386,8 @@ namespace OrderTracker {
             base.Tables.Add(this.tableorderallamount);
             this.tableorderstatus = new orderstatusDataTable();
             base.Tables.Add(this.tableorderstatus);
+            this.tablefileheader = new fileheaderDataTable();
+            base.Tables.Add(this.tablefileheader);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -403,6 +429,12 @@ namespace OrderTracker {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private bool ShouldSerializeorderstatus() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private bool ShouldSerializefileheader() {
             return false;
         }
         
@@ -481,6 +513,9 @@ namespace OrderTracker {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public delegate void orderstatusRowChangeEventHandler(object sender, orderstatusRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public delegate void fileheaderRowChangeEventHandler(object sender, fileheaderRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -1848,6 +1883,8 @@ namespace OrderTracker {
             
             private global::System.Data.DataColumn columnCreationDate;
             
+            private global::System.Data.DataColumn columnrefNo;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public orderdetailsDataTable() {
@@ -1931,6 +1968,14 @@ namespace OrderTracker {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn refNoColumn {
+                get {
+                    return this.columnrefNo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1966,7 +2011,7 @@ namespace OrderTracker {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public orderdetailsRow AddorderdetailsRow(string SubOrderID, string Status, string Remark, System.DateTime UpdatedDate, decimal Amount, System.DateTime CreationDate) {
+            public orderdetailsRow AddorderdetailsRow(string SubOrderID, string Status, string Remark, System.DateTime UpdatedDate, decimal Amount, System.DateTime CreationDate, string refNo) {
                 orderdetailsRow roworderdetailsRow = ((orderdetailsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         SubOrderID,
@@ -1974,17 +2019,11 @@ namespace OrderTracker {
                         Remark,
                         UpdatedDate,
                         Amount,
-                        CreationDate};
+                        CreationDate,
+                        refNo};
                 roworderdetailsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(roworderdetailsRow);
                 return roworderdetailsRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public orderdetailsRow FindBySubOrderID(string SubOrderID) {
-                return ((orderdetailsRow)(this.Rows.Find(new object[] {
-                            SubOrderID})));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2010,6 +2049,7 @@ namespace OrderTracker {
                 this.columnUpdatedDate = base.Columns["UpdatedDate"];
                 this.columnAmount = base.Columns["Amount"];
                 this.columnCreationDate = base.Columns["CreationDate"];
+                this.columnrefNo = base.Columns["refNo"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2027,13 +2067,13 @@ namespace OrderTracker {
                 base.Columns.Add(this.columnAmount);
                 this.columnCreationDate = new global::System.Data.DataColumn("CreationDate", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCreationDate);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnSubOrderID}, true));
+                this.columnrefNo = new global::System.Data.DataColumn("refNo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnrefNo);
                 this.columnSubOrderID.AllowDBNull = false;
-                this.columnSubOrderID.Unique = true;
                 this.columnSubOrderID.MaxLength = 45;
                 this.columnStatus.MaxLength = 45;
                 this.columnRemark.MaxLength = 128;
+                this.columnrefNo.MaxLength = 45;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3101,6 +3141,296 @@ namespace OrderTracker {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "orderstatusDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class fileheaderDataTable : global::System.Data.TypedTableBase<fileheaderRow> {
+            
+            private global::System.Data.DataColumn columnID;
+            
+            private global::System.Data.DataColumn columnTotalRecord;
+            
+            private global::System.Data.DataColumn columnFileType;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public fileheaderDataTable() {
+                this.TableName = "fileheader";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal fileheaderDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected fileheaderDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn IDColumn {
+                get {
+                    return this.columnID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn TotalRecordColumn {
+                get {
+                    return this.columnTotalRecord;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn FileTypeColumn {
+                get {
+                    return this.columnFileType;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public fileheaderRow this[int index] {
+                get {
+                    return ((fileheaderRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event fileheaderRowChangeEventHandler fileheaderRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event fileheaderRowChangeEventHandler fileheaderRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event fileheaderRowChangeEventHandler fileheaderRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event fileheaderRowChangeEventHandler fileheaderRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void AddfileheaderRow(fileheaderRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public fileheaderRow AddfileheaderRow(int TotalRecord, string FileType) {
+                fileheaderRow rowfileheaderRow = ((fileheaderRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        null,
+                        TotalRecord,
+                        FileType};
+                rowfileheaderRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowfileheaderRow);
+                return rowfileheaderRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public fileheaderRow FindByID(int ID) {
+                return ((fileheaderRow)(this.Rows.Find(new object[] {
+                            ID})));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                fileheaderDataTable cln = ((fileheaderDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new fileheaderDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal void InitVars() {
+                this.columnID = base.Columns["ID"];
+                this.columnTotalRecord = base.Columns["TotalRecord"];
+                this.columnFileType = base.Columns["FileType"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            private void InitClass() {
+                this.columnID = new global::System.Data.DataColumn("ID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID);
+                this.columnTotalRecord = new global::System.Data.DataColumn("TotalRecord", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotalRecord);
+                this.columnFileType = new global::System.Data.DataColumn("FileType", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFileType);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnID}, true));
+                this.columnID.AutoIncrement = true;
+                this.columnID.AutoIncrementSeed = -1;
+                this.columnID.AutoIncrementStep = -1;
+                this.columnID.AllowDBNull = false;
+                this.columnID.Unique = true;
+                this.columnFileType.MaxLength = 45;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public fileheaderRow NewfileheaderRow() {
+                return ((fileheaderRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new fileheaderRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(fileheaderRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.fileheaderRowChanged != null)) {
+                    this.fileheaderRowChanged(this, new fileheaderRowChangeEvent(((fileheaderRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.fileheaderRowChanging != null)) {
+                    this.fileheaderRowChanging(this, new fileheaderRowChangeEvent(((fileheaderRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.fileheaderRowDeleted != null)) {
+                    this.fileheaderRowDeleted(this, new fileheaderRowChangeEvent(((fileheaderRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.fileheaderRowDeleting != null)) {
+                    this.fileheaderRowDeleting(this, new fileheaderRowChangeEvent(((fileheaderRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void RemovefileheaderRow(fileheaderRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                OrderDB ds = new OrderDB();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "fileheaderDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -4345,6 +4675,22 @@ namespace OrderTracker {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string refNo {
+                get {
+                    try {
+                        return ((string)(this[this.tableorderdetails.refNoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'refNo\' in table \'orderdetails\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableorderdetails.refNoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsStatusNull() {
                 return this.IsNull(this.tableorderdetails.StatusColumn);
             }
@@ -4401,6 +4747,18 @@ namespace OrderTracker {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetCreationDateNull() {
                 this[this.tableorderdetails.CreationDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsrefNoNull() {
+                return this.IsNull(this.tableorderdetails.refNoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetrefNoNull() {
+                this[this.tableorderdetails.refNoColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -4860,6 +5218,88 @@ namespace OrderTracker {
         }
         
         /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class fileheaderRow : global::System.Data.DataRow {
+            
+            private fileheaderDataTable tablefileheader;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal fileheaderRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tablefileheader = ((fileheaderDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int ID {
+                get {
+                    return ((int)(this[this.tablefileheader.IDColumn]));
+                }
+                set {
+                    this[this.tablefileheader.IDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int TotalRecord {
+                get {
+                    try {
+                        return ((int)(this[this.tablefileheader.TotalRecordColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TotalRecord\' in table \'fileheader\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablefileheader.TotalRecordColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string FileType {
+                get {
+                    try {
+                        return ((string)(this[this.tablefileheader.FileTypeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'FileType\' in table \'fileheader\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablefileheader.FileTypeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsTotalRecordNull() {
+                return this.IsNull(this.tablefileheader.TotalRecordColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetTotalRecordNull() {
+                this[this.tablefileheader.TotalRecordColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsFileTypeNull() {
+                return this.IsNull(this.tablefileheader.FileTypeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetFileTypeNull() {
+                this[this.tablefileheader.FileTypeColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -5083,6 +5523,40 @@ namespace OrderTracker {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public orderstatusRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public class fileheaderRowChangeEvent : global::System.EventArgs {
+            
+            private fileheaderRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public fileheaderRowChangeEvent(fileheaderRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public fileheaderRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -9279,7 +9753,7 @@ VALUES        (@suborderid, @Category, @Courier, @Product, @Reference_Code, @SKU
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::MySql.Data.MySqlClient.MySqlCommand[6];
+            this._commandCollection = new global::MySql.Data.MySqlClient.MySqlCommand[7];
             this._commandCollection[0] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT        suborderid, Sku, Supc, AWB, Ref, CreationDate, hosno, hosdate, hsda" +
@@ -9425,9 +9899,31 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             this._commandCollection[4].Parameters.Add(param);
             this._commandCollection[5] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[5].Connection = this.Connection;
-            this._commandCollection[5].CommandText = "UPDATE       orderhos\r\nSET                Sku = @Sku, Supc = @Supc , AWB = @AWB ," +
-                " Ref = @Ref \r\nWHERE        (suborderid = @suborderid)";
+            this._commandCollection[5].CommandText = "UPDATE       orderhos\r\nSET                suborderid = @suborderid\r\nWHERE        " +
+                "(Ref = @ref)";
             this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@suborderid";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "suborderid";
+            this._commandCollection[5].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@ref";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "Ref";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._commandCollection[5].Parameters.Add(param);
+            this._commandCollection[6] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[6].Connection = this.Connection;
+            this._commandCollection[6].CommandText = "UPDATE       orderhos\r\nSET                Sku = @Sku, Supc = @Supc , AWB = @AWB ," +
+                " Ref = @Ref \r\nWHERE        (suborderid = @suborderid)";
+            this._commandCollection[6].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Sku";
             param.DbType = global::System.Data.DbType.String;
@@ -9435,7 +9931,7 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "Sku";
-            this._commandCollection[5].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Supc";
             param.DbType = global::System.Data.DbType.String;
@@ -9443,7 +9939,7 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "Supc";
-            this._commandCollection[5].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@AWB";
             param.DbType = global::System.Data.DbType.String;
@@ -9451,7 +9947,7 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "AWB";
-            this._commandCollection[5].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Ref";
             param.DbType = global::System.Data.DbType.String;
@@ -9459,7 +9955,7 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "Ref";
-            this._commandCollection[5].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@suborderid";
             param.DbType = global::System.Data.DbType.String;
@@ -9468,7 +9964,7 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             param.IsNullable = true;
             param.SourceColumn = "suborderid";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._commandCollection[5].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -10185,8 +10681,43 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
-        public virtual int UpdateQuery(string Sku, string Supc, string AWB, string Ref, string suborderid) {
+        public virtual int UpdateByref(string suborderid, string _ref) {
             global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[5];
+            if ((suborderid == null)) {
+                throw new global::System.ArgumentNullException("suborderid");
+            }
+            else {
+                command.Parameters[0].Value = ((string)(suborderid));
+            }
+            if ((_ref == null)) {
+                command.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[1].Value = ((string)(_ref));
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
+        public virtual int UpdateQuery(string Sku, string Supc, string AWB, string Ref, string suborderid) {
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[6];
             if ((Sku == null)) {
                 command.Parameters[0].Value = global::System.DBNull.Value;
             }
@@ -10362,10 +10893,11 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             tableMapping.ColumnMappings.Add("UpdatedDate", "UpdatedDate");
             tableMapping.ColumnMappings.Add("Amount", "Amount");
             tableMapping.ColumnMappings.Add("CreationDate", "CreationDate");
+            tableMapping.ColumnMappings.Add("refNo", "refNo");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `orderdetails` WHERE ((`SubOrderID` = @p1) AND ((@p2 = 1 AND `Status` IS NULL) OR (`Status` = @p3)) AND ((@p4 = 1 AND `Remark` IS NULL) OR (`Remark` = @p5)) AND ((@p6 = 1 AND `UpdatedDate` IS NULL) OR (`UpdatedDate` = @p7)) AND ((@p8 = 1 AND `Amount` IS NULL) OR (`Amount` = @p9)) AND ((@p10 = 1 AND `CreationDate` IS NULL) OR (`CreationDate` = @p11)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `orderdetails` WHERE ((`SubOrderID` = @p1) AND ((@p2 = 1 AND `Status` IS NULL) OR (`Status` = @p3)) AND ((@p4 = 1 AND `Remark` IS NULL) OR (`Remark` = @p5)) AND ((@p6 = 1 AND `UpdatedDate` IS NULL) OR (`UpdatedDate` = @p7)) AND ((@p8 = 1 AND `Amount` IS NULL) OR (`Amount` = @p9)) AND ((@p10 = 1 AND `CreationDate` IS NULL) OR (`CreationDate` = @p11)) AND ((@p12 = 1 AND `refNo` IS NULL) OR (`refNo` = @p13)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             global::MySql.Data.MySqlClient.MySqlParameter param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@p1";
@@ -10460,10 +10992,27 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             param.SourceColumn = "CreationDate";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p12";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "refNo";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p13";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.IsNullable = true;
+            param.SourceColumn = "refNo";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
             this._adapter.InsertCommand.CommandText = "INSERT INTO `orderdetails` (`SubOrderID`, `Status`, `Remark`, `UpdatedDate`, `Amo" +
-                "unt`, `CreationDate`) VALUES (@p1, @p2, @p3, @p4, @p5, @p6)";
+                "unt`, `CreationDate`, `refNo`) VALUES (@p1, @p2, @p3, @p4, @p5, @p6, @p7)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@p1";
@@ -10507,9 +11056,16 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             param.IsNullable = true;
             param.SourceColumn = "CreationDate";
             this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p7";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.IsNullable = true;
+            param.SourceColumn = "refNo";
+            this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE `orderdetails` SET `SubOrderID` = @p1, `Status` = @p2, `Remark` = @p3, `UpdatedDate` = @p4, `Amount` = @p5, `CreationDate` = @p6 WHERE ((`SubOrderID` = @p7) AND ((@p8 = 1 AND `Status` IS NULL) OR (`Status` = @p9)) AND ((@p10 = 1 AND `Remark` IS NULL) OR (`Remark` = @p11)) AND ((@p12 = 1 AND `UpdatedDate` IS NULL) OR (`UpdatedDate` = @p13)) AND ((@p14 = 1 AND `Amount` IS NULL) OR (`Amount` = @p15)) AND ((@p16 = 1 AND `CreationDate` IS NULL) OR (`CreationDate` = @p17)))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE `orderdetails` SET `SubOrderID` = @p1, `Status` = @p2, `Remark` = @p3, `UpdatedDate` = @p4, `Amount` = @p5, `CreationDate` = @p6, `refNo` = @p7 WHERE ((`SubOrderID` = @p8) AND ((@p9 = 1 AND `Status` IS NULL) OR (`Status` = @p10)) AND ((@p11 = 1 AND `Remark` IS NULL) OR (`Remark` = @p12)) AND ((@p13 = 1 AND `UpdatedDate` IS NULL) OR (`UpdatedDate` = @p14)) AND ((@p15 = 1 AND `Amount` IS NULL) OR (`Amount` = @p16)) AND ((@p17 = 1 AND `CreationDate` IS NULL) OR (`CreationDate` = @p18)) AND ((@p19 = 1 AND `refNo` IS NULL) OR (`refNo` = @p20)))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@p1";
@@ -10558,28 +11114,35 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             param.DbType = global::System.Data.DbType.String;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
             param.IsNullable = true;
+            param.SourceColumn = "refNo";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p8";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.IsNullable = true;
             param.SourceColumn = "SubOrderID";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p8";
+            param.ParameterName = "@p9";
             param.DbType = global::System.Data.DbType.Int32;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
             param.IsNullable = true;
             param.SourceColumn = "Status";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p9";
-            param.DbType = global::System.Data.DbType.String;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
-            param.IsNullable = true;
-            param.SourceColumn = "Status";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@p10";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.IsNullable = true;
+            param.SourceColumn = "Status";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p11";
             param.DbType = global::System.Data.DbType.Int32;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
             param.IsNullable = true;
@@ -10588,7 +11151,7 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             param.SourceColumnNullMapping = true;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p11";
+            param.ParameterName = "@p12";
             param.DbType = global::System.Data.DbType.String;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
             param.IsNullable = true;
@@ -10596,7 +11159,7 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p12";
+            param.ParameterName = "@p13";
             param.DbType = global::System.Data.DbType.Int32;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
             param.IsNullable = true;
@@ -10605,7 +11168,7 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             param.SourceColumnNullMapping = true;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p13";
+            param.ParameterName = "@p14";
             param.DbType = global::System.Data.DbType.DateTime;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
@@ -10613,7 +11176,7 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p14";
+            param.ParameterName = "@p15";
             param.DbType = global::System.Data.DbType.Int32;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
             param.IsNullable = true;
@@ -10622,7 +11185,7 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             param.SourceColumnNullMapping = true;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p15";
+            param.ParameterName = "@p16";
             param.DbType = global::System.Data.DbType.Decimal;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
             param.IsNullable = true;
@@ -10630,7 +11193,7 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p16";
+            param.ParameterName = "@p17";
             param.DbType = global::System.Data.DbType.Int32;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
             param.IsNullable = true;
@@ -10639,11 +11202,28 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             param.SourceColumnNullMapping = true;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@p17";
+            param.ParameterName = "@p18";
             param.DbType = global::System.Data.DbType.DateTime;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
             param.SourceColumn = "CreationDate";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p19";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "refNo";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p20";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.IsNullable = true;
+            param.SourceColumn = "refNo";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
         }
@@ -10658,11 +11238,11 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::MySql.Data.MySqlClient.MySqlCommand[12];
+            this._commandCollection = new global::MySql.Data.MySqlClient.MySqlCommand[17];
             this._commandCollection[0] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT        SubOrderID, Status, Remark, UpdatedDate, Amount, CreationDate\r\nFROM" +
-                "            orderdetails";
+            this._commandCollection[0].CommandText = "SELECT        SubOrderID, Status, Remark, UpdatedDate, Amount, CreationDate, refN" +
+                "o\r\nFROM            orderdetails";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[1].Connection = this.Connection;
@@ -10670,168 +11250,44 @@ VALUES        (@suborderid, @Sku, @Supc, @AWB, @Ref, @CreationDate, @hosno, @hos
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[2] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = @"SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hsdate, IFNULL(orderallamount.COD_NON_COD_Credit, 0) AS COD_NON_COD_Credit, 
-                         IFNULL(orderallamount.COD_NON_COD_Debit, 0) AS COD_NON_COD_Debit, IFNULL(orderallamount.Incentive, 0) AS Incentive, IFNULL(orderallamount.Disincentive, 
-                         0) AS Disincentive, IFNULL(orderallamount.COD_NCOD_Wrong_faulty_Debit, 0) AS COD_NCOD_Wrong_faulty_Debit, IFNULL(orderallamount.Stock_Out_Commission, 
-                         0) AS Stock_Out_Commission, IFNULL(orderallamount.Courier_lost_vendor, 0) AS Courier_lost_vendor, IFNULL(orderallamount.COD_Non_COD_Frgt_post_ship, 0) 
-                         AS COD_Non_COD_Frgt_post_ship, IFNULL(orderallamount.RTO_Conflict, 0) AS RTO_Conflict, IFNULL(orderdetails.Amount, 0) AS Amount, orderdetails.Status, 
-                         orderdetails.Remark, orderpacked.Order_Created_Date, orderpacked.Reference_Code, orderdetails.CreationDate, orderdetails.UpdatedDate
-FROM            orderdetails LEFT OUTER JOIN
-                         orderpacked ON orderdetails.SubOrderID = orderpacked.suborderid LEFT OUTER JOIN
-                         orderallamount ON orderallamount.Suborderid = orderdetails.SubOrderID LEFT OUTER JOIN
-                         orderhos ON orderdetails.Suborderid = orderhos.suborderid
-WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LIKE @pSuborderID) AND (orderdetails.Amount <= @pamount)";
+            this._commandCollection[2].CommandText = "SELECT        COUNT(*) AS Expr1\r\nFROM            orderdetails\r\nGROUP BY refNo\r\nHA" +
+                "VING        (refNo = @refNo)";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             global::MySql.Data.MySqlClient.MySqlParameter param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@pstatus";
+            param.ParameterName = "@refNo";
             param.DbType = global::System.Data.DbType.String;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
             param.Size = 45;
             param.IsNullable = true;
-            param.SourceColumn = "Status";
-            this._commandCollection[2].Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@pSuborderID";
-            param.DbType = global::System.Data.DbType.String;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
-            param.Size = 45;
-            param.IsNullable = true;
-            param.SourceColumn = "SubOrderID";
-            this._commandCollection[2].Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@pamount";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
-            param.IsNullable = true;
-            param.SourceColumn = "Amount";
+            param.SourceColumn = "refNo";
             this._commandCollection[2].Parameters.Add(param);
             this._commandCollection[3] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[3].Connection = this.Connection;
-            this._commandCollection[3].CommandText = "SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hsdate, IFNULL(or" +
-                "derallamount.COD_NON_COD_Credit, 0) AS COD_NON_COD_Credit, \r\n                   " +
-                "      IFNULL(orderallamount.COD_NON_COD_Debit, 0) AS COD_NON_COD_Debit, IFNULL(o" +
-                "rderallamount.Incentive, 0) AS Incentive, IFNULL(orderallamount.Disincentive, \r\n" +
-                "                         0) AS Disincentive, IFNULL(orderallamount.COD_NCOD_Wron" +
-                "g_faulty_Debit, 0) AS COD_NCOD_Wrong_faulty_Debit, IFNULL(orderallamount.Stock_O" +
-                "ut_Commission, \r\n                         0) AS Stock_Out_Commission, IFNULL(ord" +
-                "erallamount.Courier_lost_vendor, 0) AS Courier_lost_vendor, IFNULL(orderallamoun" +
-                "t.COD_Non_COD_Frgt_post_ship, 0) \r\n                         AS COD_Non_COD_Frgt_" +
-                "post_ship, IFNULL(orderallamount.RTO_Conflict, 0) AS RTO_Conflict, IFNULL(orderd" +
-                "etails.Amount, 0) AS Amount, orderdetails.Status, \r\n                         ord" +
-                "erdetails.Remark, orderpacked.Order_Created_Date, orderpacked.Reference_Code, or" +
-                "derdetails.CreationDate, orderdetails.UpdatedDate\r\nFROM            orderdetails " +
-                "INNER JOIN\r\n                         orderpacked ON orderdetails.SubOrderID = or" +
-                "derpacked.suborderid LEFT OUTER JOIN\r\n                         orderallamount ON" +
-                " orderallamount.Suborderid = orderdetails.SubOrderID LEFT OUTER JOIN\r\n          " +
-                "               orderhos ON orderdetails.Suborderid = orderhos.suborderid\r\nWHERE " +
-                "       (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LIKE @pS" +
-                "uborderID) AND (orderdetails.Amount >= @pamount) AND \r\n                         " +
-                "(orderpacked.Order_Created_Date >= @pOrderfrom) AND (orderpacked.Order_Created_D" +
-                "ate <= @pOrderto)";
+            this._commandCollection[3].CommandText = "SELECT        SubOrderID, Status, Remark, UpdatedDate, Amount, CreationDate, refN" +
+                "o\r\nFROM            orderdetails\r\nWHERE        (refNo = @refNo)";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@pstatus";
+            param.ParameterName = "@refNo";
             param.DbType = global::System.Data.DbType.String;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
             param.Size = 45;
             param.IsNullable = true;
-            param.SourceColumn = "Status";
-            this._commandCollection[3].Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@pSuborderID";
-            param.DbType = global::System.Data.DbType.String;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
-            param.Size = 45;
-            param.IsNullable = true;
-            param.SourceColumn = "SubOrderID";
-            this._commandCollection[3].Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@pamount";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
-            param.IsNullable = true;
-            param.SourceColumn = "Amount";
-            this._commandCollection[3].Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@pOrderfrom";
-            param.DbType = global::System.Data.DbType.DateTime;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
-            param.IsNullable = true;
-            param.SourceColumn = "Order_Created_Date";
-            this._commandCollection[3].Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@pOrderto";
-            param.DbType = global::System.Data.DbType.DateTime;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
-            param.IsNullable = true;
-            param.SourceColumn = "Order_Created_Date";
+            param.SourceColumn = "refNo";
             this._commandCollection[3].Parameters.Add(param);
             this._commandCollection[4] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[4].Connection = this.Connection;
-            this._commandCollection[4].CommandText = "SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hsdate, IFNULL(or" +
-                "derallamount.COD_NON_COD_Credit, 0) AS COD_NON_COD_Credit, \r\n                   " +
-                "      IFNULL(orderallamount.COD_NON_COD_Debit, 0) AS COD_NON_COD_Debit, IFNULL(o" +
-                "rderallamount.Incentive, 0) AS Incentive, IFNULL(orderallamount.Disincentive, \r\n" +
-                "                         0) AS Disincentive, IFNULL(orderallamount.COD_NCOD_Wron" +
-                "g_faulty_Debit, 0) AS COD_NCOD_Wrong_faulty_Debit, IFNULL(orderallamount.Stock_O" +
-                "ut_Commission, \r\n                         0) AS Stock_Out_Commission, IFNULL(ord" +
-                "erallamount.Courier_lost_vendor, 0) AS Courier_lost_vendor, IFNULL(orderallamoun" +
-                "t.COD_Non_COD_Frgt_post_ship, 0) \r\n                         AS COD_Non_COD_Frgt_" +
-                "post_ship, IFNULL(orderallamount.RTO_Conflict, 0) AS RTO_Conflict, IFNULL(orderd" +
-                "etails.Amount, 0) AS Amount, orderdetails.Status, \r\n                         ord" +
-                "erdetails.Remark, orderpacked.Order_Created_Date, orderpacked.Reference_Code, or" +
-                "derdetails.CreationDate, orderdetails.UpdatedDate\r\nFROM            orderdetails " +
-                "INNER JOIN\r\n                         orderpacked ON orderdetails.SubOrderID = or" +
-                "derpacked.suborderid LEFT OUTER JOIN\r\n                         orderallamount ON" +
-                " orderallamount.Suborderid = orderdetails.SubOrderID LEFT OUTER JOIN\r\n          " +
-                "               orderhos ON orderdetails.Suborderid = orderhos.suborderid\r\nWHERE " +
-                "       (orderpacked.Order_Created_Date >= @pOrderfrom) AND (orderpacked.Order_Cr" +
-                "eated_Date <= @pOrderto) AND (orderdetails.Status LIKE @pstatus) AND \r\n         " +
-                "                (orderdetails.SubOrderID LIKE @pSuborderID) AND (orderdetails.Am" +
-                "ount <= @pamount)";
+            this._commandCollection[4].CommandText = "SELECT        SubOrderID, Status, Remark, UpdatedDate, Amount, CreationDate, refN" +
+                "o\r\nFROM            orderdetails\r\nWHERE        (refNo = @refNo) OR\r\n             " +
+                "            (SubOrderID = @SubOrderID)";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@pOrderfrom";
-            param.DbType = global::System.Data.DbType.DateTime;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
-            param.IsNullable = true;
-            param.SourceColumn = "Order_Created_Date";
-            this._commandCollection[4].Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@pOrderto";
-            param.DbType = global::System.Data.DbType.DateTime;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
-            param.IsNullable = true;
-            param.SourceColumn = "Order_Created_Date";
-            this._commandCollection[4].Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@pstatus";
+            param.ParameterName = "@refNo";
             param.DbType = global::System.Data.DbType.String;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
             param.Size = 45;
             param.IsNullable = true;
-            param.SourceColumn = "Status";
+            param.SourceColumn = "refNo";
             this._commandCollection[4].Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@pSuborderID";
-            param.DbType = global::System.Data.DbType.String;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
-            param.Size = 45;
-            param.IsNullable = true;
-            param.SourceColumn = "SubOrderID";
-            this._commandCollection[4].Parameters.Add(param);
-            param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@pamount";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
-            param.IsNullable = true;
-            param.SourceColumn = "Amount";
-            this._commandCollection[4].Parameters.Add(param);
-            this._commandCollection[5] = new global::MySql.Data.MySqlClient.MySqlCommand();
-            this._commandCollection[5].Connection = this.Connection;
-            this._commandCollection[5].CommandText = "SELECT        Status, SubOrderID\r\nFROM            orderdetails\r\nWHERE        (Sub" +
-                "OrderID = @SubOrderID)";
-            this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@SubOrderID";
             param.DbType = global::System.Data.DbType.String;
@@ -10839,20 +11295,67 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
             param.Size = 45;
             param.IsNullable = true;
             param.SourceColumn = "SubOrderID";
-            this._commandCollection[5].Parameters.Add(param);
-            this._commandCollection[6] = new global::MySql.Data.MySqlClient.MySqlCommand();
-            this._commandCollection[6].Connection = this.Connection;
-            this._commandCollection[6].CommandText = @"SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hsdate, IFNULL(orderallamount.COD_NON_COD_Credit, 0) AS COD_NON_COD_Credit, 
+            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[5] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[5].Connection = this.Connection;
+            this._commandCollection[5].CommandText = @"SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hsdate, IFNULL(orderallamount.COD_NON_COD_Credit, 0) AS COD_NON_COD_Credit, 
                          IFNULL(orderallamount.COD_NON_COD_Debit, 0) AS COD_NON_COD_Debit, IFNULL(orderallamount.Incentive, 0) AS Incentive, IFNULL(orderallamount.Disincentive, 
                          0) AS Disincentive, IFNULL(orderallamount.COD_NCOD_Wrong_faulty_Debit, 0) AS COD_NCOD_Wrong_faulty_Debit, IFNULL(orderallamount.Stock_Out_Commission, 
                          0) AS Stock_Out_Commission, IFNULL(orderallamount.Courier_lost_vendor, 0) AS Courier_lost_vendor, IFNULL(orderallamount.COD_Non_COD_Frgt_post_ship, 0) 
                          AS COD_Non_COD_Frgt_post_ship, IFNULL(orderallamount.RTO_Conflict, 0) AS RTO_Conflict, IFNULL(orderdetails.Amount, 0) AS Amount, orderdetails.Status, 
-                         orderdetails.Remark, orderpacked.Order_Created_Date, orderpacked.Reference_Code, orderdetails.CreationDate, orderdetails.UpdatedDate
+                         orderdetails.Remark, orderpacked.Order_Created_Date, orderdetails .refNo RefNo, orderdetails.CreationDate, orderdetails.UpdatedDate
 FROM            orderdetails LEFT OUTER JOIN
                          orderpacked ON orderdetails.SubOrderID = orderpacked.suborderid LEFT OUTER JOIN
                          orderallamount ON orderallamount.Suborderid = orderdetails.SubOrderID LEFT OUTER JOIN
                          orderhos ON orderdetails.Suborderid = orderhos.suborderid
-WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LIKE @pSuborderID) AND (orderdetails.Amount >= @pamount)";
+WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LIKE @pSuborderID) AND (orderdetails.Amount <= @pamount)";
+            this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@pstatus";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "Status";
+            this._commandCollection[5].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@pSuborderID";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "SubOrderID";
+            this._commandCollection[5].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@pamount";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
+            param.IsNullable = true;
+            param.SourceColumn = "Amount";
+            this._commandCollection[5].Parameters.Add(param);
+            this._commandCollection[6] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[6].Connection = this.Connection;
+            this._commandCollection[6].CommandText = "SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hsdate, IFNULL(or" +
+                "derallamount.COD_NON_COD_Credit, 0) AS COD_NON_COD_Credit, \r\n                   " +
+                "      IFNULL(orderallamount.COD_NON_COD_Debit, 0) AS COD_NON_COD_Debit, IFNULL(o" +
+                "rderallamount.Incentive, 0) AS Incentive, IFNULL(orderallamount.Disincentive, \r\n" +
+                "                         0) AS Disincentive, IFNULL(orderallamount.COD_NCOD_Wron" +
+                "g_faulty_Debit, 0) AS COD_NCOD_Wrong_faulty_Debit, IFNULL(orderallamount.Stock_O" +
+                "ut_Commission, \r\n                         0) AS Stock_Out_Commission, IFNULL(ord" +
+                "erallamount.Courier_lost_vendor, 0) AS Courier_lost_vendor, IFNULL(orderallamoun" +
+                "t.COD_Non_COD_Frgt_post_ship, 0) \r\n                         AS COD_Non_COD_Frgt_" +
+                "post_ship, IFNULL(orderallamount.RTO_Conflict, 0) AS RTO_Conflict, IFNULL(orderd" +
+                "etails.Amount, 0) AS Amount, orderdetails.Status, \r\n                         ord" +
+                "erdetails.Remark, orderpacked.Order_Created_Date, orderdetails .refNo RefNo, ord" +
+                "erdetails.CreationDate, orderdetails.UpdatedDate\r\nFROM            orderdetails I" +
+                "NNER JOIN\r\n                         orderpacked ON orderdetails.SubOrderID = ord" +
+                "erpacked.suborderid LEFT OUTER JOIN\r\n                         orderallamount ON " +
+                "orderallamount.Suborderid = orderdetails.SubOrderID LEFT OUTER JOIN\r\n           " +
+                "              orderhos ON orderdetails.Suborderid = orderhos.suborderid\r\nWHERE  " +
+                "      (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LIKE @pSu" +
+                "borderID) AND (orderdetails.Amount >= @pamount) AND \r\n                         (" +
+                "orderpacked.Order_Created_Date >= @pOrderfrom) AND (orderpacked.Order_Created_Da" +
+                "te <= @pOrderto)";
             this._commandCollection[6].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@pstatus";
@@ -10877,24 +11380,85 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
             param.IsNullable = true;
             param.SourceColumn = "Amount";
             this._commandCollection[6].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@pOrderfrom";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
+            param.IsNullable = true;
+            param.SourceColumn = "Order_Created_Date";
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@pOrderto";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
+            param.IsNullable = true;
+            param.SourceColumn = "Order_Created_Date";
+            this._commandCollection[6].Parameters.Add(param);
             this._commandCollection[7] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[7].Connection = this.Connection;
-            this._commandCollection[7].CommandText = "SELECT        COUNT(*) AS Expr1\r\nFROM            orderdetails\r\nGROUP BY SubOrderI" +
-                "D\r\nHAVING        (SubOrderID = @SubOrderID)";
+            this._commandCollection[7].CommandText = "SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hsdate, IFNULL(or" +
+                "derallamount.COD_NON_COD_Credit, 0) AS COD_NON_COD_Credit, \r\n                   " +
+                "      IFNULL(orderallamount.COD_NON_COD_Debit, 0) AS COD_NON_COD_Debit, IFNULL(o" +
+                "rderallamount.Incentive, 0) AS Incentive, IFNULL(orderallamount.Disincentive, \r\n" +
+                "                         0) AS Disincentive, IFNULL(orderallamount.COD_NCOD_Wron" +
+                "g_faulty_Debit, 0) AS COD_NCOD_Wrong_faulty_Debit, IFNULL(orderallamount.Stock_O" +
+                "ut_Commission, \r\n                         0) AS Stock_Out_Commission, IFNULL(ord" +
+                "erallamount.Courier_lost_vendor, 0) AS Courier_lost_vendor, IFNULL(orderallamoun" +
+                "t.COD_Non_COD_Frgt_post_ship, 0) \r\n                         AS COD_Non_COD_Frgt_" +
+                "post_ship, IFNULL(orderallamount.RTO_Conflict, 0) AS RTO_Conflict, IFNULL(orderd" +
+                "etails.Amount, 0) AS Amount, orderdetails.Status, \r\n                         ord" +
+                "erdetails.Remark, orderpacked.Order_Created_Date,orderdetails .refNo RefNo, orde" +
+                "rdetails.CreationDate, orderdetails.UpdatedDate\r\nFROM            orderdetails IN" +
+                "NER JOIN\r\n                         orderpacked ON orderdetails.SubOrderID = orde" +
+                "rpacked.suborderid LEFT OUTER JOIN\r\n                         orderallamount ON o" +
+                "rderallamount.Suborderid = orderdetails.SubOrderID LEFT OUTER JOIN\r\n            " +
+                "             orderhos ON orderdetails.Suborderid = orderhos.suborderid\r\nWHERE   " +
+                "     (orderpacked.Order_Created_Date >= @pOrderfrom) AND (orderpacked.Order_Crea" +
+                "ted_Date <= @pOrderto) AND (orderdetails.Status LIKE @pstatus) AND \r\n           " +
+                "              (orderdetails.SubOrderID LIKE @pSuborderID) AND (orderdetails.Amou" +
+                "nt <= @pamount)";
             this._commandCollection[7].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
-            param.ParameterName = "@SubOrderID";
+            param.ParameterName = "@pOrderfrom";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
+            param.IsNullable = true;
+            param.SourceColumn = "Order_Created_Date";
+            this._commandCollection[7].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@pOrderto";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
+            param.IsNullable = true;
+            param.SourceColumn = "Order_Created_Date";
+            this._commandCollection[7].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@pstatus";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "Status";
+            this._commandCollection[7].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@pSuborderID";
             param.DbType = global::System.Data.DbType.String;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
             param.Size = 45;
             param.IsNullable = true;
             param.SourceColumn = "SubOrderID";
             this._commandCollection[7].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@pamount";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
+            param.IsNullable = true;
+            param.SourceColumn = "Amount";
+            this._commandCollection[7].Parameters.Add(param);
             this._commandCollection[8] = new global::MySql.Data.MySqlClient.MySqlCommand();
             this._commandCollection[8].Connection = this.Connection;
-            this._commandCollection[8].CommandText = "INSERT INTO orderdetails\r\n                         (SubOrderID, Status, Remark, U" +
-                "pdatedDate, Amount, CreationDate)\r\nVALUES        (@SubOrderID, @Status, @Remark," +
-                " @UpdatedDate, @Amount, @CreationDate)";
+            this._commandCollection[8].CommandText = "SELECT Amount, CreationDate, Remark, Status, SubOrderID, UpdatedDate, refNo FROM " +
+                "orderdetails WHERE (SubOrderID = @SubOrderID)";
             this._commandCollection[8].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@SubOrderID";
@@ -10904,6 +11468,70 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
             param.IsNullable = true;
             param.SourceColumn = "SubOrderID";
             this._commandCollection[8].Parameters.Add(param);
+            this._commandCollection[9] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[9].Connection = this.Connection;
+            this._commandCollection[9].CommandText = @"SELECT        orderdetails.SubOrderID, orderhos.hosno, orderhos.hsdate, IFNULL(orderallamount.COD_NON_COD_Credit, 0) AS COD_NON_COD_Credit, 
+                         IFNULL(orderallamount.COD_NON_COD_Debit, 0) AS COD_NON_COD_Debit, IFNULL(orderallamount.Incentive, 0) AS Incentive, IFNULL(orderallamount.Disincentive, 
+                         0) AS Disincentive, IFNULL(orderallamount.COD_NCOD_Wrong_faulty_Debit, 0) AS COD_NCOD_Wrong_faulty_Debit, IFNULL(orderallamount.Stock_Out_Commission, 
+                         0) AS Stock_Out_Commission, IFNULL(orderallamount.Courier_lost_vendor, 0) AS Courier_lost_vendor, IFNULL(orderallamount.COD_Non_COD_Frgt_post_ship, 0) 
+                         AS COD_Non_COD_Frgt_post_ship, IFNULL(orderallamount.RTO_Conflict, 0) AS RTO_Conflict, IFNULL(orderdetails.Amount, 0) AS Amount, orderdetails.Status, 
+                         orderdetails.Remark, orderpacked.Order_Created_Date, orderdetails .refNo RefNo, orderdetails.CreationDate, orderdetails.UpdatedDate
+FROM            orderdetails LEFT OUTER JOIN
+                         orderpacked ON orderdetails.SubOrderID = orderpacked.suborderid LEFT OUTER JOIN
+                         orderallamount ON orderallamount.Suborderid = orderdetails.SubOrderID LEFT OUTER JOIN
+                         orderhos ON orderdetails.Suborderid = orderhos.suborderid
+WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LIKE @pSuborderID) AND (orderdetails.Amount >= @pamount)";
+            this._commandCollection[9].CommandType = global::System.Data.CommandType.Text;
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@pstatus";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "Status";
+            this._commandCollection[9].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@pSuborderID";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "SubOrderID";
+            this._commandCollection[9].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@pamount";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
+            param.IsNullable = true;
+            param.SourceColumn = "Amount";
+            this._commandCollection[9].Parameters.Add(param);
+            this._commandCollection[10] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[10].Connection = this.Connection;
+            this._commandCollection[10].CommandText = "SELECT        COUNT(*) AS Expr1\r\nFROM            orderdetails\r\nGROUP BY SubOrderI" +
+                "D\r\nHAVING        (SubOrderID = @SubOrderID)";
+            this._commandCollection[10].CommandType = global::System.Data.CommandType.Text;
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@SubOrderID";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "SubOrderID";
+            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[11].Connection = this.Connection;
+            this._commandCollection[11].CommandText = "INSERT INTO orderdetails\r\n                         (SubOrderID, Status, Remark, U" +
+                "pdatedDate, Amount, CreationDate, refNo)\r\nVALUES        (@SubOrderID, @Status, @" +
+                "Remark, @UpdatedDate, @Amount, @CreationDate, @refNo)";
+            this._commandCollection[11].CommandType = global::System.Data.CommandType.Text;
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@SubOrderID";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "SubOrderID";
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Status";
             param.DbType = global::System.Data.DbType.String;
@@ -10911,7 +11539,7 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
             param.Size = 45;
             param.IsNullable = true;
             param.SourceColumn = "Status";
-            this._commandCollection[8].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Remark";
             param.DbType = global::System.Data.DbType.String;
@@ -10919,47 +11547,55 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
             param.Size = 128;
             param.IsNullable = true;
             param.SourceColumn = "Remark";
-            this._commandCollection[8].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@UpdatedDate";
             param.DbType = global::System.Data.DbType.DateTime;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
             param.SourceColumn = "UpdatedDate";
-            this._commandCollection[8].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Amount";
             param.DbType = global::System.Data.DbType.Decimal;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
             param.IsNullable = true;
             param.SourceColumn = "Amount";
-            this._commandCollection[8].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@CreationDate";
             param.DbType = global::System.Data.DbType.DateTime;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
             param.SourceColumn = "CreationDate";
-            this._commandCollection[8].Parameters.Add(param);
-            this._commandCollection[9] = new global::MySql.Data.MySqlClient.MySqlCommand();
-            this._commandCollection[9].Connection = this.Connection;
-            this._commandCollection[9].CommandText = "UPDATE       orderdetails\r\nSET                UpdatedDate = @UpdatedDate, Amount " +
+            this._commandCollection[11].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@refNo";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "refNo";
+            this._commandCollection[11].Parameters.Add(param);
+            this._commandCollection[12] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[12].Connection = this.Connection;
+            this._commandCollection[12].CommandText = "UPDATE       orderdetails\r\nSET                UpdatedDate = @UpdatedDate, Amount " +
                 "= @Amount\r\nWHERE        (SubOrderID = @SubOrderID)";
-            this._commandCollection[9].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[12].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@UpdatedDate";
             param.DbType = global::System.Data.DbType.DateTime;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
             param.SourceColumn = "UpdatedDate";
-            this._commandCollection[9].Parameters.Add(param);
+            this._commandCollection[12].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Amount";
             param.DbType = global::System.Data.DbType.Decimal;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
             param.IsNullable = true;
             param.SourceColumn = "Amount";
-            this._commandCollection[9].Parameters.Add(param);
+            this._commandCollection[12].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@SubOrderID";
             param.DbType = global::System.Data.DbType.String;
@@ -10968,13 +11604,13 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
             param.IsNullable = true;
             param.SourceColumn = "SubOrderID";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._commandCollection[9].Parameters.Add(param);
-            this._commandCollection[10] = new global::MySql.Data.MySqlClient.MySqlCommand();
-            this._commandCollection[10].Connection = this.Connection;
-            this._commandCollection[10].CommandText = "UPDATE       orderdetails\r\nSET                Status = @Status , Remark = @Remark" +
-                " , UpdatedDate = @UpdatedDate ,Amount = Amount + @Amount\r\nWHERE        (SubOrder" +
-                "ID = @SubOrderID)";
-            this._commandCollection[10].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[12].Parameters.Add(param);
+            this._commandCollection[13] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[13].Connection = this.Connection;
+            this._commandCollection[13].CommandText = "UPDATE       orderdetails\r\nSET                Status = @Status, SubOrderID = @Sub" +
+                "OrderID, Remark = @Remark, UpdatedDate = @UpdatedDate, Amount = Amount + @Amount" +
+                "\r\nWHERE        (refNo = @refNo)";
+            this._commandCollection[13].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Status";
             param.DbType = global::System.Data.DbType.String;
@@ -10982,7 +11618,15 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
             param.Size = 45;
             param.IsNullable = true;
             param.SourceColumn = "Status";
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[13].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@SubOrderID";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "SubOrderID";
+            this._commandCollection[13].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Remark";
             param.DbType = global::System.Data.DbType.String;
@@ -10990,21 +11634,66 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
             param.Size = 128;
             param.IsNullable = true;
             param.SourceColumn = "Remark";
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[13].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@UpdatedDate";
             param.DbType = global::System.Data.DbType.DateTime;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
             param.SourceColumn = "UpdatedDate";
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[13].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Amount";
             param.DbType = global::System.Data.DbType.Decimal;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
             param.IsNullable = true;
             param.SourceColumn = "Amount";
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[13].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@refNo";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "refNo";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._commandCollection[13].Parameters.Add(param);
+            this._commandCollection[14] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[14].Connection = this.Connection;
+            this._commandCollection[14].CommandText = "UPDATE       orderdetails\r\nSET                Status = @Status, Remark = @Remark," +
+                " UpdatedDate = @UpdatedDate, Amount = Amount + @Amount\r\nWHERE        (SubOrderID" +
+                " = @SubOrderID)";
+            this._commandCollection[14].CommandType = global::System.Data.CommandType.Text;
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@Status";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "Status";
+            this._commandCollection[14].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@Remark";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 128;
+            param.IsNullable = true;
+            param.SourceColumn = "Remark";
+            this._commandCollection[14].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@UpdatedDate";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
+            param.IsNullable = true;
+            param.SourceColumn = "UpdatedDate";
+            this._commandCollection[14].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@Amount";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
+            param.IsNullable = true;
+            param.SourceColumn = "Amount";
+            this._commandCollection[14].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@SubOrderID";
             param.DbType = global::System.Data.DbType.String;
@@ -11013,26 +11702,26 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
             param.IsNullable = true;
             param.SourceColumn = "SubOrderID";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._commandCollection[10].Parameters.Add(param);
-            this._commandCollection[11] = new global::MySql.Data.MySqlClient.MySqlCommand();
-            this._commandCollection[11].Connection = this.Connection;
-            this._commandCollection[11].CommandText = "UPDATE       orderdetails\r\nSET                Amount = Amount + @Amount, UpdatedD" +
+            this._commandCollection[14].Parameters.Add(param);
+            this._commandCollection[15] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[15].Connection = this.Connection;
+            this._commandCollection[15].CommandText = "UPDATE       orderdetails\r\nSET                Amount = Amount + @Amount, UpdatedD" +
                 "ate = @UpdatedDate\r\nWHERE        (SubOrderID = @SubOrderID)";
-            this._commandCollection[11].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[15].CommandType = global::System.Data.CommandType.Text;
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@Amount";
             param.DbType = global::System.Data.DbType.Decimal;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.NewDecimal;
             param.IsNullable = true;
             param.SourceColumn = "Amount";
-            this._commandCollection[11].Parameters.Add(param);
+            this._commandCollection[15].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@UpdatedDate";
             param.DbType = global::System.Data.DbType.DateTime;
             param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.DateTime;
             param.IsNullable = true;
             param.SourceColumn = "UpdatedDate";
-            this._commandCollection[11].Parameters.Add(param);
+            this._commandCollection[15].Parameters.Add(param);
             param = new global::MySql.Data.MySqlClient.MySqlParameter();
             param.ParameterName = "@SubOrderID";
             param.DbType = global::System.Data.DbType.String;
@@ -11041,7 +11730,29 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
             param.IsNullable = true;
             param.SourceColumn = "SubOrderID";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._commandCollection[11].Parameters.Add(param);
+            this._commandCollection[15].Parameters.Add(param);
+            this._commandCollection[16] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[16].Connection = this.Connection;
+            this._commandCollection[16].CommandText = "UPDATE       orderdetails\r\nSET                SubOrderID = @NewSubOrderID\r\nWHERE " +
+                "       (SubOrderID = @SubOrderID)";
+            this._commandCollection[16].CommandType = global::System.Data.CommandType.Text;
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@NewSubOrderID";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "SubOrderID";
+            this._commandCollection[16].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@SubOrderID";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "SubOrderID";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._commandCollection[16].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11072,8 +11783,48 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual OrderDB.orderdetailsDataTable GetDataByrefNo(string refNo) {
+            this.Adapter.SelectCommand = this.CommandCollection[3];
+            if ((refNo == null)) {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(refNo));
+            }
+            OrderDB.orderdetailsDataTable dataTable = new OrderDB.orderdetailsDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual OrderDB.orderdetailsDataTable GetDataByRefSuborderID(string refNo, string SubOrderID) {
+            this.Adapter.SelectCommand = this.CommandCollection[4];
+            if ((refNo == null)) {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(refNo));
+            }
+            if ((SubOrderID == null)) {
+                throw new global::System.ArgumentNullException("SubOrderID");
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(SubOrderID));
+            }
+            OrderDB.orderdetailsDataTable dataTable = new OrderDB.orderdetailsDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual OrderDB.orderdetailsDataTable GetOrderLessAmtWODate(string pstatus, string pSuborderID, global::System.Nullable<decimal> pamount) {
-            this.Adapter.SelectCommand = this.CommandCollection[2];
+            this.Adapter.SelectCommand = this.CommandCollection[5];
             if ((pstatus == null)) {
                 this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
             }
@@ -11102,7 +11853,7 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual OrderDB.orderdetailsDataTable GetOrderSearch(string pstatus, string pSuborderID, global::System.Nullable<decimal> pamount, global::System.Nullable<global::System.DateTime> pOrderfrom, global::System.Nullable<global::System.DateTime> pOrderto) {
-            this.Adapter.SelectCommand = this.CommandCollection[3];
+            this.Adapter.SelectCommand = this.CommandCollection[6];
             if ((pstatus == null)) {
                 this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
             }
@@ -11143,7 +11894,7 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual OrderDB.orderdetailsDataTable GetOrderSearchLessAmount(global::System.Nullable<global::System.DateTime> pOrderfrom, global::System.Nullable<global::System.DateTime> pOrderto, string pstatus, string pSuborderID, global::System.Nullable<decimal> pamount) {
-            this.Adapter.SelectCommand = this.CommandCollection[4];
+            this.Adapter.SelectCommand = this.CommandCollection[7];
             if ((pOrderfrom.HasValue == true)) {
                 this.Adapter.SelectCommand.Parameters[0].Value = ((System.DateTime)(pOrderfrom.Value));
             }
@@ -11184,7 +11935,7 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual OrderDB.orderdetailsDataTable GetOrderStatus(string SubOrderID) {
-            this.Adapter.SelectCommand = this.CommandCollection[5];
+            this.Adapter.SelectCommand = this.CommandCollection[8];
             if ((SubOrderID == null)) {
                 throw new global::System.ArgumentNullException("SubOrderID");
             }
@@ -11201,7 +11952,7 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual OrderDB.orderdetailsDataTable GetOrderWODate(string pstatus, string pSuborderID, global::System.Nullable<decimal> pamount) {
-            this.Adapter.SelectCommand = this.CommandCollection[6];
+            this.Adapter.SelectCommand = this.CommandCollection[9];
             if ((pstatus == null)) {
                 this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
             }
@@ -11258,7 +12009,7 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(string p1, string p3, string p5, global::System.Nullable<global::System.DateTime> p7, global::System.Nullable<decimal> p9, global::System.Nullable<global::System.DateTime> p11) {
+        public virtual int Delete(string p1, string p3, string p5, global::System.Nullable<global::System.DateTime> p7, global::System.Nullable<decimal> p9, global::System.Nullable<global::System.DateTime> p11, string p13) {
             if ((p1 == null)) {
                 throw new global::System.ArgumentNullException("p1");
             }
@@ -11305,6 +12056,14 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
                 this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(1));
                 this.Adapter.DeleteCommand.Parameters[10].Value = global::System.DBNull.Value;
             }
+            if ((p13 == null)) {
+                this.Adapter.DeleteCommand.Parameters[11].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[12].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[11].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[12].Value = ((string)(p13));
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -11325,7 +12084,7 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string p1, string p2, string p3, global::System.Nullable<global::System.DateTime> p4, global::System.Nullable<decimal> p5, global::System.Nullable<global::System.DateTime> p6) {
+        public virtual int Insert(string p1, string p2, string p3, global::System.Nullable<global::System.DateTime> p4, global::System.Nullable<decimal> p5, global::System.Nullable<global::System.DateTime> p6, string p7) {
             if ((p1 == null)) {
                 throw new global::System.ArgumentNullException("p1");
             }
@@ -11362,6 +12121,12 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
             else {
                 this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
             }
+            if ((p7 == null)) {
+                this.Adapter.InsertCommand.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[6].Value = ((string)(p7));
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -11382,7 +12147,7 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string p1, string p2, string p3, global::System.Nullable<global::System.DateTime> p4, global::System.Nullable<decimal> p5, global::System.Nullable<global::System.DateTime> p6, string p7, string p9, string p11, global::System.Nullable<global::System.DateTime> p13, global::System.Nullable<decimal> p15, global::System.Nullable<global::System.DateTime> p17) {
+        public virtual int Update(string p1, string p2, string p3, global::System.Nullable<global::System.DateTime> p4, global::System.Nullable<decimal> p5, global::System.Nullable<global::System.DateTime> p6, string p7, string p8, string p10, string p12, global::System.Nullable<global::System.DateTime> p14, global::System.Nullable<decimal> p16, global::System.Nullable<global::System.DateTime> p18, string p20) {
             if ((p1 == null)) {
                 throw new global::System.ArgumentNullException("p1");
             }
@@ -11420,50 +12185,64 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
                 this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
             }
             if ((p7 == null)) {
-                throw new global::System.ArgumentNullException("p7");
+                this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[6].Value = ((string)(p7));
             }
-            if ((p9 == null)) {
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[8].Value = global::System.DBNull.Value;
+            if ((p8 == null)) {
+                throw new global::System.ArgumentNullException("p8");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((string)(p9));
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((string)(p8));
             }
-            if ((p11 == null)) {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[10].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((string)(p11));
-            }
-            if ((p13.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((System.DateTime)(p13.Value));
+            if ((p10 == null)) {
+                this.Adapter.UpdateCommand.Parameters[8].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[9].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[8].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((string)(p10));
             }
-            if ((p15.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((decimal)(p15.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[14].Value = global::System.DBNull.Value;
-            }
-            if ((p17.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[16].Value = ((System.DateTime)(p17.Value));
+            if ((p12 == null)) {
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[11].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[16].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((string)(p12));
+            }
+            if ((p14.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((System.DateTime)(p14.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[13].Value = global::System.DBNull.Value;
+            }
+            if ((p16.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((decimal)(p16.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[15].Value = global::System.DBNull.Value;
+            }
+            if ((p18.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[17].Value = ((System.DateTime)(p18.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[17].Value = global::System.DBNull.Value;
+            }
+            if ((p20 == null)) {
+                this.Adapter.UpdateCommand.Parameters[18].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[19].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[18].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[19].Value = ((string)(p20));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -11479,14 +12258,6 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
                     this.Adapter.UpdateCommand.Connection.Close();
                 }
             }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string p2, string p3, global::System.Nullable<global::System.DateTime> p4, global::System.Nullable<decimal> p5, global::System.Nullable<global::System.DateTime> p6, string p7, string p9, string p11, global::System.Nullable<global::System.DateTime> p13, global::System.Nullable<decimal> p15, global::System.Nullable<global::System.DateTime> p17) {
-            return this.Update(p7, p2, p3, p4, p5, p6, p7, p9, p11, p13, p15, p17);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11515,8 +12286,42 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual global::System.Nullable<long> GetCountRefNo(string refNo) {
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[2];
+            if ((refNo == null)) {
+                command.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[0].Value = ((string)(refNo));
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            object returnValue;
+            try {
+                returnValue = command.ExecuteScalar();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            if (((returnValue == null) 
+                        || (returnValue.GetType() == typeof(global::System.DBNull)))) {
+                return new global::System.Nullable<long>();
+            }
+            else {
+                return new global::System.Nullable<long>(((long)(returnValue)));
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual global::System.Nullable<long> GetSuborderCount(string SubOrderID) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[7];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[10];
             if ((SubOrderID == null)) {
                 throw new global::System.ArgumentNullException("SubOrderID");
             }
@@ -11550,8 +12355,8 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
-        public virtual int InsertQuery(string SubOrderID, string Status, string Remark, global::System.Nullable<global::System.DateTime> UpdatedDate, global::System.Nullable<decimal> Amount, global::System.Nullable<global::System.DateTime> CreationDate) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[8];
+        public virtual int InsertQuery(string SubOrderID, string Status, string Remark, global::System.Nullable<global::System.DateTime> UpdatedDate, global::System.Nullable<decimal> Amount, global::System.Nullable<global::System.DateTime> CreationDate, string refNo) {
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[11];
             if ((SubOrderID == null)) {
                 throw new global::System.ArgumentNullException("SubOrderID");
             }
@@ -11588,6 +12393,12 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
             else {
                 command.Parameters[5].Value = global::System.DBNull.Value;
             }
+            if ((refNo == null)) {
+                command.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[6].Value = ((string)(refNo));
+            }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -11610,7 +12421,7 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateAmount(global::System.Nullable<global::System.DateTime> UpdatedDate, global::System.Nullable<decimal> Amount, string SubOrderID) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[9];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[12];
             if ((UpdatedDate.HasValue == true)) {
                 command.Parameters[0].Value = ((System.DateTime)(UpdatedDate.Value));
             }
@@ -11650,8 +12461,67 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
+        public virtual int UpdateByRefNo(string Status, string SubOrderID, string Remark, global::System.Nullable<global::System.DateTime> UpdatedDate, global::System.Nullable<decimal> Amount, string refNo) {
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[13];
+            if ((Status == null)) {
+                command.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[0].Value = ((string)(Status));
+            }
+            if ((SubOrderID == null)) {
+                throw new global::System.ArgumentNullException("SubOrderID");
+            }
+            else {
+                command.Parameters[1].Value = ((string)(SubOrderID));
+            }
+            if ((Remark == null)) {
+                command.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[2].Value = ((string)(Remark));
+            }
+            if ((UpdatedDate.HasValue == true)) {
+                command.Parameters[3].Value = ((System.DateTime)(UpdatedDate.Value));
+            }
+            else {
+                command.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            if ((Amount.HasValue == true)) {
+                command.Parameters[4].Value = ((decimal)(Amount.Value));
+            }
+            else {
+                command.Parameters[4].Value = global::System.DBNull.Value;
+            }
+            if ((refNo == null)) {
+                command.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[5].Value = ((string)(refNo));
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateBySubOrderId(string Status, string Remark, global::System.Nullable<global::System.DateTime> UpdatedDate, global::System.Nullable<decimal> Amount, string SubOrderID) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[10];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[14];
             if ((Status == null)) {
                 command.Parameters[0].Value = global::System.DBNull.Value;
             }
@@ -11704,7 +12574,7 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateOrderAmount(global::System.Nullable<decimal> Amount, global::System.Nullable<global::System.DateTime> UpdatedDate, string SubOrderID) {
-            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[11];
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[15];
             if ((Amount.HasValue == true)) {
                 command.Parameters[0].Value = ((decimal)(Amount.Value));
             }
@@ -11722,6 +12592,41 @@ WHERE        (orderdetails.Status LIKE @pstatus) AND (orderdetails.SubOrderID LI
             }
             else {
                 command.Parameters[2].Value = ((string)(SubOrderID));
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
+        public virtual int UpdateSubOrderID(string NewSubOrderID, string SubOrderID) {
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[16];
+            if ((NewSubOrderID == null)) {
+                throw new global::System.ArgumentNullException("NewSubOrderID");
+            }
+            else {
+                command.Parameters[0].Value = ((string)(NewSubOrderID));
+            }
+            if ((SubOrderID == null)) {
+                throw new global::System.ArgumentNullException("SubOrderID");
+            }
+            else {
+                command.Parameters[1].Value = ((string)(SubOrderID));
             }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -14601,6 +15506,564 @@ GROUP BY Suborderid";
     }
     
     /// <summary>
+    ///Represents the connection and commands used to retrieve and save data.
+    ///</summary>
+    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
+    [global::System.ComponentModel.ToolboxItem(true)]
+    [global::System.ComponentModel.DataObjectAttribute(true)]
+    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class fileheaderTableAdapter : global::System.ComponentModel.Component {
+        
+        private global::MySql.Data.MySqlClient.MySqlDataAdapter _adapter;
+        
+        private global::MySql.Data.MySqlClient.MySqlConnection _connection;
+        
+        private global::MySql.Data.MySqlClient.MySqlTransaction _transaction;
+        
+        private global::MySql.Data.MySqlClient.MySqlCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public fileheaderTableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        protected internal global::MySql.Data.MySqlClient.MySqlDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        internal global::MySql.Data.MySqlClient.MySqlConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((global::MySql.Data.MySqlClient.MySqlCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        internal global::MySql.Data.MySqlClient.MySqlTransaction Transaction {
+            get {
+                return this._transaction;
+            }
+            set {
+                this._transaction = value;
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    this.CommandCollection[i].Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.DeleteCommand != null))) {
+                    this.Adapter.DeleteCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.InsertCommand != null))) {
+                    this.Adapter.InsertCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.UpdateCommand != null))) {
+                    this.Adapter.UpdateCommand.Transaction = this._transaction;
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        protected global::MySql.Data.MySqlClient.MySqlCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private void InitAdapter() {
+            this._adapter = new global::MySql.Data.MySqlClient.MySqlDataAdapter();
+            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "fileheader";
+            tableMapping.ColumnMappings.Add("ID", "ID");
+            tableMapping.ColumnMappings.Add("TotalRecord", "TotalRecord");
+            tableMapping.ColumnMappings.Add("FileType", "FileType");
+            this._adapter.TableMappings.Add(tableMapping);
+            this._adapter.DeleteCommand = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._adapter.DeleteCommand.Connection = this.Connection;
+            this._adapter.DeleteCommand.CommandText = "DELETE FROM `fileheader` WHERE (((@p1 = 1 AND `TotalRecord` IS NULL) OR (`TotalRe" +
+                "cord` = @p2)) AND ((@p3 = 1 AND `FileType` IS NULL) OR (`FileType` = @p4)) AND (" +
+                "`ID` = @p5))";
+            this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
+            global::MySql.Data.MySqlClient.MySqlParameter param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p1";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "TotalRecord";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p2";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "TotalRecord";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p3";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "FileType";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p4";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.IsNullable = true;
+            param.SourceColumn = "FileType";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p5";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "ID";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            this._adapter.InsertCommand = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._adapter.InsertCommand.Connection = this.Connection;
+            this._adapter.InsertCommand.CommandText = "INSERT INTO `fileheader` (`TotalRecord`, `FileType`) VALUES (@p1, @p2)";
+            this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p1";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "TotalRecord";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p2";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.IsNullable = true;
+            param.SourceColumn = "FileType";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            this._adapter.UpdateCommand = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._adapter.UpdateCommand.Connection = this.Connection;
+            this._adapter.UpdateCommand.CommandText = "UPDATE `fileheader` SET `TotalRecord` = @p1, `FileType` = @p2 WHERE (((@p3 = 1 AN" +
+                "D `TotalRecord` IS NULL) OR (`TotalRecord` = @p4)) AND ((@p5 = 1 AND `FileType` " +
+                "IS NULL) OR (`FileType` = @p6)) AND (`ID` = @p7))";
+            this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p1";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "TotalRecord";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p2";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.IsNullable = true;
+            param.SourceColumn = "FileType";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p3";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "TotalRecord";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p4";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "TotalRecord";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p5";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "FileType";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p6";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.IsNullable = true;
+            param.SourceColumn = "FileType";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@p7";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "ID";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private void InitConnection() {
+            this._connection = new global::MySql.Data.MySqlClient.MySqlConnection();
+            this._connection.ConnectionString = global::OrderTracker.Properties.Settings.Default.ordertrackerConnectionString;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private void InitCommandCollection() {
+            this._commandCollection = new global::MySql.Data.MySqlClient.MySqlCommand[3];
+            this._commandCollection[0] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "SELECT TotalRecord, FileType, ID FROM fileheader WHERE (Filename = @fileName)";
+            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            global::MySql.Data.MySqlClient.MySqlParameter param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@fileName";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "Filename";
+            this._commandCollection[0].Parameters.Add(param);
+            this._commandCollection[1] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = "DELETE FROM fileheader";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[2] = new global::MySql.Data.MySqlClient.MySqlCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = "INSERT INTO fileheader\r\n                         (Filename, CreatedDate, TotalRec" +
+                "ord, FileType)\r\nVALUES        (@Filename, @CreatedDate, @TotalRecord, @FileType)" +
+                "";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@Filename";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "Filename";
+            this._commandCollection[2].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@CreatedDate";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Date;
+            param.IsNullable = true;
+            param.SourceColumn = "CreatedDate";
+            this._commandCollection[2].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@TotalRecord";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.Int32;
+            param.IsNullable = true;
+            param.SourceColumn = "TotalRecord";
+            this._commandCollection[2].Parameters.Add(param);
+            param = new global::MySql.Data.MySqlClient.MySqlParameter();
+            param.ParameterName = "@FileType";
+            param.DbType = global::System.Data.DbType.String;
+            param.MySqlDbType = global::MySql.Data.MySqlClient.MySqlDbType.VarChar;
+            param.Size = 45;
+            param.IsNullable = true;
+            param.SourceColumn = "FileType";
+            this._commandCollection[2].Parameters.Add(param);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
+        public virtual OrderDB.fileheaderDataTable GetFileByName(string fileName) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((fileName == null)) {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(fileName));
+            }
+            OrderDB.fileheaderDataTable dataTable = new OrderDB.fileheaderDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(OrderDB.fileheaderDataTable dataTable) {
+            return this.Adapter.Update(dataTable);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(OrderDB dataSet) {
+            return this.Adapter.Update(dataSet, "fileheader");
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow dataRow) {
+            return this.Adapter.Update(new global::System.Data.DataRow[] {
+                        dataRow});
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow[] dataRows) {
+            return this.Adapter.Update(dataRows);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
+        public virtual int Delete(global::System.Nullable<int> p2, string p4, int p5) {
+            if ((p2.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[0].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[1].Value = ((int)(p2.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[0].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            if ((p4 == null)) {
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((string)(p4));
+            }
+            this.Adapter.DeleteCommand.Parameters[4].Value = ((int)(p5));
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
+            if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.DeleteCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.DeleteCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
+        public virtual int Insert(global::System.Nullable<int> p1, string p2) {
+            if ((p1.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[0].Value = ((int)(p1.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            if ((p2 == null)) {
+                this.Adapter.InsertCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(p2));
+            }
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
+            if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.InsertCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.InsertCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
+        public virtual int Update(global::System.Nullable<int> p1, string p2, global::System.Nullable<int> p4, string p6, int p7) {
+            if ((p1.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(p1.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            if ((p2 == null)) {
+                this.Adapter.UpdateCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(p2));
+            }
+            if ((p4.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[2].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(p4.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[2].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            if ((p6 == null)) {
+                this.Adapter.UpdateCommand.Parameters[4].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[4].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((string)(p6));
+            }
+            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(p7));
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
+            if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.UpdateCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.UpdateCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, false)]
+        public virtual int DeleteQuery() {
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[1];
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
+        public virtual int InsertFile(string Filename, global::System.Nullable<global::System.DateTime> CreatedDate, global::System.Nullable<int> TotalRecord, string FileType) {
+            global::MySql.Data.MySqlClient.MySqlCommand command = this.CommandCollection[2];
+            if ((Filename == null)) {
+                command.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[0].Value = ((string)(Filename));
+            }
+            if ((CreatedDate.HasValue == true)) {
+                command.Parameters[1].Value = ((System.DateTime)(CreatedDate.Value));
+            }
+            else {
+                command.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            if ((TotalRecord.HasValue == true)) {
+                command.Parameters[2].Value = ((int)(TotalRecord.Value));
+            }
+            else {
+                command.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            if ((FileType == null)) {
+                command.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[3].Value = ((string)(FileType));
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+    }
+    
+    /// <summary>
     ///TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -14625,6 +16088,8 @@ GROUP BY Suborderid";
         private orderallamountTableAdapter _orderallamountTableAdapter;
         
         private orderstatusTableAdapter _orderstatusTableAdapter;
+        
+        private fileheaderTableAdapter _fileheaderTableAdapter;
         
         private bool _backupDataSetBeforeUpdate;
         
@@ -14741,6 +16206,20 @@ GROUP BY Suborderid";
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
+            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
+            "a", "System.Drawing.Design.UITypeEditor")]
+        public fileheaderTableAdapter fileheaderTableAdapter {
+            get {
+                return this._fileheaderTableAdapter;
+            }
+            set {
+                this._fileheaderTableAdapter = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public bool BackupDataSetBeforeUpdate {
             get {
                 return this._backupDataSetBeforeUpdate;
@@ -14786,6 +16265,10 @@ GROUP BY Suborderid";
                             && (this._orderstatusTableAdapter.Connection != null))) {
                     return this._orderstatusTableAdapter.Connection;
                 }
+                if (((this._fileheaderTableAdapter != null) 
+                            && (this._fileheaderTableAdapter.Connection != null))) {
+                    return this._fileheaderTableAdapter.Connection;
+                }
                 return null;
             }
             set {
@@ -14818,6 +16301,9 @@ GROUP BY Suborderid";
                     count = (count + 1);
                 }
                 if ((this._orderstatusTableAdapter != null)) {
+                    count = (count + 1);
+                }
+                if ((this._fileheaderTableAdapter != null)) {
                     count = (count + 1);
                 }
                 return count;
@@ -14894,6 +16380,15 @@ GROUP BY Suborderid";
                     allChangedRows.AddRange(updatedRows);
                 }
             }
+            if ((this._fileheaderTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.fileheader.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._fileheaderTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
             return result;
         }
         
@@ -14960,6 +16455,14 @@ GROUP BY Suborderid";
                     allAddedRows.AddRange(addedRows);
                 }
             }
+            if ((this._fileheaderTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.fileheader.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._fileheaderTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
             return result;
         }
         
@@ -14970,6 +16473,14 @@ GROUP BY Suborderid";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private int UpdateDeletedRows(OrderDB dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
+            if ((this._fileheaderTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.fileheader.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._fileheaderTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
             if ((this._orderstatusTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.orderstatus.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
@@ -15100,6 +16611,11 @@ GROUP BY Suborderid";
                 throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
                         "tring.");
             }
+            if (((this._fileheaderTableAdapter != null) 
+                        && (this.MatchTableAdapterConnection(this._fileheaderTableAdapter.Connection) == false))) {
+                throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
+                        "tring.");
+            }
             global::System.Data.IDbConnection workConnection = this.Connection;
             if ((workConnection == null)) {
                 throw new global::System.ApplicationException("TableAdapterManager contains no connection information. Set each TableAdapterMana" +
@@ -15195,6 +16711,15 @@ GROUP BY Suborderid";
                         adaptersWithAcceptChangesDuringUpdate.Add(this._orderstatusTableAdapter.Adapter);
                     }
                 }
+                if ((this._fileheaderTableAdapter != null)) {
+                    revertConnections.Add(this._fileheaderTableAdapter, this._fileheaderTableAdapter.Connection);
+                    this._fileheaderTableAdapter.Connection = ((global::MySql.Data.MySqlClient.MySqlConnection)(workConnection));
+                    this._fileheaderTableAdapter.Transaction = ((global::MySql.Data.MySqlClient.MySqlTransaction)(workTransaction));
+                    if (this._fileheaderTableAdapter.Adapter.AcceptChangesDuringUpdate) {
+                        this._fileheaderTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
+                        adaptersWithAcceptChangesDuringUpdate.Add(this._fileheaderTableAdapter.Adapter);
+                    }
+                }
                 // 
                 //---- Perform updates -----------
                 //
@@ -15280,6 +16805,10 @@ GROUP BY Suborderid";
                 if ((this._orderstatusTableAdapter != null)) {
                     this._orderstatusTableAdapter.Connection = ((global::MySql.Data.MySqlClient.MySqlConnection)(revertConnections[this._orderstatusTableAdapter]));
                     this._orderstatusTableAdapter.Transaction = null;
+                }
+                if ((this._fileheaderTableAdapter != null)) {
+                    this._fileheaderTableAdapter.Connection = ((global::MySql.Data.MySqlClient.MySqlConnection)(revertConnections[this._fileheaderTableAdapter]));
+                    this._fileheaderTableAdapter.Transaction = null;
                 }
                 if ((0 < adaptersWithAcceptChangesDuringUpdate.Count)) {
                     global::System.Data.Common.DataAdapter[] adapters = new System.Data.Common.DataAdapter[adaptersWithAcceptChangesDuringUpdate.Count];

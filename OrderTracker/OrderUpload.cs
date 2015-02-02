@@ -41,6 +41,7 @@ namespace OrderTracker
         orderstatusTableAdapter oorderstatusTableAdapter = new orderstatusTableAdapter();
         orderallamountTableAdapter oorderallamountTableAdapter = new orderallamountTableAdapter();
         usermasterTableAdapter ousermasterTableAdapter = new usermasterTableAdapter();
+        fileheaderTableAdapter ofileheaderTableAdapter = new fileheaderTableAdapter();
         public OrderUpload()
         {
             InitializeComponent();
@@ -83,6 +84,11 @@ namespace OrderTracker
                         oOrderDetailsEntity.Amount = 0;
                         oOrderDetailsEntity.Status = "Packed";
                         oOrderDetailsEntity.SuborderId = or.Suborder_Id;
+                        oOrderDetailsEntity.RefNo = or.Reference_Code;
+                        
+                        DataTable rdt = oorderdetailsTableAdapter.GetDataByRefSuborderID(oOrderDetailsEntity.RefNo, oOrderDetailsEntity.SuborderId);
+                        if (rdt.Rows.Count > 0)
+                            oOrderDetailsEntity.Status = rdt.Rows[0]["Status"].ToString();
                         OrderDetailsAU(oOrderDetailsEntity);
                         oordertransectionTableAdapter.InsertQuery(or.Suborder_Id, OrderConstant.Packed, DateTime.Now);
                     }
@@ -115,34 +121,9 @@ namespace OrderTracker
                 if (listOrderMainfest.Count() > 0)
                 {
                     int p = 100 / listOrderMainfest.Count();
-                    int i = 0;
-                    //foreach (OrderMainfest or in listOrderMainfest)
-                    //{
-                    //    try
-                    //    {
-                    //        if (oorderpackedTableAdapter.GetSubOrderCount(or.Suborder_Id) > 0)
-                    //        { }
-                    //        else
-                    //        {
-                    //            //insert
-                    //            oorderpackedTableAdapter.InsertQuery(or.Suborder_Id, or.Category, or.Courier, or.Product, or.Reference_Code, or.SKU_Code, or.AWB_Number, or.Order_Verified_Date, or.Order_Created_Date, or.Customer_Name, or.Shipping_Name, or.City, or.State, or.PINCode, or.Selling_Price.ToString(), or.IMEI_SERIAL, or.PromisedShipDate, or.MRP.ToString(), or.InvoiceCode, or.CreationDate);
-                    //            OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
-                    //            oOrderDetailsEntity.Amount = 0;
-                    //            oOrderDetailsEntity.Status = "Packed";
-                    //            oOrderDetailsEntity.SuborderId = or.Suborder_Id;
-                    //            OrderDetailsAU(oOrderDetailsEntity);
-                    //            oordertransectionTableAdapter.InsertQuery(or.Suborder_Id, OrderConstant.Packed, DateTime.Now);
-                    //        }
-                    //    }
-                    //    catch(Exception ex)
-                    //    {
-                    //        Utility.ErrorLog(ex, "btnMainfestClick-Data Insert"); 
-                    //    }
-                    //    i++;
-                    //    startWorker.ReportProgress(((100*i) / listOrderMainfest.Count())-5);
-                    //}
+                    int i = 0;                   
                     ChangeGridView(gridProduct, listOrderMainfest.ToList<dynamic>());
-                    
+                    lblchange(Path.GetFileName(oOpenFileDialog.FileName), SaveType.Mainfest.ToString(), listOrderMainfest.Count());                   
                     startWorker.ReportProgress(100);
                     //gridProduct.DataSource = listOrderMainfest;
                     if (listOrderMainfest.Count() > 0)
@@ -295,19 +276,26 @@ namespace OrderTracker
 
         private DateTime DataTableValidationDate(string col, DataTable dt, int i)
         {
-            DateTime validdate = DateTime.ParseExact("01-01-1900", "dd-MM-yyyy", CultureInfo.CurrentCulture); ;
+            DateTime validdate = DateTime.ParseExact("01-01-1900", "dd-MM-yyyy", CultureInfo.InvariantCulture); ;
             if (dt.Columns.Contains(col))
             {
-                string format = "dd-MM-yyyy HH:mm";
+                string format = "dd-MM-yyyy H:mm";
+                string format1 = "MM-dd-yyyy H:mm";
+                string format4 = "yyyy-MM-dd H:mm";
+                string format2 = "dd/MM/yyyy H:mm";
+                string format3 = "MM/dd/yyyy H:mm";
+                string format5 = "yyyy/MM/dd H:mm";
                 DateTime dateTime;
-                if (DateTime.TryParseExact(dt.Rows[i][col].ToString(), format, CultureInfo.CurrentCulture,
-                    DateTimeStyles.None, out dateTime))
+                string[] allFormat = { format, format1, format2, format3, format4, format5 };
+                foreach (string f in allFormat)
                 {
-                    if (dt.Rows[i][col].ToString().Length > 10)
-                        validdate = DateTime.ParseExact(dt.Rows[i][col].ToString(), "dd-MM-yyyy HH:mm", CultureInfo.CurrentCulture);
-                    else
-                        validdate = DateTime.ParseExact(dt.Rows[i][col].ToString(), "dd-MM-yyyy", CultureInfo.CurrentCulture);
-                }
+                    if (DateTime.TryParseExact(dt.Rows[i][col].ToString(), f, CultureInfo.InvariantCulture,
+                    DateTimeStyles.None, out dateTime))
+                    {
+                        validdate = DateTime.ParseExact(dt.Rows[i][col].ToString(), f, CultureInfo.InvariantCulture);
+                        break;
+                    }
+                }                
 
             }
 
@@ -555,6 +543,7 @@ namespace OrderTracker
             List<HOS> listHOS = new List<HOS>();
             ChangeGridView(gridProduct, listHOS.ToList<dynamic>());
             ChangeTextControlState(lblSaveType, SaveType.HOS.ToString());
+           
             bool status = false;
             p = 10;
             //for (int page = 1; page <= numberOfPages; page++)
@@ -572,6 +561,7 @@ namespace OrderTracker
                     
                     fileText=fileText.Replace("FORMS NEEDED", "");                   
                     #region [Hos Date Extract]
+
                              string MatchEmailPattern = "HOS\\w{7}";
                             Regex rx = new Regex(MatchEmailPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
                             MatchCollection matches = rx.Matches(fileText);
@@ -587,7 +577,8 @@ namespace OrderTracker
                             // Report on each match.
                             foreach (Match match in matches)
                             {
-                               
+                                try
+                                {
                                     HOSDetails oHOSDetails = new HOSDetails();
                                     //hosCode = match.Captures[0].Value;
                                     oHOSDetails.index = match.Index;
@@ -596,11 +587,19 @@ namespace OrderTracker
                                     index = s.IndexOf("Handover Sheet Date:");
                                     if (index > -1)
                                     {
-                                        hosdate = s.Substring(index + 21, (s.IndexOf("Vendor Address") - index - 21));
+                                        string hosdatePat = "19[789]\\d|20[01]\\d";
+                                        Regex rxhosdate = new Regex(hosdatePat, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                                        MatchCollection matcheshosdate = rxhosdate.Matches(s);
+                                        if (matcheshosdate.Count > 0)
+                                            hosdate = s.Substring(index + 21, matcheshosdate[0].Index + 4 - index - 21);
                                     }
-                                    oHOSDetails.HosDate = hosdate.Replace("*","");
+                                    oHOSDetails.HosDate = hosdate.Replace("*", "");
                                     oHOSDetailsList.Add(oHOSDetails);
-                              
+                                }
+                                catch (Exception ex)
+                                {
+                                    Utility.ErrorLog(ex, "Hos Date Extract"); 
+                                }
                             }
                             oHOSDetailsList = oHOSDetailsList.GroupBy(x => x.HosNo).Select(x => x.First()).ToList();
                            
@@ -659,6 +658,33 @@ namespace OrderTracker
                                                 oHOS.HosDate = l[l.Count - 1].HosDate;
 
                                                 listHOS.Add(oHOS);
+                                            }
+                                            else if (orderdetails.Count() == 9 && int.TryParse(orderdetails[0], out result))
+                                            {
+                                                //for Multiple Suborder ID
+                                                HOS oHOS = new HOS();
+                                                HOS oHOS1 = new HOS();
+
+                                                oHOS.SubOrderID = orderdetails[1].Replace(",", "");
+                                                oHOS.Sku = orderdetails[4].Replace(",", "");
+                                                oHOS.Supc = orderdetails[6].Replace(",", "");
+                                                oHOS.AWB = orderdetails[7].Replace(",", "");
+                                                oHOS.Ref = orderdetails[8].Replace("\r", "");
+                                                oHOS.CreationDate = System.DateTime.Now;
+                                                oHOS.HosNo = l[l.Count - 1].HosNo;
+                                                oHOS.HosDate = l[l.Count - 1].HosDate;
+
+                                                listHOS.Add(oHOS);
+
+                                                oHOS1.SubOrderID = orderdetails[2].Replace(",", "");
+                                                oHOS1.Sku = orderdetails[4].Replace(",", "");
+                                                oHOS1.Supc = orderdetails[6].Replace(",", "");
+                                                oHOS1.AWB = orderdetails[7].Replace(",", "");
+                                                oHOS1.Ref = orderdetails[8].Replace("\r", "");
+                                                oHOS1.CreationDate = System.DateTime.Now;
+                                                oHOS1.HosNo = l[l.Count - 1].HosNo;
+                                                oHOS1.HosDate = l[l.Count - 1].HosDate;
+                                                listHOS.Add(oHOS1);
                                             }
                                         }
                                     }
@@ -724,6 +750,7 @@ namespace OrderTracker
 
                                   };
              ChangeGridView(gridProduct, selectedFields.ToList<dynamic>());
+             lblchange(Path.GetFileName(oOpenFileDialog.FileName), SaveType.HOS.ToString(), listHOS.Count());   
             startWorker.ReportProgress(100);
             if (listHOS.Count() > 0)
             {
@@ -756,6 +783,7 @@ namespace OrderTracker
                     oOrderDetailsEntity.Amount = 0;
                     oOrderDetailsEntity.Status = "Shipped";
                     oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
+                    oOrderDetailsEntity.RefNo = oHOS.Ref;
                     OrderDetailsAU(oOrderDetailsEntity);
 
                 }
@@ -965,6 +993,7 @@ namespace OrderTracker
                     //    startWorker.ReportProgress((100*i) / distinctTypeIDs.Count());
                     //}
                     ChangeGridView(gridProduct, listOrderPayment.ToList<dynamic>());
+                    lblchange(Path.GetFileName(oOpenFileDialog.FileName), SaveType.Payment.ToString(), listOrderPayment.Count());   
                     startWorker.ReportProgress(100);
                     MessageBox.Show("Total Record Found- " + listOrderPayment.Count().ToString());
                 }
@@ -1012,7 +1041,7 @@ namespace OrderTracker
                     { }
                     else
                     {
-                        oorderdetailsTableAdapter.InsertQuery(listOrderPayment[0].SuborderID, "", "", DateTime.Now, 0, DateTime.Now);
+                        oorderdetailsTableAdapter.InsertQuery(listOrderPayment[0].SuborderID, "", "", DateTime.Now, 0, DateTime.Now,listOrderPayment[0].RefNo);
                     }
 
                     //Check order status for RTO Recieved and Customer Complaint Acknowledged/////////////
@@ -1167,7 +1196,7 @@ namespace OrderTracker
                         if (oorderdetailsTableAdapter.GetSuborderCount(r[0].SuborderID) > 0)
                         { }
                         else
-                            oorderdetailsTableAdapter.InsertQuery(r[0].SuborderID, "", "", DateTime.Now, totalAmount, DateTime.Now);
+                            oorderdetailsTableAdapter.InsertQuery(r[0].SuborderID, "", "", DateTime.Now, totalAmount, DateTime.Now, r[0].RefNo);
 
                         oorderdetailsTableAdapter.UpdateBySubOrderId("Stock out commission", "", DateTime.Now, totalAmount, r[0].SuborderID);
                         foreach (Payment p in listOrderPayment)
@@ -1187,7 +1216,7 @@ namespace OrderTracker
                         if (oorderdetailsTableAdapter.GetSuborderCount(r[0].SuborderID) > 0)
                         { }
                         else
-                            oorderdetailsTableAdapter.InsertQuery(r[0].SuborderID, "", "", DateTime.Now, totalAmount, DateTime.Now);
+                            oorderdetailsTableAdapter.InsertQuery(r[0].SuborderID, "", "", DateTime.Now, totalAmount, DateTime.Now, r[0].RefNo);
 
                         oorderdetailsTableAdapter.UpdateBySubOrderId("Expenses", "Packaging fees", DateTime.Now, totalAmount, r[0].SuborderID);
                         foreach (Payment p in listOrderPayment)
@@ -1332,6 +1361,39 @@ namespace OrderTracker
                     oOrderPayment.Shipping_method_code = DataTableValidation("Shipping_method_code",dt,i);
                     oOrderPayment.Other_Applications = DataTableValidation("Other Applications", dt, i);
                     oOrderPayment.Amount =DataTableValidationDecimal("Amount",dt,i);
+                    oOrderPayment.RefNo = DataTableValidation(" Reference Code", dt, i);
+                    listOrderPayment.Add(oOrderPayment);
+                }
+            }
+            return listOrderPayment;
+        }
+
+
+        private List<Payment> ParsePayment1(DataTable dt)
+        {
+            List<Payment> listOrderPayment = new List<Payment>();
+            if (dt.Rows.Count > 0)
+            {
+
+                foreach (DataColumn dc in dt.Columns)
+                {
+                    dc.ColumnName = dc.ColumnName.Trim();
+                }
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    Payment oOrderPayment = new Payment();
+                    //oOrderPayment.Category = dt.Rows[i]["Category"].ToString();
+                    //oOrderPayment.Courier = dt.Rows[i]["Courier"].ToString();
+                    oOrderPayment.CustomerName = DataTableValidation("CustomerName", dt, i);
+                    oOrderPayment.Shipped_Return_Date = dt.Rows[i]["Shipped_Return_Date"].ToString();
+                    oOrderPayment.SuborderID = dt.Rows[i]["SuborderID"].ToString();
+                    //oOrderPayment.SKU_Code = dt.Rows[i]["SKU Code"].ToString();
+                    oOrderPayment.AWB_Number = DataTableValidation("AWB_Number", dt, i);
+                    oOrderPayment.Delivered_Date = DataTableValidation("Delivered_Date", dt, i);
+                    oOrderPayment.Shipping_method_code = DataTableValidation("Shipping_method_code", dt, i);
+                    oOrderPayment.Other_Applications = DataTableValidation("Other_Applications", dt, i);
+                    oOrderPayment.Amount = DataTableValidationDecimal("Amount", dt, i);
+                    oOrderPayment.RefNo = DataTableValidation(" RefNo", dt, i);
                     listOrderPayment.Add(oOrderPayment);
                 }
             }
@@ -1433,6 +1495,11 @@ namespace OrderTracker
 
                 if (dt.Rows.Count > 0)
                 {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        if (row["SubOrderID"].ToString() == row["RefNo"].ToString())
+                        { row["SubOrderID"] = ""; }
+                    }
                     ChangeGridViewdt(dgvResult, dt);
                     // dgvResult.DataSource = dt;
                 }
@@ -1480,6 +1547,7 @@ namespace OrderTracker
         private void OrderUpload_Load(object sender, EventArgs e)
         {
             StatusList();
+            lblSamefile.Text = "1";
             dtpTo.Value = DateTime.Now.AddDays(1);
             if (lblUserType.Text.ToUpper() == "ADMIN")
             {
@@ -1646,11 +1714,18 @@ namespace OrderTracker
             {
                 if (oorderdetailsTableAdapter.GetSuborderCount(oOrderDetailsEntity.SuborderId) > 0)
                 {
-                    oorderdetailsTableAdapter.UpdateBySubOrderId(oOrderDetailsEntity.Status,oOrderDetailsEntity.Remark,DateTime.Now,oOrderDetailsEntity.Amount,oOrderDetailsEntity.SuborderId);
+                    oorderdetailsTableAdapter.UpdateBySubOrderId(oOrderDetailsEntity.Status, oOrderDetailsEntity.Remark, DateTime.Now, oOrderDetailsEntity.Amount, oOrderDetailsEntity.SuborderId);
                 }
                 else
                 {
-                    oorderdetailsTableAdapter.InsertQuery(oOrderDetailsEntity.SuborderId, oOrderDetailsEntity.Status, oOrderDetailsEntity.Remark, DateTime.Now, oOrderDetailsEntity.Amount,DateTime.Now);
+                    DataTable rdt = oorderdetailsTableAdapter.GetDataByrefNo(oOrderDetailsEntity.RefNo);
+                    if (rdt.Rows.Count > 0 && rdt.Rows[0]["refNo"].ToString() == rdt.Rows[0]["SubOrderID"].ToString())
+                    {
+                        oorderdetailsTableAdapter.UpdateByRefNo(oOrderDetailsEntity.Status,oOrderDetailsEntity.SuborderId, oOrderDetailsEntity.Remark, DateTime.Now, oOrderDetailsEntity.Amount, oOrderDetailsEntity.RefNo);
+                        oorderhosTableAdapter.UpdateByref(oOrderDetailsEntity.SuborderId, oOrderDetailsEntity.RefNo);
+                    }
+                    else
+                    oorderdetailsTableAdapter.InsertQuery(oOrderDetailsEntity.SuborderId, oOrderDetailsEntity.Status, oOrderDetailsEntity.Remark, DateTime.Now, oOrderDetailsEntity.Amount, DateTime.Now, oOrderDetailsEntity.RefNo);
                 }
             }
             catch(Exception ex) {
@@ -1826,7 +1901,9 @@ namespace OrderTracker
                             listHOS[i].SubOrderID = "";
                         }
                     }
-                    catch { }
+                    catch(Exception ex) {
+                        Utility.ErrorLog(ex, "HOS-Scraping Other Details"); 
+                    }
                     startWorker.ReportProgress(p+((i * 40) / listHOS.Count()));
                 }
 
@@ -1851,6 +1928,7 @@ namespace OrderTracker
                                      s.ManifestID
                                  };
             ChangeGridView(gridProduct, selectedFields.ToList<dynamic>());
+            lblchange(Path.GetFileName(oOpenFileDialog.FileName), SaveType.HOS1.ToString(), listHOS.Count());   
             startWorker.ReportProgress(100);
             if (listHOS.Count() > 0)
             {
@@ -1881,12 +1959,25 @@ namespace OrderTracker
                     if (oHOS.SubOrderID.Length > 0 && oHOS.SubOrderID != "")
                     {
                         //Insert                               
-                        oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate, oHOS.HSDate, oHOS.Weight, oHOS.MobileNo, oHOS.RecDetails,oHOS.ManifestID);
+                        oorderhosTableAdapter.InsertQuery(oHOS.SubOrderID, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate, oHOS.HSDate, oHOS.Weight, oHOS.MobileNo, oHOS.RecDetails, oHOS.ManifestID);
                         oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
                         OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
                         oOrderDetailsEntity.Amount = 0;
                         oOrderDetailsEntity.Status = "Shipped";
                         oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
+                        oOrderDetailsEntity.RefNo = oHOS.Ref;
+                        OrderDetailsAU(oOrderDetailsEntity);
+                    }
+                    else
+                    {
+                        //Insert ref no as suborder ID
+                        oorderhosTableAdapter.InsertQuery(oHOS.Ref, oHOS.Sku, oHOS.Supc, oHOS.AWB, oHOS.Ref, oHOS.CreationDate, oHOS.HosNo, oHOS.HosDate, oHOS.HSDate, oHOS.Weight, oHOS.MobileNo, oHOS.RecDetails, oHOS.ManifestID);
+                        oordertransectionTableAdapter.InsertQuery(oHOS.Ref, OrderConstant.Shipped, DateTime.Now);
+                        OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
+                        oOrderDetailsEntity.Amount = 0;
+                        oOrderDetailsEntity.Status = "Shipped";
+                        oOrderDetailsEntity.SuborderId = oHOS.Ref;
+                        oOrderDetailsEntity.RefNo = oHOS.Ref;
                         OrderDetailsAU(oOrderDetailsEntity);
                     }
                 }
@@ -2011,6 +2102,7 @@ namespace OrderTracker
                     OrderRef oOrderRef = new OrderRef();
                     string orderID = string.Empty;
                     string text=string.Empty;
+                    string refno = string.Empty;
                     this.Invoke(new MethodInvoker(delegate() { text = cmbProcessBy.Text; }));
 
                     string cmbOrderStatustext = string.Empty;
@@ -2019,6 +2111,7 @@ namespace OrderTracker
                     if (text == "Referance No.")
                     {
                         DataTable ordt = new DataTable();
+                        refno =dgvResult1.Rows[i].Cells[0].Value.ToString();
                         ordt = oorderhosTableAdapter.GetDataByRef(dgvResult1.Rows[i].Cells[0].Value.ToString());
                         if (ordt.Rows.Count > 0)
                         {
@@ -2039,6 +2132,7 @@ namespace OrderTracker
                             oPayment.SuborderID = orderID;
                             oPayment.Shipping_method_code = cmbOrderStatustext;
                             oPayment.Amount = 0;
+                            oPayment.RefNo = refno;
                             listOrderPayment.Add(oPayment);
                             PaymentStatus(listOrderPayment);
                         }
@@ -2146,6 +2240,7 @@ namespace OrderTracker
                 oorderpackedTableAdapter.DeleteQuery();
                 oordertransectionTableAdapter.DeleteQuery();
                 oorderallamountTableAdapter.DeleteQuery();
+                ofileheaderTableAdapter.DeleteQuery();
                 DataTable dt = new DataTable();
                 gridProduct.DataSource = dt;
                 dgvResult.DataSource = dt;
@@ -2222,27 +2317,56 @@ namespace OrderTracker
          {
              try
              {
-                 if (SaveType.Mainfest == (SaveType)Enum.Parse(typeof(SaveType), lblSaveType.Text))
+                 if (gridProduct.RowCount > 0)
                  {
-                     saveMainfest(ParseSaveMainfest(griddt(gridProduct)));
+                     if (lblfilename.Text != "" && lblType.Text != "" && lblRCount.Text != "")
+                     {
+                         try
+                         {
+                             if (DupFile(lblfilename.Text, lblType.Text, int.Parse(lblRCount.Text)) == true)
+                             {
+                                 DialogResult dialogResult = MessageBox.Show("Do you want to overwrite existing records?", "Alert", MessageBoxButtons.YesNo);
+                                 if (dialogResult == DialogResult.No)
+                                 {
+                                     DataTable dt1 = new DataTable();
+                                     ChangeGridViewdt(gridProduct, dt1);                                    
+                                     return;
+                                 }
+                             }
+                             FileNameInsert(lblfilename.Text, lblType.Text, int.Parse(lblRCount.Text));
+                             lblClear();
+                         }
+                         catch (Exception ex)
+                         {
+                             Utility.ErrorLog(ex, "DupFile check");
+                         }
+                     }
+                     if (SaveType.Mainfest == (SaveType)Enum.Parse(typeof(SaveType), lblSaveType.Text))
+                     {
+                         saveMainfest(ParseSaveMainfest(griddt(gridProduct)));
 
+                     }
+                     else if (SaveType.HOS == (SaveType)Enum.Parse(typeof(SaveType), lblSaveType.Text))
+                     {
+                         HOSInsert(ParseHOS(griddt(gridProduct)));
+                     }
+                     else if (SaveType.HOS1 == (SaveType)Enum.Parse(typeof(SaveType), lblSaveType.Text))
+                     {
+                         SaveHOS1(ParseHOS(griddt(gridProduct)));
+                     }
+                     else if (SaveType.Payment == (SaveType)Enum.Parse(typeof(SaveType), lblSaveType.Text))
+                     {
+                         SavePayment(ParsePayment1(griddt(gridProduct)));
+                     }
+                     MessageBox.Show("Data Saved Successfully");
+                     DataTable dt = new DataTable();
+                     ChangeGridViewdt(gridProduct, dt);
+                     lblSaveType.Text = "0";
                  }
-                 else if (SaveType.HOS == (SaveType)Enum.Parse(typeof(SaveType), lblSaveType.Text))
+                 else
                  {
-                     HOSInsert(ParseHOS(griddt(gridProduct)));
+                     MessageBox.Show("Please upload file");
                  }
-                 else if (SaveType.HOS1 == (SaveType)Enum.Parse(typeof(SaveType), lblSaveType.Text))
-                 {
-                     SaveHOS1(ParseHOS(griddt(gridProduct)));
-                 }
-                 else if (SaveType.Payment == (SaveType)Enum.Parse(typeof(SaveType), lblSaveType.Text))
-                 {
-                    SavePayment(ParsePayment(griddt(gridProduct)));
-                 }
-                 MessageBox.Show("Data Saved Successfully");
-                 DataTable dt = new DataTable();
-                 ChangeGridViewdt(gridProduct, dt);
-                 lblSaveType.Text = "0";
              }
              catch (Exception ex)
              {
@@ -2263,7 +2387,7 @@ namespace OrderTracker
              }
              else
              {
-                 MessageBox.Show("Please import the data again");
+                 MessageBox.Show("Please import the file");
              }
          }
 
@@ -2282,7 +2406,7 @@ namespace OrderTracker
              try
              {          
              File.Copy(oOpenFileDialog.FileName, Path.Combine(Application.StartupPath + "\\Output\\", Path.GetFileName(oOpenFileDialog.FileName)), true);
-             mailSend();
+            // mailSend();
              }
              catch { }
              ////try
@@ -2373,7 +2497,61 @@ namespace OrderTracker
          }
         #endregion
 
-        
+        #region [File Insert]
+        private void FileNameInsert(string filename,string filetype,int recordCount)
+        {
+            try
+            {
+                ofileheaderTableAdapter.InsertFile(filename, System.DateTime.Now, recordCount, filetype);
+            }
+            catch (Exception ex)
+            {
+                Utility.ErrorLog(ex, "FileNameInsert");
+            }
+        }
+        #endregion
+
+        #region [Label Change]
+        private void lblchange(string filename, string filetype, int recordCount)
+        {            
+            ChangeTextControlState(lblfilename , filename);
+            ChangeTextControlState(lblType,filetype);
+            ChangeTextControlState(lblRCount,recordCount.ToString());
+        }
+        private void lblClear()
+        {
+            ChangeTextControlState(lblfilename, "");
+            ChangeTextControlState(lblType, "");
+            ChangeTextControlState(lblRCount, "0");
+        }
+        #endregion
+
+        #region [Check file]
+        private Boolean DupFile(string filename, string filetype, int recordCount)
+        {
+            bool b = false;
+            try
+            {
+                DataTable dt=new DataTable();
+                dt= ofileheaderTableAdapter.GetFileByName(filename);
+                if (dt.Rows.Count > 0)
+                {
+                    if (filetype == dt.Rows[0]["FileType"].ToString() && recordCount == int.Parse(dt.Rows[0]["TotalRecord"].ToString()))
+                        b = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Utility.ErrorLog(ex, "FileNameInsert");
+            }
+
+            return b;
+        }
+        #endregion
+
+      
+       
+
     }
 
 

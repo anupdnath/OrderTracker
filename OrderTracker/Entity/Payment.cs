@@ -18,6 +18,7 @@ namespace OrderTracker.Entity
         public String Courier { get; set; }
         public String AWB_Number { get; set; }
         public decimal Amount { get; set; }
+        public String RefNo { get; set; }
         public String Other_Applications { get; set; }
     }
 }

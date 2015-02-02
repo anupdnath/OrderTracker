@@ -3799,7 +3799,7 @@ namespace OrderTracker.OrderTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.OleDb.OleDbConnection();
-            this._connection.ConnectionString = global::OrderTracker.Properties.Settings.Default.OrderConnectionString;
+            this._connection.ConnectionString = global::OrderTracker.Properties.Settings.Default.ordertrackerConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4131,7 +4131,7 @@ namespace OrderTracker.OrderTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.OleDb.OleDbConnection();
-            this._connection.ConnectionString = global::OrderTracker.Properties.Settings.Default.OrderConnectionString;
+            this._connection.ConnectionString = global::OrderTracker.Properties.Settings.Default.ordertrackerConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4756,7 +4756,7 @@ namespace OrderTracker.OrderTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.OleDb.OleDbConnection();
-            this._connection.ConnectionString = global::OrderTracker.Properties.Settings.Default.OrderConnectionString;
+            this._connection.ConnectionString = global::OrderTracker.Properties.Settings.Default.ordertrackerConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5452,7 +5452,7 @@ WHERE        (Suborder_Id = ?)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.OleDb.OleDbConnection();
-            this._connection.ConnectionString = global::OrderTracker.Properties.Settings.Default.OrderConnectionString;
+            this._connection.ConnectionString = global::OrderTracker.Properties.Settings.Default.ordertrackerConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5827,7 +5827,7 @@ ORDER BY Priority";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.OleDb.OleDbConnection();
-            this._connection.ConnectionString = global::OrderTracker.Properties.Settings.Default.OrderConnectionString;
+            this._connection.ConnectionString = global::OrderTracker.Properties.Settings.Default.ordertrackerConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

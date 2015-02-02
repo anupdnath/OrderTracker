@@ -118,6 +118,10 @@
             this.lblUserName = new System.Windows.Forms.Label();
             this.lblUserType = new System.Windows.Forms.Label();
             this.lblSaveType = new System.Windows.Forms.Label();
+            this.lblSamefile = new System.Windows.Forms.Label();
+            this.lblfilename = new System.Windows.Forms.Label();
+            this.lblType = new System.Windows.Forms.Label();
+            this.lblRCount = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -1103,18 +1107,70 @@
             this.lblSaveType.AutoSize = true;
             this.lblSaveType.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSaveType.ForeColor = System.Drawing.Color.Teal;
-            this.lblSaveType.Location = new System.Drawing.Point(678, 9);
+            this.lblSaveType.Location = new System.Drawing.Point(678, 6);
             this.lblSaveType.Name = "lblSaveType";
             this.lblSaveType.Size = new System.Drawing.Size(69, 18);
             this.lblSaveType.TabIndex = 11;
             this.lblSaveType.Text = "Save Value";
             this.lblSaveType.Visible = false;
             // 
+            // lblSamefile
+            // 
+            this.lblSamefile.AutoSize = true;
+            this.lblSamefile.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSamefile.ForeColor = System.Drawing.Color.Teal;
+            this.lblSamefile.Location = new System.Drawing.Point(554, 6);
+            this.lblSamefile.Name = "lblSamefile";
+            this.lblSamefile.Size = new System.Drawing.Size(63, 18);
+            this.lblSamefile.TabIndex = 12;
+            this.lblSamefile.Text = "Same File";
+            this.lblSamefile.Visible = false;
+            // 
+            // lblfilename
+            // 
+            this.lblfilename.AutoSize = true;
+            this.lblfilename.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblfilename.ForeColor = System.Drawing.Color.Teal;
+            this.lblfilename.Location = new System.Drawing.Point(240, 3);
+            this.lblfilename.Name = "lblfilename";
+            this.lblfilename.Size = new System.Drawing.Size(57, 18);
+            this.lblfilename.TabIndex = 13;
+            this.lblfilename.Text = "filename";
+            this.lblfilename.Visible = false;
+            // 
+            // lblType
+            // 
+            this.lblType.AutoSize = true;
+            this.lblType.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblType.ForeColor = System.Drawing.Color.Teal;
+            this.lblType.Location = new System.Drawing.Point(309, 3);
+            this.lblType.Name = "lblType";
+            this.lblType.Size = new System.Drawing.Size(62, 18);
+            this.lblType.TabIndex = 14;
+            this.lblType.Text = "File Type";
+            this.lblType.Visible = false;
+            // 
+            // lblRCount
+            // 
+            this.lblRCount.AutoSize = true;
+            this.lblRCount.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRCount.ForeColor = System.Drawing.Color.Teal;
+            this.lblRCount.Location = new System.Drawing.Point(378, 3);
+            this.lblRCount.Name = "lblRCount";
+            this.lblRCount.Size = new System.Drawing.Size(67, 18);
+            this.lblRCount.TabIndex = 15;
+            this.lblRCount.Text = "File Count";
+            this.lblRCount.Visible = false;
+            // 
             // OrderUpload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1034, 460);
+            this.Controls.Add(this.lblRCount);
+            this.Controls.Add(this.lblType);
+            this.Controls.Add(this.lblfilename);
+            this.Controls.Add(this.lblSamefile);
             this.Controls.Add(this.lblSaveType);
             this.Controls.Add(this.lblUserType);
             this.Controls.Add(this.lblUserName);
@@ -1227,6 +1283,10 @@
         private System.Windows.Forms.Button btnexportImport;
         private System.Windows.Forms.Button btnSave;
         public System.Windows.Forms.Label lblSaveType;
+        public System.Windows.Forms.Label lblSamefile;
+        public System.Windows.Forms.Label lblfilename;
+        public System.Windows.Forms.Label lblType;
+        public System.Windows.Forms.Label lblRCount;
     }
 }
 

@@ -12,6 +12,7 @@ namespace OrderTracker.Entity
        public DateTime CreationDate { get; set; }
        public String Status { get; set; }
        public String Remark { get; set; }
+       public String RefNo { get; set; }
        public decimal Amount { get; set; }
     }
 }
