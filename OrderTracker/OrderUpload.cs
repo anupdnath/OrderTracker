@@ -296,9 +296,14 @@ namespace OrderTracker
                 string format14 = "yyyy-MM-dd H:mm:ss";
                 string format15 = "dd/MM/yyyy H:mm:ss";
                 string format16 = "MM/dd/yyyy H:mm:ss";
-                string format17= "yyyy/MM/dd H:mm:ss";
+                string format17= "yyyy/MM/dd H:mm:ss";               
+                string format18 = "M/dd/yyyy H:mm";
+                string format19 = "M/d/yyyy H:mm";
+                string format20 = "M-dd-yyyy H:mm";
+                string format21 = "M-d-yyyy H:mm";
+
                 DateTime dateTime;
-                string[] allFormat = { format, format1, format2, format3, format4, format5, format6, format7, format8, format9, format10, format11, format12, format13, format14, format15, format16, format17 };
+                string[] allFormat = { format, format1, format2, format3, format4, format5, format6, format7, format8, format9, format10, format11, format12, format13, format14, format15, format16, format17, format18, format19, format20, format21 };
                 foreach (string f in allFormat)
                 {
                     if (DateTime.TryParseExact(dt.Rows[i][col].ToString(), f, CultureInfo.InvariantCulture,
