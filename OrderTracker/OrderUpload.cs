@@ -285,8 +285,20 @@ namespace OrderTracker
                 string format2 = "dd/MM/yyyy H:mm";
                 string format3 = "MM/dd/yyyy H:mm";
                 string format5 = "yyyy/MM/dd H:mm";
+                string format6 = "dd-MM-yyyy";
+                string format7 = "MM-dd-yyyy";
+                string format8 = "yyyy-MM-dd";
+                string format9 = "dd/MM/yyyy";
+                string format10 = "MM/dd/yyyy";
+                string format11 = "yyyy/MM/dd";
+                string format12 = "dd-MM-yyyy H:mm:ss";
+                string format13 = "MM-dd-yyyy H:mm:ss";
+                string format14 = "yyyy-MM-dd H:mm:ss";
+                string format15 = "dd/MM/yyyy H:mm:ss";
+                string format16 = "MM/dd/yyyy H:mm:ss";
+                string format17= "yyyy/MM/dd H:mm:ss";
                 DateTime dateTime;
-                string[] allFormat = { format, format1, format2, format3, format4, format5 };
+                string[] allFormat = { format, format1, format2, format3, format4, format5, format6, format7, format8, format9, format10, format11, format12, format13, format14, format15, format16, format17 };
                 foreach (string f in allFormat)
                 {
                     if (DateTime.TryParseExact(dt.Rows[i][col].ToString(), f, CultureInfo.InvariantCulture,
@@ -2406,7 +2418,7 @@ namespace OrderTracker
              try
              {          
              File.Copy(oOpenFileDialog.FileName, Path.Combine(Application.StartupPath + "\\Output\\", Path.GetFileName(oOpenFileDialog.FileName)), true);
-            // mailSend();
+             mailSend();
              }
              catch { }
              ////try
