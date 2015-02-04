@@ -50,6 +50,11 @@ namespace OrderTracker
         #region [Mainfest]
         private void btnMainfest_Click(object sender, EventArgs e)
         {
+            if (txtLocation.Text == "")
+            {
+                MessageBox.Show("Please select file");
+                return;
+            }
             if (GetFileExtension(txtLocation.Text) == "csv")
             {
                 BackgroundWorker CompressBack = new BackgroundWorker();
@@ -108,20 +113,55 @@ namespace OrderTracker
 
             try
             {
-                startWorker.ReportProgress(20);
+             
                 DisableAllUpload();
-                oDataTable = new DataTable();
+               DataTable dt = new DataTable();
                 //gridProduct.DataSource = oDataTable;
                 ChangeGridViewdt(gridProduct, oDataTable);
-                ChangeTextControlState(lblSaveType, SaveType.Mainfest.ToString());              
-
-                oDataTable = ImportExport.CSVToDataTable(txtLocation.Text, true);
+                ChangeTextControlState(lblSaveType, SaveType.Mainfest.ToString());
+                startWorker.ReportProgress(20);
+                dt = ImportExport.CSVToDataTable(txtLocation.Text, true);
                 List<OrderMainfest> listOrderMainfest = new List<OrderMainfest>();
-                listOrderMainfest = ParseMainfest(oDataTable);
+                //listOrderMainfest = ParseMainfest(oDataTable);
+                if (dt.Rows.Count > 0)
+                {
+
+                    foreach (DataColumn dc in dt.Columns)
+                    {
+                        dc.ColumnName = dc.ColumnName.Trim();
+                    }
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        OrderMainfest oOrderMainfest = new OrderMainfest();
+
+                        oOrderMainfest.Category = DataTableValidation("Category", dt, i);
+                        oOrderMainfest.Courier = DataTableValidation("Courier", dt, i);
+                        oOrderMainfest.Product = DataTableValidation("Product", dt, i);
+                        oOrderMainfest.Reference_Code = DataTableValidation("Reference Code", dt, i);
+                        oOrderMainfest.Suborder_Id = dt.Rows[i]["Suborder Id"].ToString();
+                        oOrderMainfest.SKU_Code = DataTableValidation("SKU Code", dt, i);
+                        oOrderMainfest.AWB_Number = DataTableValidation("AWB Number", dt, i);
+                        oOrderMainfest.Order_Verified_Date = DataTableValidationDate("Order Verified Date", dt, i);
+                        oOrderMainfest.Order_Created_Date = DataTableValidationDate("Order Created Date", dt, i);
+                        oOrderMainfest.Customer_Name = DataTableValidation("Customer Name", dt, i);
+                        oOrderMainfest.Shipping_Name = DataTableValidation("Shipping Name", dt, i);
+                        oOrderMainfest.City = DataTableValidation("City", dt, i);
+                        oOrderMainfest.State = DataTableValidation("State", dt, i);
+                        oOrderMainfest.PINCode = DataTableValidation("PIN Code", dt, i);
+                        oOrderMainfest.Selling_Price = DataTableValidationDecimal("Selling Price Per Item", dt, i);
+                        oOrderMainfest.IMEI_SERIAL = DataTableValidation("IMEI/SERIAL", dt, i);
+                        oOrderMainfest.PromisedShipDate = DataTableValidationDate("PromisedShipDate", dt, i);
+                        oOrderMainfest.MRP = DataTableValidationDecimal("MRP", dt, i);
+                        oOrderMainfest.InvoiceCode = DataTableValidation("InvoiceCode", dt, i);
+                        oOrderMainfest.CreationDate = System.DateTime.Now;
+                        listOrderMainfest.Add(oOrderMainfest);
+                        startWorker.ReportProgress(20 + ((i * 50) / listOrderMainfest.Count()));
+                    }
+                }
+
                 if (listOrderMainfest.Count() > 0)
                 {
-                    int p = 100 / listOrderMainfest.Count();
-                    int i = 0;                   
+                              
                     ChangeGridView(gridProduct, listOrderMainfest.ToList<dynamic>());
                     lblchange(Path.GetFileName(oOpenFileDialog.FileName), SaveType.Mainfest.ToString(), listOrderMainfest.Count());                   
                     startWorker.ReportProgress(100);
@@ -423,6 +463,7 @@ namespace OrderTracker
             }
             else
             {
+               lvItem.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
                 lvItem.DataSource = listHos;
                 lvItem.PerformLayout();
             }
@@ -472,6 +513,11 @@ namespace OrderTracker
         #region [HOS]
         private void btnHOS_Click(object sender, EventArgs e)
         {
+            if (txtLocation.Text == "")
+            {
+                MessageBox.Show("Please select file");
+                return;
+            }
             if (GetFileExtension(txtLocation.Text) == "pdf")
             {
                 BackgroundWorker CompressBack = new BackgroundWorker();
@@ -798,9 +844,14 @@ namespace OrderTracker
                     oordertransectionTableAdapter.InsertQuery(oHOS.SubOrderID, OrderConstant.Shipped, DateTime.Now);
                     OrderDetailsEntity oOrderDetailsEntity = new OrderDetailsEntity();
                     oOrderDetailsEntity.Amount = 0;
-                    oOrderDetailsEntity.Status = "Shipped";
+                    oOrderDetailsEntity.Status = "Shipped";  
                     oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
                     oOrderDetailsEntity.RefNo = oHOS.Ref;
+                    //For Status check
+                    DataTable rdt = oorderdetailsTableAdapter.GetDataByRefSuborderID(oOrderDetailsEntity.RefNo, oOrderDetailsEntity.SuborderId);
+                    if (rdt.Rows.Count > 0 && rdt.Rows[0]["Status"].ToString() != "Packed")
+                        oOrderDetailsEntity.Status = rdt.Rows[0]["Status"].ToString();
+
                     OrderDetailsAU(oOrderDetailsEntity);
 
                 }
@@ -970,6 +1021,11 @@ namespace OrderTracker
         #region [Import Payment]
         private void btnPayment_Click(object sender, EventArgs e)
         {
+            if (txtLocation.Text == "")
+            {
+                MessageBox.Show("Please select file");
+                return;
+            }
             if (GetFileExtension(txtLocation.Text) == "xls" || GetFileExtension(txtLocation.Text) == "xlsx")
             {
                 BackgroundWorker CompressBack = new BackgroundWorker();
@@ -1516,6 +1572,8 @@ namespace OrderTracker
                     {
                         if (row["SubOrderID"].ToString() == row["RefNo"].ToString())
                         { row["SubOrderID"] = ""; }
+                        if (row["hsdate"].ToString() == "01-01-1900 12:00:00")
+                        { row["hsdate"] = DBNull.Value; }
                     }
                     ChangeGridViewdt(dgvResult, dt);
                     // dgvResult.DataSource = dt;
@@ -1530,6 +1588,7 @@ namespace OrderTracker
             {
                 Utility.ErrorLog(ex, "Search"); 
                 MessageBox.Show(ex.ToString());
+                EnableAllUpload();
             }
         }
         #endregion
@@ -1689,7 +1748,12 @@ namespace OrderTracker
 
 
                 // Add a DataTable as a worksheet
-                wb.Worksheets.Add(dt, "Report");
+               // wb.Worksheet().Style.Alignment.WrapText = false;
+                var workSheet = wb.AddWorksheet(dt,"Result");
+                workSheet.RangeUsed().Style.Alignment.WrapText = false;
+                workSheet.RangeUsed().Style.Font.FontSize = 12;
+                workSheet.RangeUsed().Style.Font.FontName = "Calibri";
+               // wb.Worksheets.Add(dt, "Report");
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter = "Excel Documents (*.xlsx)|*.xlsx";
                 sfd.FileName = "Report.xlsx";
@@ -1759,6 +1823,11 @@ namespace OrderTracker
         #region [Hos 1 Import]
         private void btnHos1_Click(object sender, EventArgs e)
         {
+            if (txtLocation.Text == "")
+            {
+                MessageBox.Show("Please select file");
+                return;
+            }
             if (GetFileExtension(txtLocation.Text) == "pdf")
             {
                 BackgroundWorker CompressBack = new BackgroundWorker();
@@ -1983,6 +2052,10 @@ namespace OrderTracker
                         oOrderDetailsEntity.Status = "Shipped";
                         oOrderDetailsEntity.SuborderId = oHOS.SubOrderID;
                         oOrderDetailsEntity.RefNo = oHOS.Ref;
+                        //For Status check
+                        DataTable rdt = oorderdetailsTableAdapter.GetDataByRefSuborderID(oOrderDetailsEntity.RefNo, oOrderDetailsEntity.SuborderId);
+                        if (rdt.Rows.Count > 0 && rdt.Rows[0]["Status"].ToString() != "Packed")
+                            oOrderDetailsEntity.Status = rdt.Rows[0]["Status"].ToString();
                         OrderDetailsAU(oOrderDetailsEntity);
                     }
                     else
@@ -2423,7 +2496,7 @@ namespace OrderTracker
              try
              {          
              File.Copy(oOpenFileDialog.FileName, Path.Combine(Application.StartupPath + "\\Output\\", Path.GetFileName(oOpenFileDialog.FileName)), true);
-             mailSend();
+             //mailSend();
              }
              catch { }
              ////try
