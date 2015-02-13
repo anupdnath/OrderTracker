@@ -729,8 +729,8 @@ namespace OrderTracker
                                                 HOS oHOS1 = new HOS();
 
                                                 oHOS.SubOrderID = orderdetails[1].Replace(",", "");
-                                                oHOS.Sku = orderdetails[4].Replace(",", "");
-                                                oHOS.Supc = orderdetails[6].Replace(",", "");
+                                                oHOS.Sku = orderdetails[3].Replace(",", "");
+                                                oHOS.Supc = orderdetails[5].Replace(",", "");
                                                 oHOS.AWB = orderdetails[7].Replace(",", "");
                                                 oHOS.Ref = orderdetails[8].Replace("\r", "");
                                                 oHOS.CreationDate = System.DateTime.Now;
