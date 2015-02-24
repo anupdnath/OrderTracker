@@ -1178,7 +1178,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.tabControl1);
             this.Name = "OrderUpload";
-            this.Text = "Order Process V 11.1";
+            this.Text = "Order Process V 13.0 (24.02.2015)";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OrderUpload_FormClosed);
             this.Load += new System.EventHandler(this.OrderUpload_Load);
             this.groupBox1.ResumeLayout(false);

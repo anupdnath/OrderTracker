@@ -26,7 +26,7 @@ namespace OrderTracker.Entity
         public decimal Selling_Price { get; set; }
         public String IMEI_SERIAL { get; set; }
         public DateTime PromisedShipDate { get; set; }
-        public decimal MRP { get; set; }
+        public string MRP { get; set; }
         public String InvoiceCode { get; set; }
         public DateTime CreationDate { get; set; }
 

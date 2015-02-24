@@ -151,7 +151,7 @@ namespace OrderTracker
                         oOrderMainfest.Selling_Price = DataTableValidationDecimal("Selling Price Per Item", dt, i);
                         oOrderMainfest.IMEI_SERIAL = DataTableValidation("IMEI/SERIAL", dt, i);
                         oOrderMainfest.PromisedShipDate = DataTableValidationDate("PromisedShipDate", dt, i);
-                        oOrderMainfest.MRP = DataTableValidationDecimal("MRP", dt, i);
+                        oOrderMainfest.MRP = DataTableValidation("MRP", dt, i);
                         oOrderMainfest.InvoiceCode = DataTableValidation("InvoiceCode", dt, i);
                         oOrderMainfest.CreationDate = System.DateTime.Now;
                         listOrderMainfest.Add(oOrderMainfest);
@@ -254,7 +254,7 @@ namespace OrderTracker
                     oOrderMainfest.Selling_Price = DataTableValidationDecimal("Selling_Price", dt, i);
                     oOrderMainfest.IMEI_SERIAL = DataTableValidation("IMEI_SERIAL", dt, i);
                     oOrderMainfest.PromisedShipDate = DataTableValidationDate("PromisedShipDate", dt, i);
-                    oOrderMainfest.MRP = DataTableValidationDecimal("MRP", dt, i);
+                    oOrderMainfest.MRP = DataTableValidation("MRP", dt, i);
                     oOrderMainfest.InvoiceCode = DataTableValidation("InvoiceCode", dt, i);
                     oOrderMainfest.CreationDate = System.DateTime.Now;
                     listOrderMainfest.Add(oOrderMainfest);
@@ -293,7 +293,7 @@ namespace OrderTracker
                     oOrderMainfest.Selling_Price = DataTableValidationDecimal("Selling Price Per Item", dt, i);
                     oOrderMainfest.IMEI_SERIAL = DataTableValidation("IMEI/SERIAL", dt, i);
                     oOrderMainfest.PromisedShipDate = DataTableValidationDate("PromisedShipDate", dt, i);
-                    oOrderMainfest.MRP = DataTableValidationDecimal("MRP", dt, i);
+                    oOrderMainfest.MRP = DataTableValidation("MRP", dt, i);
                     oOrderMainfest.InvoiceCode = DataTableValidation("InvoiceCode", dt, i);
                     oOrderMainfest.CreationDate = System.DateTime.Now;
                     listOrderMainfest.Add(oOrderMainfest);
@@ -341,9 +341,14 @@ namespace OrderTracker
                 string format19 = "M/d/yyyy H:mm";
                 string format20 = "M-dd-yyyy H:mm";
                 string format21 = "M-d-yyyy H:mm";
+                string format22 = "MM-dd-yy H:mm";
+                string format23 = "MM-dd-yy";
+                string format24 = "M/d/yyyy";
+                string format25 = "dd-MM-yy H:mm";
+                string format26 = "dd-MM-yy";
 
                 DateTime dateTime;
-                string[] allFormat = { format, format1, format2, format3, format4, format5, format6, format7, format8, format9, format10, format11, format12, format13, format14, format15, format16, format17, format18, format19, format20, format21 };
+                string[] allFormat = { format, format1, format2, format3, format4, format5, format6, format7, format8, format9, format10, format11, format12, format13, format14, format15, format16, format17, format18, format19, format20, format21, format22, format23, format24, format25, format26 };
                 foreach (string f in allFormat)
                 {
                     if (DateTime.TryParseExact(dt.Rows[i][col].ToString(), f, CultureInfo.InvariantCulture,
@@ -405,9 +410,17 @@ namespace OrderTracker
         }
         private decimal DataTableValidationDecimal(string col, DataTable dt, int i)
         {
+
             if (dt.Columns.Contains(col))
             {
-                return decimal.Parse(dt.Rows[i][col].ToString());
+                try
+                {
+                    return decimal.Parse(dt.Rows[i][col].ToString());
+                }
+                catch
+                {
+                    return decimal.Parse("0.00");
+                }
             }
             else
             {
@@ -645,16 +658,16 @@ namespace OrderTracker
                                     HOSDetails oHOSDetails = new HOSDetails();
                                     //hosCode = match.Captures[0].Value;
                                     oHOSDetails.index = match.Index;
-                                    oHOSDetails.HosNo = match.Value;
+                                    oHOSDetails.HosNo = match.Value;                                   
                                     string s = fileText.Substring(oHOSDetails.index, 100);
                                     index = s.IndexOf("Handover Sheet Date:");
                                     if (index > -1)
                                     {
                                         string hosdatePat = "19[789]\\d|20[01]\\d";
                                         Regex rxhosdate = new Regex(hosdatePat, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                                        MatchCollection matcheshosdate = rxhosdate.Matches(s);
+                                        MatchCollection matcheshosdate = rxhosdate.Matches(s.Substring(45,s.Length-45));
                                         if (matcheshosdate.Count > 0)
-                                            hosdate = s.Substring(index + 21, matcheshosdate[0].Index + 4 - index - 21);
+                                            hosdate = s.Substring(index + 21, matcheshosdate[0].Index + 4+45 - index - 21);
                                     }
                                     oHOSDetails.HosDate = hosdate.Replace("*", "");
                                     oHOSDetailsList.Add(oHOSDetails);
@@ -681,7 +694,8 @@ namespace OrderTracker
                                 RefDetails oRefDetails = new RefDetails();
                                 oRefDetails.index = matchesR[k].Index;
                                 oRefDetailsList.Add(oRefDetails);
-                                k = k + 3;
+                                //k = k + 3;
+                                k = k + 1;
                             }
                             #endregion
                     p = 50;
