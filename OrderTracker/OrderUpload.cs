@@ -635,7 +635,12 @@ namespace OrderTracker
                     int t = 1;
                     List<HOSDetails> oHOSDetailsList = new List<HOSDetails>();
                     
-                    fileText=fileText.Replace("FORMS NEEDED", "");                   
+                    fileText=fileText.Replace("FORMS NEEDED", "");
+                    fileText = fileText.Replace("\r\nFORMS\r\nNEEDED", "");                    
+                    fileText = fileText.Replace("Reference\r\nCode\r\n", "\rReference Code\r");
+                    fileText = fileText.Replace("Reference\r\nCode", "Reference Code");
+                    fileText = fileText.Replace("ReferenceCode", "Reference Code");
+                    fileText = fileText.Replace("\r\nSLP", " SLP");
                     #region [Hos Date Extract]
 
                              string MatchEmailPattern = "HOS\\w{7}";
@@ -702,77 +707,140 @@ namespace OrderTracker
                     startWorker.ReportProgress(p);
                     int j = 1;
                     #region[Retrive Date-30]
-                           
+                  
                             foreach (RefDetails d in oRefDetailsList)
                             {
                                 var l = oHOSDetailsList.Where(n =>n.index<d.index).ToList();
                                 index = d.index;
+                                if (l[l.Count - 1].HosNo == "HOS3650060")
+                                {
+                                    int kkkk = 0;
+                                }
                                 int index1 = fileText.Length - 1;
                                 string totalline = fileText.Substring(index + 15, index1 - index - 15);
-                                string[] line = totalline.Split('\n');
-
-                                foreach (string str in line)
+                                string[] line = totalline.Split('\n');                          
+                                //---------New Code-----
+                                int NextPageIndex = totalline.IndexOf("HandOver Sheet");
+                                string StrSingleHOS=string.Empty;
+                                if (NextPageIndex != -1)
                                 {
-                                    if (str.Contains("Handover Sheet Date"))
-                                        break;
-                                    try
+                                    StrSingleHOS = totalline.Substring(0, NextPageIndex);
+                                }
+                                else
+                                {
+                                    StrSingleHOS = totalline.Substring(0, totalline.Length);
+                                }
+                                string MatchEmailPatternSLP = "SLP\\w{7,10}";
+                                Regex rxSLP = new Regex(MatchEmailPatternSLP, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                                MatchCollection matchesSLP = rxSLP.Matches(StrSingleHOS);
+                                int startR = 0;
+                                for (int m = 0; m < matchesSLP.Count;m++ )
+                                {
+                                    if (matchesSLP[m].Value == "SLP129930839")
                                     {
-                                        if (str.Length > 0)
+                                        int klk = 0;
+                                    }
+                                    
+                                        int Rlen = (matchesSLP[m].Index + matchesSLP[m].Value.Length) - startR;
+                                        string oneRow = totalline.Substring(startR,Rlen);
+                                        oneRow = oneRow.Replace("\n", "");
+                                        oneRow = oneRow.Replace("\r", " ");
+                                        oneRow = oneRow.Replace(",", "");
+                                        if (oneRow.Contains("Handover Sheet Date"))
+                                            break;
+                                        if (oneRow.Contains("Reference Code"))
                                         {
-                                            string[] orderdetails = str.Split(' ');
-                                            int result;
-                                            if (orderdetails.Count() == 6 && int.TryParse(orderdetails[0], out result))
-                                            {
-                                                HOS oHOS = new HOS();
-                                                oHOS.SubOrderID = orderdetails[1];
-                                                oHOS.Sku = orderdetails[2];
-                                                oHOS.Supc = orderdetails[3];
-                                                oHOS.AWB = orderdetails[4];
-                                                oHOS.Ref = orderdetails[5].Replace("\r", "");
-                                                oHOS.CreationDate = System.DateTime.Now;
-
-                                                oHOS.HosNo = l[l.Count-1].HosNo;
-                                                oHOS.HosDate = l[l.Count - 1].HosDate;
-
-                                                listHOS.Add(oHOS);
-                                            }
-                                            else if (orderdetails.Count() == 9 && int.TryParse(orderdetails[0], out result))
-                                            {
-                                                //for Multiple Suborder ID
-                                                HOS oHOS = new HOS();
-                                                HOS oHOS1 = new HOS();
-
-                                                oHOS.SubOrderID = orderdetails[1].Replace(",", "");
-                                                oHOS.Sku = orderdetails[3].Replace(",", "");
-                                                oHOS.Supc = orderdetails[5].Replace(",", "");
-                                                oHOS.AWB = orderdetails[7].Replace(",", "");
-                                                oHOS.Ref = orderdetails[8].Replace("\r", "");
-                                                oHOS.CreationDate = System.DateTime.Now;
-                                                oHOS.HosNo = l[l.Count - 1].HosNo;
-                                                oHOS.HosDate = l[l.Count - 1].HosDate;
-
-                                                listHOS.Add(oHOS);
-
-                                                oHOS1.SubOrderID = orderdetails[2].Replace(",", "");
-                                                oHOS1.Sku = orderdetails[4].Replace(",", "");
-                                                oHOS1.Supc = orderdetails[6].Replace(",", "");
-                                                oHOS1.AWB = orderdetails[7].Replace(",", "");
-                                                oHOS1.Ref = orderdetails[8].Replace("\r", "");
-                                                oHOS1.CreationDate = System.DateTime.Now;
-                                                oHOS1.HosNo = l[l.Count - 1].HosNo;
-                                                oHOS1.HosDate = l[l.Count - 1].HosDate;
-                                                listHOS.Add(oHOS1);
-                                            }
+                                            oneRow = oneRow.Substring(oneRow.IndexOf("Reference Code") + 14, oneRow.Length - (oneRow.IndexOf("Reference Code") + 14));
                                         }
-                                    }
-                                    catch(Exception ex)
-                                    {
-                                        Utility.ErrorLog(ex, "HOS Import- HOS Date"); 
-                                    }
+                                       
+
+                                        oneRow = oneRow.Trim();
+                                        startR = matchesSLP[m].Index + matchesSLP[m].Value.Length;
+                                        string MatchEmailPatternSDL = "SDL\\w{7,10}";
+                                        Regex rxSDL = new Regex(MatchEmailPatternSDL, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                                        MatchCollection matchesSDL = rxSDL.Matches(oneRow);
+                                        for (int SDL = 0; SDL < matchesSDL.Count; SDL++)
+                                        {
+                                            string[] orderdetails = oneRow.Split(' ');
+                                            HOS oHOS = new HOS();
+                                            oHOS.SubOrderID = orderdetails[SDL + 1];
+                                            oHOS.Sku = orderdetails[matchesSDL.Count + SDL + 1];
+                                            oHOS.Supc = matchesSDL[SDL].Value;
+                                            oHOS.AWB = orderdetails[matchesSDL.Count + matchesSDL.Count + matchesSDL.Count + 1];
+                                            oHOS.Ref = matchesSLP[m].Value.Replace("\r", "");
+                                            oHOS.CreationDate = System.DateTime.Now;
+
+                                            oHOS.HosNo = l[l.Count - 1].HosNo;
+                                            oHOS.HosDate = l[l.Count - 1].HosDate;
+
+                                            listHOS.Add(oHOS);
+                                        }
+                                    
+                                }
+                                //----------------------
+
+                                //foreach (string str in line)
+                                //{
+                                //    if (str.Contains("Handover Sheet Date"))
+                                //        break;
+                                //    try
+                                //    {
+                                //        if (str.Length > 0)
+                                //        {
+                                //            string[] orderdetails = str.Split(' ');
+                                //            int result;
+                                //            if (orderdetails.Count() == 6 && int.TryParse(orderdetails[0], out result))
+                                //            {
+                                //                HOS oHOS = new HOS();
+                                //                oHOS.SubOrderID = orderdetails[1];
+                                //                oHOS.Sku = orderdetails[2];
+                                //                oHOS.Supc = orderdetails[3];
+                                //                oHOS.AWB = orderdetails[4];
+                                //                oHOS.Ref = orderdetails[5].Replace("\r", "");
+                                //                oHOS.CreationDate = System.DateTime.Now;
+
+                                //                oHOS.HosNo = l[l.Count-1].HosNo;
+                                //                oHOS.HosDate = l[l.Count - 1].HosDate;
+
+                                //                listHOS.Add(oHOS);
+                                //            }
+                                //            else if (orderdetails.Count() == 9 && int.TryParse(orderdetails[0], out result))
+                                //            {
+                                //                //for Multiple Suborder ID
+                                //                HOS oHOS = new HOS();
+                                //                HOS oHOS1 = new HOS();
+
+                                //                oHOS.SubOrderID = orderdetails[1].Replace(",", "");
+                                //                oHOS.Sku = orderdetails[3].Replace(",", "");
+                                //                oHOS.Supc = orderdetails[5].Replace(",", "");
+                                //                oHOS.AWB = orderdetails[7].Replace(",", "");
+                                //                oHOS.Ref = orderdetails[8].Replace("\r", "");
+                                //                oHOS.CreationDate = System.DateTime.Now;
+                                //                oHOS.HosNo = l[l.Count - 1].HosNo;
+                                //                oHOS.HosDate = l[l.Count - 1].HosDate;
+
+                                //                listHOS.Add(oHOS);
+
+                                //                oHOS1.SubOrderID = orderdetails[2].Replace(",", "");
+                                //                oHOS1.Sku = orderdetails[4].Replace(",", "");
+                                //                oHOS1.Supc = orderdetails[6].Replace(",", "");
+                                //                oHOS1.AWB = orderdetails[7].Replace(",", "");
+                                //                oHOS1.Ref = orderdetails[8].Replace("\r", "");
+                                //                oHOS1.CreationDate = System.DateTime.Now;
+                                //                oHOS1.HosNo = l[l.Count - 1].HosNo;
+                                //                oHOS1.HosDate = l[l.Count - 1].HosDate;
+                                //                listHOS.Add(oHOS1);
+                                //            }
+                                //        }
+                                //    }
+                                //    catch(Exception ex)
+                                //    {
+                                //        Utility.ErrorLog(ex, "HOS Import- HOS Date"); 
+                                //    }
                                    
                                     
                                    
-                                }
+                                //}
                                 j++;
                                 startWorker.ReportProgress(p + ((j * 30) / oRefDetailsList.Count()));
                             }
