@@ -712,10 +712,7 @@ namespace OrderTracker
                             {
                                 var l = oHOSDetailsList.Where(n =>n.index<d.index).ToList();
                                 index = d.index;
-                                if (l[l.Count - 1].HosNo == "HOS3650060")
-                                {
-                                    int kkkk = 0;
-                                }
+                                
                                 int index1 = fileText.Length - 1;
                                 string totalline = fileText.Substring(index + 15, index1 - index - 15);
                                 string[] line = totalline.Split('\n');                          
@@ -736,10 +733,6 @@ namespace OrderTracker
                                 int startR = 0;
                                 for (int m = 0; m < matchesSLP.Count;m++ )
                                 {
-                                    if (matchesSLP[m].Value == "SLP129930839")
-                                    {
-                                        int klk = 0;
-                                    }
                                     
                                         int Rlen = (matchesSLP[m].Index + matchesSLP[m].Value.Length) - startR;
                                         string oneRow = totalline.Substring(startR,Rlen);
@@ -858,7 +851,7 @@ namespace OrderTracker
              int c= 1;
              #region[Data Insert-20]
              
-             listHOS = listHOS.GroupBy(x => x.SubOrderID).Select(x => x.First()).ToList();
+             listHOS = listHOS.GroupBy(x => new{x.SubOrderID,x.Ref}).Select(x => x.First()).ToList();
             //foreach (HOS oHOS in listHOS)
             //{
             //    if (oorderhosTableAdapter.GetSuborderCount(oHOS.SubOrderID) > 0)
